@@ -1,0 +1,51 @@
+<% content_for :title, t("settings.title") %>
+
+<section class="almanac-header">
+  <div>
+    <p class="almanac-eyebrow"><%= t("settings.title") %></p>
+    <h1 class="display-lg"><%= t("settings.title") %></h1>
+  </div>
+</section>
+
+<div class="mt-6 grid lg:grid-cols-12 gap-8">
+  <%= form_with(model: @user, url: settings_path, method: :patch, class: "lg:col-span-8 space-y-8") do |f| %>
+    <div data-controller="brand-hue" data-brand-hue-url-value="<%= settings_path %>" class="space-y-2">
+      <label class="field-label"><%= t("settings.brand_hue") %> <span class="mono" data-brand-hue-target="swatch"><%= @user.brand_hue %></span></label>
+      <input type="range" name="user[brand_hue]" min="0" max="360" step="1"
+             value="<%= @user.brand_hue %>"
+             data-brand-hue-target="slider"
+             data-action="input->brand-hue#preview change->brand-hue#commit"
+             class="w-full" />
+      <div class="flex gap-1 mt-2">
+        <% [0, 25, 60, 120, 180, 220, 280, 320].each do |h| %>
+          <span class="w-6 h-6 rounded-sm" style="background: oklch(58% 0.16 <%= h %>);"></span>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      <div>
+        <label class="field-label"><%= t("settings.time_zone") %></label>
+        <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones + ActiveSupport::TimeZone.all, {}, class: "field-input" %>
+      </div>
+      <div>
+        <label class="field-label"><%= t("settings.locale") %></label>
+        <%= f.select :locale, [["English", "en"], ["Español (MX)", "es"]], {}, class: "field-input" %>
+      </div>
+    </div>
+
+    <div>
+      <label class="field-label"><%= t("settings.health_modules") %></label>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-2 mt-2">
+        <% User::HEALTH_MODULES.each do |mod| %>
+          <label class="flex items-center gap-2 text-sm">
+            <%= check_box_tag "user[health_modules][#{mod}]", "true", @user.health_module_enabled?(mod) %>
+            <%= t("settings.modules.#{mod}") %>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
+    <%= f.submit t("habits.form.save"), class: "almanac-button text-xs" %>
+  <% end %>
+</div>

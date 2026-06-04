@@ -1,0 +1,63 @@
+<% editing = medication.persisted? %>
+<div class="grid lg:grid-cols-12 gap-8">
+  <div class="lg:col-span-7">
+    <p class="almanac-eyebrow mb-4"><%= t("health.medications.list_title") %></p>
+    <% if medications.empty? %>
+      <p class="text-[var(--color-ink-muted)] italic text-sm"><%= t("health.medications.empty") %></p>
+    <% else %>
+      <ul class="divide-y divide-[var(--color-hairline)]">
+        <% medications.each do |med| %>
+          <li id="medication_<%= med.id %>" class="py-3 flex items-start gap-4 px-2 -mx-2 rounded transition-colors <%= 'bg-[var(--color-accent-ghost)] ring-1 ring-[var(--color-accent-muted)]' if editing && med.id == medication.id %>">
+            <div class="flex-1 min-w-0">
+              <div class="flex items-baseline gap-3">
+                <span class="font-medium"><%= med.name %></span>
+                <% if med.dose.present? %>
+                  <span class="mono text-xs text-[var(--color-ink-muted)]"><%= med.dose %></span>
+                <% end %>
+              </div>
+              <% if med.schedule_minutes.any? %>
+                <p class="mono text-xs text-[var(--color-ink-muted)] mt-0.5">
+                  <%= med.schedule_minutes.map { |m| "%02d:%02d" % [m / 60, m % 60] }.join(" · ") %>
+                </p>
+              <% end %>
+              <% if med.notes.present? %>
+                <p class="text-sm text-[var(--color-ink-soft)] italic mt-0.5"><%= med.notes %></p>
+              <% end %>
+            </div>
+            <div class="flex gap-2 shrink-0"
+                 data-controller="resource-destroy"
+                 data-resource-destroy-url-value="<%= medication_path(med) %>"
+                 data-resource-destroy-selector-value="#medication_<%= med.id %>"
+                 data-resource-destroy-confirm-value="<%= "#{t('medications.destroy.confirm')}: «#{med.name}»" %>">
+              <%= link_to t("health.medications.edit"), edit_medication_path(med),
+                    class: "almanac-button almanac-button--ghost text-xs" %>
+              <button type="button"
+                      class="almanac-button almanac-button--ghost text-xs"
+                      data-action="click->resource-destroy#destroy">
+                <%= t("health.medications.delete") %>
+              </button>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+
+  <aside class="lg:col-span-5">
+    <div class="<%= 'p-5 rounded-lg ring-1 ring-[var(--color-accent-muted)] bg-[var(--color-accent-ghost)] shadow-sm' if editing %>">
+      <div class="flex items-baseline justify-between mb-4">
+        <p class="almanac-eyebrow mb-0">
+          <%= editing ? t("health.medications.edit_title") : t("health.medications.new_title") %>
+          <% if editing %>
+            <span class="ml-2 text-[var(--color-accent-ink)] normal-case tracking-normal font-medium">«<%= medication.name.presence || "—" %>»</span>
+          <% end %>
+        </p>
+        <% if editing %>
+          <%= link_to t("habits.form.cancel"), health_path(tab: "medicamentos"),
+                class: "mono text-xs text-[var(--color-ink-muted)] hover:text-[var(--color-accent)] underline" %>
+        <% end %>
+      </div>
+      <%= render "medications/form", medication: medication %>
+    </div>
+  </aside>
+</div>

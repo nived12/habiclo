@@ -1,0 +1,90 @@
+<%
+  results       = panel.lab_results.loaded? ? panel.lab_results.to_a : panel.lab_results.to_a
+  latest        = results.first
+  status        = panel.status_for_chip
+  chip_label    = case status
+    when :pending
+      latest.due_on ? t("health.labs.status.pending_due", date: l(latest.due_on, format: :short)) : t("health.labs.status.pending_no_date")
+    when :completed
+      t("health.labs.status.completed", date: l(latest.completed_on, format: :short))
+    else
+      t("health.labs.status.empty")
+    end
+  chip_css = "lab-status-chip lab-status-chip--#{status}"
+%>
+<div class="lab-panel-row"
+     id="lab_panel_<%= panel.id %>"
+     data-controller="collapse resource-destroy"
+     data-resource-destroy-url-value="<%= lab_panel_path(panel) %>"
+     data-resource-destroy-selector-value="#lab_panel_<%= panel.id %>"
+     data-resource-destroy-confirm-value="<%= t('lab_panels.destroy.confirm') %>">
+
+  <div class="lab-panel-header"
+       data-action="click->collapse#toggle"
+       aria-expanded="false">
+    <span class="lab-panel-chevron" data-collapse-target="chevron">▶</span>
+    <span class="lab-panel-name"><%= panel.name %></span>
+    <span class="<%= chip_css %> mono"><%= chip_label %></span>
+    <div class="flex gap-2 ml-2" data-action="click->collapse#toggle:stop">
+      <%= link_to "✎", edit_lab_panel_path(panel),
+            class: "metric-action-btn", title: t("health.labs.edit_panel") %>
+      <button type="button"
+              class="metric-action-btn metric-action-btn--danger"
+              data-action="click->resource-destroy#destroy">×</button>
+    </div>
+  </div>
+
+  <div class="lab-panel-body" data-collapse-target="body">
+    <% if panel.notes.present? %>
+      <p class="text-xs italic text-[var(--color-ink-muted)] mb-3"><%= panel.notes %></p>
+    <% end %>
+
+    <% if results.any? %>
+      <table class="lab-results-table mb-4">
+        <thead>
+          <tr>
+            <th><%= t("health.labs.result_row.due") %></th>
+            <th><%= t("health.labs.result_row.completed") %></th>
+            <th style="width:40%"><%= t("health.labs.result_form.result_summary") %></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% results.each do |result| %>
+            <tr id="lab_result_<%= result.id %>"
+                data-controller="resource-destroy"
+                data-resource-destroy-url-value="<%= lab_result_path(result) %>"
+                data-resource-destroy-selector-value="#lab_result_<%= result.id %>"
+                data-resource-destroy-confirm-value="<%= t('lab_results.destroy.confirm') %>">
+              <td class="mono text-xs"><%= result.due_on ? l(result.due_on, format: :short) : "—" %></td>
+              <td class="mono text-xs">
+                <% if result.completed_on %>
+                  <span class="text-[oklch(52%_0.18_145)]">✓ <%= l(result.completed_on, format: :short) %></span>
+                <% else %>
+                  <span class="text-[var(--color-ink-muted)]"><%= t("health.labs.result_row.pending") %></span>
+                <% end %>
+              </td>
+              <td class="text-xs"><%= result.result_summary %></td>
+              <td class="text-right">
+                <div class="flex gap-1 justify-end">
+                  <%= link_to "✎", edit_lab_result_path(result),
+                        class: "metric-action-btn", title: "Editar resultado" %>
+                  <button type="button"
+                          class="metric-action-btn metric-action-btn--danger"
+                          data-action="click->resource-destroy#destroy">×</button>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p class="text-xs italic text-[var(--color-ink-muted)] mb-3"><%= t("health.labs.no_results") %></p>
+    <% end %>
+
+    <%# Inline add-result form %>
+    <div id="lab_result_form_<%= panel.id %>">
+      <%= render "lab_results/form", panel: panel, result: LabResult.new %>
+    </div>
+  </div>
+</div>

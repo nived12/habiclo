@@ -1,0 +1,81 @@
+<% content_for :title, "#{t('agenda.title')} — #{l(@on_date, format: :long)}" %>
+
+<section class="almanac-header almanac-header--week">
+  <div>
+    <p class="almanac-eyebrow"><%= t("agenda.title") %></p>
+    <h1 class="display-xl">
+      <%= l(@week_start, format: "%B").mb_chars.capitalize %>
+      <span class="mono text-[var(--color-ink-muted)] text-[0.5em] align-middle ml-3"><%= l(@week_start, format: "%Y") %></span>
+    </h1>
+    <p class="text-[var(--color-ink-muted)] text-sm mt-1">
+      <%= t("agenda.week_of", date: l(@week_start, format: :long)) %>
+    </p>
+  </div>
+  <div class="flex items-center gap-2 self-start lg:self-end">
+    <%= link_to "←", agenda_week_path(on: (@week_start - 7.days).iso8601),
+          class: "almanac-button almanac-button--ghost text-xs mono", title: (@week_start - 7.days).strftime("%-d %b") %>
+    <%= link_to t("nav.today"), agenda_week_path(on: @today.iso8601), class: "almanac-button text-xs" %>
+    <%= link_to "→", agenda_week_path(on: (@week_start + 7.days).iso8601),
+          class: "almanac-button almanac-button--ghost text-xs mono", title: (@week_start + 7.days).strftime("%-d %b") %>
+  </div>
+</section>
+
+<div class="spread mt-6">
+  <%# LEFT PAGE — the week %>
+  <div class="spread-week">
+    <div class="agenda-grid agenda-grid--week reveal-stagger">
+      <div class="agenda-rail">&nbsp;</div>
+      <% @days.each do |d| %>
+        <% ratio = completion_ratio_for(@entries_by_day[d]) %>
+        <%= link_to agenda_week_path(on: @on_date.iso8601, focus: d.iso8601),
+              class: "agenda-day-header #{ 'agenda-day-header--today' if d == @today } #{ 'agenda-day-header--focused' if d == @focused_day }",
+              data: { turbo_frame: "_top" } do %>
+          <span class="weekday"><%= l(d, format: "%a") %></span>
+          <span class="daynum mono"><%= d.day.to_s.rjust(2, "0") %></span>
+          <% if ratio %>
+            <div class="day-ratio">
+              <div class="day-ratio-bar"><div class="day-ratio-fill" style="width: <%= ratio[:pct] %>%;"></div></div>
+              <span class="mono"><%= ratio[:completed] %>/<%= ratio[:total] %></span>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <%# Floating row %>
+      <div class="agenda-rail floating-rail-label"><%= t("agenda.floating") %></div>
+      <% @days.each do |d| %>
+        <div class="agenda-day agenda-day--floating <%= 'agenda-day--today' if d == @today %>">
+          <div class="floating-rail">
+            <% @entries_by_day[d].select(&:floating?).each do |entry| %>
+              <%= render "agenda/floating_chip", entry: entry, on_date: d %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <%# Hour rows %>
+      <% (6..22).each do |hour| %>
+        <div class="agenda-rail"><%= "%02d" % hour %></div>
+        <% @days.each do |d| %>
+          <div class="agenda-day <%= 'agenda-day--today' if d == @today %> <%= 'agenda-day--focused' if d == @focused_day %>"
+               data-controller="inline-editor"
+               data-inline-editor-on-value="<%= d.iso8601 %>"
+               data-inline-editor-hour-value="<%= hour %>">
+            <% @entries_by_day[d].reject(&:floating?).select { |e| e.scheduled_at_minute.between?(hour * 60, hour * 60 + 59) }.each do |entry| %>
+              <%= render "agenda/block", entry: entry, on_date: d, compact: true,
+                    all_completions_map: @pre[:all_completions_map],
+                    completions_map: @pre[:completions_map] %>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <%# RIGHT PAGE — the focused day %>
+  <aside class="spread-day">
+    <%= render "agenda/day_page", on_date: @focused_day, entries: @focused_entries, today: @today,
+          all_completions_map: @pre[:all_completions_map],
+          completions_map: @pre[:completions_map] %>
+  </aside>
+</div>

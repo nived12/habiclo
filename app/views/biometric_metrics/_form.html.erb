@@ -1,0 +1,58 @@
+<%= turbo_frame_tag "health_modal" do %>
+  <div class="health-modal-shroud" data-action="click->modal-close#close">
+    <div class="health-modal-panel" data-action="click->modal-close#stopPropagation" role="dialog">
+      <p class="health-modal-title">
+        <%= metric.persisted? ? t("health.biometria.metric_form.save_edit") : t("health.biometria.metric_form.save") %>
+      </p>
+
+      <%= form_with(model: metric,
+            url: metric.persisted? ? biometric_metric_path(metric) : biometric_metrics_path,
+            method: metric.persisted? ? :patch : :post,
+            class: "space-y-4") do |f| %>
+        <% if metric.errors.any? %>
+          <div class="marginalia">
+            <span class="note-label"><%= t("marginalia.error") %></span>
+            <%= metric.errors.full_messages.to_sentence %>
+          </div>
+        <% end %>
+
+        <div>
+          <%= f.label :name, t("health.biometria.metric_form.name"), class: "field-label" %>
+          <%= f.text_field :name, class: "field-input",
+                placeholder: t("health.biometria.metric_form.name_placeholder"),
+                autofocus: true %>
+        </div>
+
+        <div>
+          <%= f.label :unit, t("health.biometria.metric_form.unit"), class: "field-label" %>
+          <%= f.text_field :unit, class: "field-input",
+                placeholder: t("health.biometria.metric_form.unit_placeholder"),
+                id: "metric_unit_field" %>
+          <div class="chip-row mt-2">
+            <span class="text-xs text-[var(--color-ink-muted)] self-center"><%= t("health.biometria.metric_form.unit_suggestions") %></span>
+            <% %w[kg g cm mmHg % bpm h min].each do |u| %>
+              <button type="button" class="unit-chip"
+                      onclick="document.getElementById('metric_unit_field').value='<%= u %>'">
+                <%= u %>
+              </button>
+            <% end %>
+          </div>
+        </div>
+
+        <div>
+          <%= f.label :category, t("health.biometria.metric_form.category"), class: "field-label" %>
+          <%= f.text_field :category, class: "field-input",
+                placeholder: t("health.biometria.metric_form.category_placeholder") %>
+        </div>
+
+        <div class="flex gap-3 pt-2">
+          <%= f.submit (metric.persisted? ? t("health.biometria.metric_form.save_edit") : t("health.biometria.metric_form.save")),
+                class: "almanac-button text-xs" %>
+          <%= link_to t("health.biometria.metric_form.cancel"), health_path(tab: "biometria"),
+                class: "almanac-button almanac-button--ghost text-xs",
+                data: { turbo_frame: "health_modal" } %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

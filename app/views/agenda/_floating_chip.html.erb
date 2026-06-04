@@ -1,0 +1,10 @@
+<span id="habit_block_<%= entry.id %>_<%= on_date.iso8601 %>"
+      class="floating-chip"
+      style="--block-hue: <%= entry.color_hue || 25 %>;"
+      data-controller="agenda-block"
+      data-action="click->agenda-block#toggle"
+      data-agenda-block-url-value="<%= entry.source == :habit ? toggle_habit_habit_completions_path(habit_id: entry.record.id, on: on_date.iso8601) : '' %>"
+      data-completed="<%= entry.completed %>">
+  <span class="dot"></span>
+  <%= entry.title %>
+</span>

@@ -1,0 +1,17 @@
+<% content_for :title, @habit.name %>
+
+<section class="almanac-header almanac-header--week">
+  <div>
+    <p class="almanac-eyebrow"><%= t("habits.edit.title") %></p>
+    <h1 class="display-lg"><%= @habit.name %></h1>
+  </div>
+</section>
+
+<div class="mt-6 grid lg:grid-cols-12 gap-8">
+  <div class="lg:col-span-8">
+    <%= render "form", habit: @habit %>
+    <%= button_to t("habits.edit.delete"), habit_path(@habit), method: :delete,
+          data: { turbo_confirm: t("habits.edit.confirm_delete") },
+          class: "almanac-button almanac-button--ghost text-xs mt-4" %>
+  </div>
+</div>

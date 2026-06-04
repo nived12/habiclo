@@ -1,0 +1,95 @@
+<%
+  entries     = metric.biometric_entries.loaded? ? metric.biometric_entries.to_a : metric.biometric_entries.to_a
+  latest      = entries.first
+  previous    = entries[1]
+  delta       = (latest && previous) ? (latest.value - previous.value) : nil
+  days_since  = latest ? (Date.current - latest.recorded_on).to_i : nil
+  sparkline_values = entries.last(12).reverse  # oldest→newest for left→right drawing
+%>
+<div class="metric-card"
+     id="metric_<%= metric.id %>"
+     data-controller="resource-destroy"
+     data-resource-destroy-url-value="<%= biometric_metric_path(metric) %>"
+     data-resource-destroy-selector-value="#metric_<%= metric.id %>"
+     data-resource-destroy-confirm-value="<%= t('biometric_metrics.destroy.confirm') %>">
+
+  <div class="metric-card-actions">
+    <%= link_to "✎", edit_biometric_metric_path(metric),
+          class: "metric-action-btn", title: "Editar métrica" %>
+    <%= link_to t("health.biometria.log_value"),
+          new_biometric_metric_biometric_entry_path(metric),
+          class: "metric-action-btn",
+          data: { turbo_frame: "health_modal" } %>
+    <%= link_to t("health.biometria.view_history"),
+          biometric_metric_path(metric),
+          class: "metric-action-btn",
+          data: { turbo_frame: "health_modal" } %>
+    <button type="button"
+            class="metric-action-btn metric-action-btn--danger"
+            data-action="click->resource-destroy#destroy">×</button>
+  </div>
+
+  <div>
+    <% if metric.unit.present? || metric.category.present? %>
+      <p class="mono text-xs metric-card-unit mb-1">
+        <%= [metric.unit.presence, metric.category.presence].compact.join(" · ") %>
+      </p>
+    <% end %>
+    <p class="metric-card-name"><%= metric.name %></p>
+  </div>
+
+  <% if latest %>
+    <div class="flex items-baseline gap-3">
+      <span class="mono metric-value-large">
+        <%= latest.value.to_s("F").sub(/\.?0+$/, "") %>
+      </span>
+      <% if delta %>
+        <%
+          arrow = delta > 0 ? "↑" : (delta < 0 ? "↓" : "→")
+          css   = delta > 0 ? "metric-delta-up" : (delta < 0 ? "metric-delta-down" : "metric-delta-flat")
+          abs   = delta.abs.to_s("F").sub(/\.?0+$/, "")
+        %>
+        <span class="mono text-xs <%= css %>"><%= "#{arrow} #{abs}" %></span>
+      <% end %>
+    </div>
+
+    <% if sparkline_values.size >= 2 %>
+      <%
+        vals  = sparkline_values.map { |e| e.value.to_f }
+        min_v = vals.min.to_f
+        max_v = vals.max.to_f
+        range = (max_v - min_v).nonzero? || 1.0
+        n     = vals.size
+        # Map to 100×28 SVG space, 4px padding top/bottom
+        pts   = vals.each_with_index.map { |v, i| [
+          (i.to_f / (n - 1) * 96 + 2).round(2),
+          (28 - ((v - min_v) / range * 20 + 4)).round(2)
+        ]}
+        path_d = pts.each_with_index.map { |(x, y), i| "#{i == 0 ? 'M' : 'L'} #{x} #{y}" }.join(" ")
+        lx, ly = pts.last
+      %>
+      <svg class="metric-sparkline" viewBox="0 0 100 28" preserveAspectRatio="none"
+           aria-hidden="true">
+        <path d="<%= path_d %>"/>
+        <circle cx="<%= lx %>" cy="<%= ly %>" r="2.2"/>
+      </svg>
+    <% end %>
+  <% else %>
+    <p class="text-sm italic text-[var(--color-ink-muted)]"><%= t("health.biometria.no_entries") %></p>
+  <% end %>
+
+  <div class="metric-card-footer">
+    <span>
+      <% if latest %>
+        <% if days_since == 0 %>
+          <%= t("health.biometria.days_ago_zero") %>
+        <% elsif days_since == 1 %>
+          <%= t("health.biometria.days_ago_one") %>
+        <% else %>
+          <%= t("health.biometria.days_ago", n: days_since) %>
+        <% end %>
+        · <%= t("health.biometria.entries_count", count: entries.size) %>
+      <% end %>
+    </span>
+  </div>
+</div>

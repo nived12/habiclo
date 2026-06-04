@@ -1,0 +1,89 @@
+<% content_for :title, "Habiclo — #{l(@month_start, format: '%B %Y').mb_chars.capitalize}" %>
+
+<div class="home-page">
+  <%# Month header %>
+  <header class="home-header">
+    <div>
+      <h1 class="home-month-title">
+        <%= l(@month_start, format: "%B").mb_chars.capitalize %>
+        <span class="mono home-year"><%= @year %></span>
+      </h1>
+    </div>
+    <div class="home-month-nav">
+      <% prev_m = @month_start - 1.month %>
+      <% next_m = @month_start + 1.month %>
+      <%= link_to "←", root_path(year: prev_m.year, month: prev_m.month),
+            class: "almanac-button almanac-button--ghost text-xs mono" %>
+      <%= link_to root_path(year: @today.year, month: @today.month),
+            class: "almanac-button text-xs" do %>
+        <%= t("nav.today") %>
+      <% end %>
+      <%= link_to "→", root_path(year: next_m.year, month: next_m.month),
+            class: "almanac-button almanac-button--ghost text-xs mono" %>
+    </div>
+  </header>
+
+  <%# Main ring + legend %>
+  <div class="home-ring-layout">
+    <%# Legend %>
+    <aside class="ring-legend">
+      <p class="almanac-eyebrow mb-3"><%= t("home.daily_habits") %></p>
+      <% @daily_habits.each_with_index do |habit, i| %>
+        <% today_done = @completions_map[habit.id]&.include?(@today) %>
+        <% toggle_url = toggle_habit_habit_completions_path(habit_id: habit.id, on: @today.iso8601) %>
+        <button class="ring-legend-item"
+                data-controller="legend-toggle"
+                data-legend-toggle-url-value="<%= toggle_url %>"
+                data-legend-toggle-completed-value="<%= today_done %>"
+                data-legend-toggle-habit-id-value="<%= habit.id %>"
+                data-legend-toggle-today-value="<%= @today.iso8601 %>"
+                data-legend-toggle-hue-value="<%= habit.color_hue %>"
+                data-completed="<%= today_done %>"
+                data-action="click->legend-toggle#toggle"
+                title="<%= today_done ? t('agenda.mark_pending') : t('agenda.mark_complete') %>: <%= habit.name %>">
+          <span class="ring-legend-dot" style="--habit-hue: <%= habit.color_hue %>; background: oklch(58% 0.16 <%= habit.color_hue %>);"></span>
+          <span class="ring-legend-name"><%= habit.name %></span>
+          <span class="mono ring-legend-pct"><%= @strengths_map[habit] %>%</span>
+          <%= link_to "✎", edit_habit_path(habit),
+                class: "ring-legend-edit mono",
+                title: t("habits.edit.title"),
+                data: { turbo: false } %>
+        </button>
+      <% end %>
+    </aside>
+
+    <%# SVG Ring %>
+    <div class="habit-ring-container">
+      <%= render "home/ring",
+            daily_habits: @daily_habits,
+            days: @days,
+            completions_map: @completions_map,
+            today: @today,
+            month_start: @month_start %>
+    </div>
+  </div>
+
+  <%# Lower sections %>
+  <div class="home-lower">
+    <% if @weekly_habits.any? %>
+      <div class="home-lower-section">
+        <%= render "home/weekly_habits",
+              habits: @weekly_habits,
+              week_starts: @week_starts,
+              month_start: @month_start,
+              month_end: @month_end,
+              completions_map: @completions_map %>
+      </div>
+    <% end %>
+
+    <% if @monthly_habits.any? %>
+      <div class="home-lower-section">
+        <%= render "home/monthly_habits",
+              habits: @monthly_habits,
+              month_start: @month_start,
+              completions_map: @completions_map,
+              today: @today %>
+      </div>
+    <% end %>
+  </div>
+</div>

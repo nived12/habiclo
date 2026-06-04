@@ -1,0 +1,113 @@
+<% compact = local_assigns.fetch(:compact, true) %>
+<% is_habit = entry.source == :habit %>
+<% is_med   = entry.source == :medication_dose %>
+<% can_toggle = is_habit || is_med %>
+<% can_log    = is_habit %>
+<% all_completions_map = local_assigns[:all_completions_map] %>
+<% completions_map = local_assigns[:completions_map] %>
+<% strength_pct = is_habit ? (Habits::StrengthCalculator.call(habit: entry.record, on_date: on_date, completions: all_completions_map ? (all_completions_map[entry.record.id] || []) : nil) * 100).round : nil %>
+<% pattern = (!compact && is_habit) ? habit_recent_pattern(entry.record, on_date, all_completions_map: all_completions_map) : nil %>
+<% min_height = compact ? ((entry.duration_minutes || 30).to_f / 60.0 * 100).clamp(55, 110) : nil %>
+
+<%# Build toggle URL %>
+<% toggle_url = "" %>
+<% if is_habit %>
+  <% toggle_url = toggle_habit_habit_completions_path(habit_id: entry.record.id, on: on_date.iso8601) %>
+<% elsif is_med %>
+  <% toggle_url = medication_toggle_intake_path(medication_id: entry.record.id, on: on_date.iso8601, minute: entry.scheduled_at_minute) %>
+<% end %>
+
+<%
+  # Manage menu config — habits and meds get edit + delete affordances
+  manage = if is_habit
+    { edit: edit_habit_path(entry.record),
+      destroy: habit_path(entry.record),
+      selector: "[data-habit-id=\"#{entry.record.id}\"]",
+      confirm_key: "habits.destroy.confirm" }
+  elsif is_med
+    { edit: edit_medication_path(entry.record),
+      destroy: medication_path(entry.record),
+      selector: "[data-medication-id=\"#{entry.record.id}\"]",
+      confirm_key: "medications.destroy.confirm" }
+  end
+  data_attrs = []
+  data_attrs << %(data-habit-id="#{entry.record.id}") if is_habit
+  data_attrs << %(data-medication-id="#{entry.record.id}") if is_med
+%>
+
+<div id="habit_block_<%= entry.id %>_<%= on_date.iso8601 %>"
+     class="agenda-block <%= compact ? 'agenda-block--compact' : 'agenda-block--full' %>"
+     style="--block-hue: <%= entry.color_hue || 25 %>;<%= " min-height: #{min_height}px;" if min_height %>"
+     data-controller="agenda-block"
+     data-agenda-block-url-value="<%= can_toggle ? toggle_url : '' %>"
+     data-agenda-block-compact-value="<%= compact %>"
+     data-completed="<%= entry.completed %>"
+     <%= data_attrs.join(" ").html_safe %>>
+
+  <% if manage %>
+    <div class="block-hover-menu"
+         data-controller="resource-destroy"
+         data-resource-destroy-url-value="<%= manage[:destroy] %>"
+         data-resource-destroy-selector-value="<%= manage[:selector] %>"
+         data-resource-destroy-confirm-value="<%= "#{t(manage[:confirm_key])}: «#{entry.title}»" %>">
+      <%= link_to "✎", manage[:edit],
+            class: "block-hover-btn",
+            title: t("habits.edit.title") %>
+      <button type="button"
+              class="block-hover-btn block-hover-btn--danger"
+              title="<%= t(manage[:confirm_key]) %>"
+              data-action="click->resource-destroy#destroy">×</button>
+    </div>
+  <% end %>
+
+  <% if compact %>
+    <button type="button" class="block-toggle-zone"
+            data-action="click->agenda-block#toggle"
+            aria-label="<%= entry.completed ? t('agenda.mark_pending') : t('agenda.mark_complete') %>">
+      <span class="title-2lines"><%= entry.title %></span>
+    </button>
+    <% if can_log %>
+      <%= link_to "+", new_habit_habit_completion_path(habit_id: entry.record.id, on: on_date.iso8601),
+            class: "block-log-btn",
+            title: t("completions.log_button"),
+            data: { turbo_frame: "log_modal" } %>
+    <% end %>
+    <% if strength_pct %>
+      <span class="strength-dot" style="--pct: <%= strength_pct %>%;"
+            title="<%= t('completions.strength_tooltip', pct: strength_pct) %>"></span>
+    <% end %>
+  <% else %>
+    <div class="block-full-header">
+      <% if strength_pct %>
+        <span class="block-strength-large mono"
+              title="<%= t('completions.strength_tooltip', pct: strength_pct) %>">
+          <%= strength_pct %><span class="strength-unit">%</span>
+        </span>
+      <% end %>
+    </div>
+    <div class="block-main" data-action="click->agenda-block#toggle">
+      <h3 class="block-title-large"><%= entry.title %></h3>
+      <% if entry.record.respond_to?(:description) && entry.record.description.present? %>
+        <p class="block-description"><%= entry.record.description %></p>
+      <% end %>
+      <% if pattern %>
+        <div class="sparkline sparkline--large" aria-label="last 7 days">
+          <% pattern.each_with_index do |done, i| %>
+            <span class="spark <%= 'is-done' if done %> <%= 'is-today' if i == pattern.length - 1 %>"></span>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    <% if can_log %>
+      <div class="block-actions">
+        <%= link_to t("completions.log_button"), new_habit_habit_completion_path(habit_id: entry.record.id, on: on_date.iso8601),
+              class: "block-log-link mono",
+              data: { turbo_frame: "log_modal" } %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <svg class="ink-stroke" viewBox="0 0 100 30" preserveAspectRatio="none">
+    <path d="M 4 16 C 24 6, 50 26, 72 12 S 92 18, 96 14" />
+  </svg>
+</div>

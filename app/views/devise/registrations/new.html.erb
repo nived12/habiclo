@@ -1,0 +1,31 @@
+<% content_for :title, t("nav.sign_up") %>
+
+<section class="max-w-md mx-auto py-8">
+  <p class="almanac-eyebrow"><%= t("app.name") %></p>
+  <h1 class="display-lg mb-3" style="font-style: italic;"><%= t("devise.sign_up_title") %></h1>
+  <p class="text-sm text-[var(--color-ink-muted)] mb-8"><%= t("devise.sign_up_subtitle") %></p>
+
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-6" }) do |f| %>
+    <% if resource.errors.any? %>
+      <div class="marginalia"><span class="note-label"><%= t("marginalia.note") %></span><%= resource.errors.full_messages.to_sentence %></div>
+    <% end %>
+
+    <div>
+      <%= f.label :email, class: "field-label" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "field-input" %>
+    </div>
+    <div>
+      <%= f.label :password, class: "field-label" %>
+      <%= f.password_field :password, autocomplete: "new-password", class: "field-input" %>
+      <% if @minimum_password_length %>
+        <p class="mt-1 text-xs text-[var(--color-ink-muted)] mono"><%= t("devise.password_min", n: @minimum_password_length) %></p>
+      <% end %>
+    </div>
+    <div>
+      <%= f.label :password_confirmation, class: "field-label" %>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "field-input" %>
+    </div>
+
+    <%= f.submit t("devise.sign_up_submit"), class: "almanac-button w-full justify-center" %>
+  <% end %>
+</section>

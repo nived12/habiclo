@@ -1,0 +1,31 @@
+<%# lab_panels: preloaded with lab_results; lab_panel: new record %>
+<% editing = lab_panel.persisted? %>
+<div class="flex items-center justify-between mb-6">
+  <p class="almanac-eyebrow mb-0"><%= t("health.labs.list_title") %></p>
+  <%= link_to t("health.labs.new_panel"), new_lab_panel_path,
+        class: "almanac-button almanac-button--ghost text-xs",
+        data: { turbo_frame: "health_modal" } %>
+</div>
+
+<% if lab_panels.empty? %>
+  <div class="text-center py-16">
+    <p class="display-lg text-[var(--color-ink-muted)] mb-2"><%= t("health.labs.empty_title") %></p>
+    <p class="text-sm text-[var(--color-ink-muted)] mb-6"><%= t("health.labs.empty_body") %></p>
+    <%= link_to t("health.labs.empty_cta"), new_lab_panel_path,
+          class: "almanac-button",
+          data: { turbo_frame: "health_modal" } %>
+  </div>
+<% else %>
+  <div class="divide-y divide-[var(--color-hairline)]">
+    <% lab_panels.each do |panel| %>
+      <%= render "lab_panels/card", panel: panel %>
+    <% end %>
+  </div>
+
+  <div class="mt-6">
+    <%= link_to "+ #{t('health.labs.new_panel')}",
+          new_lab_panel_path,
+          class: "mono text-xs text-[var(--color-accent)] hover:underline",
+          data: { turbo_frame: "health_modal" } %>
+  </div>
+<% end %>

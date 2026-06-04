@@ -1,0 +1,262 @@
+en:
+  app:
+    name: Habiclo
+    tagline: Build who you want to be, one habit at a time.
+  nav:
+    today: Today
+    week: Week
+    month: Month
+    day: Day
+    settings: Settings
+    sign_in: Sign in
+    sign_up: Save progress
+    sign_out: Sign out
+    new_habit: Habit
+    health: Health
+    guest_banner: You are working as a guest. Your entries are saved on this device.
+  agenda:
+    title: Agenda
+    new_entry: New entry
+    empty: "No entries on this day. Press %{shortcut} to begin."
+    floating: Anytime
+    anytime_today: Anytime today
+    schedule: Schedule
+    margin_notes: Margin notes
+    week_of: "Week of %{date}"
+    today_eyebrow: TODAY
+    in_days: "IN %{n} DAYS"
+    days_ago: "%{n} DAYS AGO"
+    of_label: of
+    scheduled_label: scheduled habits
+    vitals: Vitals
+    no_readings: No readings yet.
+    log_reading: Log a reading →
+    mark_complete: Mark complete
+    mark_pending: Mark pending
+  marginalia:
+    note: Note
+    tip: Tip
+    error: Error
+    strength_explainer: "Each block carries a habit strength %, a rolling consistency score. It grows when you show up and decays gracefully when you miss — missing a day will not reset it to zero."
+    week_intro: "The agenda is read like a page. Hover a block to read its margin notes; click it to mark complete with an ink stroke."
+    keyboard_intro: "Press h / l to walk the week, t to return today, n for a new entry."
+  habits:
+    eyebrow: HABITS
+    new:
+      title: New habit
+    edit:
+      title: Edit habit
+      delete: Delete habit
+      confirm_delete: "Delete this habit?"
+    destroy:
+      confirm: "Delete habit and all its history?"
+    index:
+      title: All habits
+      eyebrow: Habits
+    form:
+      name: Name
+      description: Description
+      category: Category
+      frequency: Frequency
+      time: Time
+      duration: Duration (minutes)
+      color: Color
+      target: Target
+      unit: Unit
+      save: Save
+      cancel: Cancel
+      recurrence_days: Days of the week
+      weekly_target: Times per week
+      monthly_day: Day of month
+      occurs_on: Specific date
+      day_abbrs: [M, T, W, T, F, S, S]
+    frequency:
+      daily: Every day
+      weekly_days: Specific days
+      x_per_week: X times per week
+      monthly: Once a month
+      once: Does not repeat
+    categories:
+      movement: Movement
+      nutrition: Nutrition
+      sleep: Sleep
+      medical: Medical
+      mind: Mind
+      general: General
+  completions:
+    new:
+      value_label: Value
+      logged_at: Logged at
+      note_label: Note
+      note_optional: optional
+      note_placeholder: "e.g. after coffee, weight up 0.3 kg"
+      target_prefix: "Target:"
+      save: Save entry
+      update: Update entry
+      cancel: Cancel
+      footnote_biometric: Saving will also store this reading in Vitals.
+      footnote_default: "Don't need to log details? Click the block itself to quick-toggle."
+    log_button: Log with value or note →
+    strength_tooltip: "Habit strength: %{pct}%. Rolling consistency, not a streak."
+  help:
+    title: How to use Habiclo.
+    sub: Three lessons. You'll be set.
+    eyebrow: Habiclo
+    lesson_1_title: Tap a block to mark it complete.
+    lesson_1_body: An ink stroke draws across it. Click again to retract — nothing is irreversible.
+    lesson_2_title: Use the %{plus} to log a value or note.
+    lesson_2_body: "Weighing yourself? Tap the small %{plus} on a block, enter %{example}, add a note. The reading also flows into your Vitals."
+    lesson_2_example: 87.0 kg
+    lesson_3_title: The percentage is rolling consistency.
+    lesson_3_body: "Not a streak. It grows when you show up and decays gracefully when you miss."
+    lesson_3_bold: Missing a day will not reset it to zero.
+    recall: "Press %{key} any time to read this again."
+    begin: Begin →
+  settings:
+    title: Settings
+    saved: Saved.
+    brand_hue: Accent hue
+    time_zone: Time zone
+    locale: Language
+    health_modules: Health modules
+    modules:
+      sleep: Sleep
+      cardio_safety: Cardio safety
+      med_labs: Medications and labs
+      dermatitis: Dermatitis
+      nutrition: Nutrition
+  lab_panels:
+    destroy:
+      confirm: "Delete this panel and all its result history?"
+  lab_results:
+    destroy:
+      confirm: "Delete this result?"
+  medications:
+    destroy:
+      confirm: "Delete this medication?"
+  biometric_entries:
+    destroy:
+      confirm: "Delete this reading?"
+  biometric_metrics:
+    destroy:
+      confirm: "Delete this metric and all its history?"
+  home:
+    daily_habits: DAILY HABITS
+    weekly_habits: WEEKLY HABITS
+    monthly_habits: MONTHLY HABITS
+    ring_aria: Monthly habit ring
+  health:
+    title: Health
+    tabs:
+      medicamentos: Medications
+      labs: Labs
+      biometria: Biometrics
+      configuracion: Settings
+    medications:
+      list_title: CURRENT MEDICATIONS
+      new_title: NEW MEDICATION
+      edit_title: EDIT MEDICATION
+      empty: No medications on record.
+      edit: Edit
+      delete: Delete
+      confirm_delete: "Delete this medication?"
+      form:
+        name: Name
+        dose: Dose
+        schedule: Dose schedule
+        add_time: Add time
+        notes: Notes
+        save: Save medication
+    labs:
+      list_title: MY PANELS
+      new_panel: New panel
+      edit_panel: Edit panel
+      empty_title: No panels yet.
+      empty_body: Create a panel to track the history of any lab test.
+      empty_cta: Create first panel
+      no_results: No results yet.
+      add_result: Add result
+      delete_panel: Delete panel
+      expand: Expand
+      collapse: Collapse
+      status:
+        pending_due: "Due %{date}"
+        pending_no_date: Pending
+        completed: "Completed %{date}"
+        empty: No results
+      panel_form:
+        name: Panel name
+        name_placeholder: "e.g. Lipid panel"
+        notes: Notes
+        notes_placeholder: context, cadence, or ordering doctor
+        save: Create panel
+        save_edit: Save changes
+        cancel: Cancel
+      result_form:
+        due_on: Scheduled date
+        completed_on: Completed on
+        completed_on_hint: Leave blank if still pending
+        result_summary: Result summary
+        result_summary_placeholder: values, findings, doctor's recommendation
+        save: Save result
+        cancel: Cancel
+      result_row:
+        due: "Scheduled"
+        completed: "Completed"
+        pending: pending
+    biometria:
+      list_title: MY METRICS
+      new_metric: New metric
+      empty_title: No metrics yet.
+      empty_body: Create your first metric to start tracking your progress.
+      empty_cta: Create first metric
+      no_entries: No values yet.
+      log_value: Log value
+      view_history: View history
+      delta_vs: vs
+      days_ago: "%{n}d ago"
+      days_ago_zero: Today
+      days_ago_one: Yesterday
+      entries_count:
+        one: "%{count} reading"
+        other: "%{count} readings"
+      history_title: History
+      add_value: Add value
+      delete_metric: Delete metric
+      metric_form:
+        name: Name
+        name_placeholder: "e.g. Weight, Systolic BP"
+        unit: Unit
+        unit_placeholder: "kg, mmHg, %"
+        category: Category
+        category_placeholder: optional — groups visually
+        save: Create metric
+        save_edit: Save changes
+        cancel: Cancel
+        unit_suggestions: "Suggestions:"
+      entry_form:
+        value: Value
+        recorded_on: Date
+        save: Save
+        cancel: Cancel
+    configuracion:
+      title: HEALTH SETTINGS
+      subtitle: Choose which health modules appear in this section. Hidden ones are still saved — they just disappear from navigation.
+      tabs_section: Visible tabs
+      tab_descriptions:
+        medicamentos: Active medications list and schedules.
+        labs: Lab panels with result history.
+        biometria: Personal metrics with trend and chart.
+      active: Active
+      inactive: Hidden
+      saved: Saved.
+  errors:
+    forbidden: You don't have permission for that action.
+  devise:
+    sign_in_title: Sign in.
+    sign_up_title: Save your progress.
+    sign_up_subtitle: "An account preserves what you've already started as a guest — no data is lost."
+    sign_in_link: Create an account
+    sign_in_submit: Sign in
+    sign_up_submit: Create account
+    password_min: "%{n}+ characters"

@@ -1,0 +1,24 @@
+<%# metrics: Array<BiometricMetric> (preloaded with entries), metric: new BiometricMetric %>
+<div class="flex items-center justify-between mb-6">
+  <p class="almanac-eyebrow mb-0"><%= t("health.biometria.list_title") %></p>
+  <%= link_to t("health.biometria.new_metric"),
+        new_biometric_metric_path,
+        class: "almanac-button almanac-button--ghost text-xs",
+        data: { turbo_frame: "health_modal" } %>
+</div>
+
+<% if metrics.empty? %>
+  <div class="text-center py-16">
+    <p class="display-lg text-[var(--color-ink-muted)] mb-2"><%= t("health.biometria.empty_title") %></p>
+    <p class="text-sm text-[var(--color-ink-muted)] mb-6"><%= t("health.biometria.empty_body") %></p>
+    <%= link_to t("health.biometria.empty_cta"), new_biometric_metric_path,
+          class: "almanac-button",
+          data: { turbo_frame: "health_modal" } %>
+  </div>
+<% else %>
+  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+    <% metrics.each do |m| %>
+      <%= render "biometric_metrics/card", metric: m %>
+    <% end %>
+  </div>
+<% end %>

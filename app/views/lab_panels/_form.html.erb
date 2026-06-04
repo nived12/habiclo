@@ -1,0 +1,42 @@
+<%= turbo_frame_tag "health_modal" do %>
+  <div class="health-modal-shroud">
+    <div class="health-modal-panel" role="dialog">
+      <p class="health-modal-title">
+        <%= lab_panel.persisted? ? t("health.labs.edit_panel") : t("health.labs.new_panel") %>
+      </p>
+
+      <%= form_with(model: lab_panel,
+            url: lab_panel.persisted? ? lab_panel_path(lab_panel) : lab_panels_path,
+            method: lab_panel.persisted? ? :patch : :post,
+            class: "space-y-4") do |f| %>
+        <% if lab_panel.errors.any? %>
+          <div class="marginalia">
+            <span class="note-label"><%= t("marginalia.error") %></span>
+            <%= lab_panel.errors.full_messages.to_sentence %>
+          </div>
+        <% end %>
+
+        <div>
+          <%= f.label :name, t("health.labs.panel_form.name"), class: "field-label" %>
+          <%= f.text_field :name, class: "field-input",
+                placeholder: t("health.labs.panel_form.name_placeholder"),
+                autofocus: true %>
+        </div>
+
+        <div>
+          <%= f.label :notes, t("health.labs.panel_form.notes"), class: "field-label" %>
+          <%= f.text_area :notes, rows: 2, class: "field-input",
+                placeholder: t("health.labs.panel_form.notes_placeholder") %>
+        </div>
+
+        <div class="flex gap-3 pt-2">
+          <%= f.submit (lab_panel.persisted? ? t("health.labs.panel_form.save_edit") : t("health.labs.panel_form.save")),
+                class: "almanac-button text-xs" %>
+          <%= link_to t("health.labs.panel_form.cancel"), health_path(tab: "labs"),
+                class: "almanac-button almanac-button--ghost text-xs",
+                data: { turbo_frame: "health_modal" } %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

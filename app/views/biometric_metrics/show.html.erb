@@ -1,0 +1,63 @@
+<%= turbo_frame_tag "health_modal" do %>
+  <div class="health-modal-shroud">
+    <div class="health-modal-panel" role="dialog">
+      <div class="flex items-center justify-between mb-4">
+        <p class="health-modal-title mb-0">
+          <%= @metric.name %>
+          <% if @metric.unit.present? %>
+            <span class="text-sm font-normal text-[var(--color-ink-muted)] ml-1 mono">(<%= @metric.unit %>)</span>
+          <% end %>
+        </p>
+        <%= link_to "×", health_path(tab: "biometria"),
+              class: "text-xl text-[var(--color-ink-muted)] hover:text-[var(--color-ink)] leading-none",
+              data: { turbo_frame: "health_modal" } %>
+      </div>
+
+      <div class="flex gap-3 mb-5">
+        <%= link_to t("health.biometria.add_value"),
+              new_biometric_metric_biometric_entry_path(@metric),
+              class: "almanac-button almanac-button--ghost text-xs",
+              data: { turbo_frame: "health_modal" } %>
+        <%= link_to "✎ #{t('health.biometria.metric_form.save_edit')}",
+              edit_biometric_metric_path(@metric),
+              class: "almanac-button almanac-button--ghost text-xs" %>
+      </div>
+
+      <% if @entries.empty? %>
+        <p class="text-sm italic text-[var(--color-ink-muted)]"><%= t("health.biometria.no_entries") %></p>
+      <% else %>
+        <table class="lab-results-table w-full">
+          <thead>
+            <tr>
+              <th><%= t("health.biometria.entry_form.recorded_on") %></th>
+              <th class="text-right"><%= t("health.biometria.entry_form.value") %></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @entries.each do |entry| %>
+              <tr id="entry_<%= entry.id %>"
+                  data-controller="resource-destroy"
+                  data-resource-destroy-url-value="<%= biometric_metric_biometric_entry_path(@metric, entry) %>"
+                  data-resource-destroy-selector-value="#entry_<%= entry.id %>"
+                  data-resource-destroy-confirm-value="<%= t('biometric_entries.destroy.confirm') %>">
+                <td class="mono text-sm"><%= l(entry.recorded_on, format: :short) %></td>
+                <td class="mono text-sm text-right font-medium">
+                  <%= entry.value.to_s("F").sub(/\.?0+$/, "") %>
+                  <% if @metric.unit.present? %>
+                    <span class="text-[var(--color-ink-muted)] font-normal"><%= @metric.unit %></span>
+                  <% end %>
+                </td>
+                <td class="text-right">
+                  <button type="button"
+                          class="metric-action-btn metric-action-btn--danger"
+                          data-action="click->resource-destroy#destroy">×</button>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
+    </div>
+  </div>
+<% end %>

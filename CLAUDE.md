@@ -1,0 +1,142 @@
+# Habiclo — Claude Project Context
+
+> Read this file at the start of every session. It is the authoritative single source of truth for the project's current state, architecture, and conventions.
+
+---
+
+## What this app is
+
+**Habiclo** is a personal health OS built as a Rails 8 monolith. Core idea: a daily habit ring (home view) + a time-blocked agenda (day / week / month) + a health module (medications, biometrics, lab panels). The tagline: *"Build who you want to be, one habit at a time."*
+
+- Owner / primary user: **Nived Vengilat** (`nivedvengilat@gmail.com`)
+- Dev seed account: `nivedvengilat@example.com` / `test123`
+- Stack: **Rails 8.0.5 · Ruby 3.3 · PostgreSQL · Hotwire (Turbo + Stimulus) · Tailwind CSS (cssbundling)**
+- No Webpack. Asset pipeline via **Propshaft**. JS bundled via **esbuild** (`bin/dev`).
+
+---
+
+## Running locally
+
+```bash
+bin/dev           # starts Rails + esbuild + CSS watcher (Procfile.dev)
+bin/rails db:reset && bin/rails db:seed   # full reset with Nived's data
+bin/rails db:migrate                       # apply pending migrations only
+bin/rails runner "puts User.count"        # quick sanity checks
+```
+
+---
+
+## Domain model (current schema)
+
+| Table | Key fields | Notes |
+|---|---|---|
+| `users` | `email, time_zone, locale, brand_hue, health_modules (jsonb), tabs_visibility (jsonb)` | Devise + JWT. `guest` bool. `tab_visible?(tab)` helper. |
+| `habits` | `name, frequency_type, scheduled_at_minute, duration_minutes, color_hue, category, position` | `FREQUENCY_TYPES = %w[daily weekly_days x_per_week monthly once]` |
+| `habit_completions` | `habit_id, completed_on, value, notes, completed_at_minute` | Unique on `(habit_id, completed_on)` |
+| `medications` | `name, dose, schedule_minutes (int[]), notes` | `schedule_minutes` stores integer minutes (0–1439) |
+| `medication_intakes` | `medication_id, taken_on, scheduled_minute, taken_at_minute` | Toggle pattern |
+| `biometric_metrics` | `user_id, name, unit, category, position` | User-defined metrics (no enum). Unique `(user_id, name)`. |
+| `biometric_entries` | `biometric_metric_id, user_id, value, recorded_on, source` | `SOURCES = %w[manual whoop healthkit habit]` |
+| `lab_panels` | `user_id, name, notes, position` | Container only — no dates/results here |
+| `lab_results` | `lab_panel_id, due_on, completed_on, result_summary` | `pending` / `completed` scopes |
+| `agenda_items` | `user_id, title, occurs_on, scheduled_at_minute, duration_minutes, kind` | |
+
+**Deleted:** `safety_rules` (dropped in Round 4). Never reference `SafetyRule` or `Safety::WarningsEvaluator`.
+
+---
+
+## Key services
+
+| Service | What it does |
+|---|---|
+| `Habits::StrengthCalculator` | Exponential decay score 0–1. Accepts `completions: [[date, value], …]` to skip DB query. |
+| `Habits::ToggleCompleter` | Idempotent toggle; returns `{habit:, completion:, strength:}`. |
+| `Agenda::DayComposer` | Builds sorted `Entry` structs for one date from preloaded data. |
+| `LabResults::DueExpander` | Converts pending `LabResult` rows into `DayComposer::Entry`. |
+| `Medications::DoseExpander` | Same pattern for medication doses. |
+| `Users::GuestConverter` | Moves all guest data to real account on sign-up. |
+
+---
+
+## Controllers + views architecture
+
+### Agenda
+- `AgendaController` — `#day`, `#week`, `#month`. All use `preload_range` which returns a hash with keys: `habits, completions_map, all_completions_map, meds, intakes_set, agenda_items_by_date, lab_results_by_date`.
+- Partial `agenda/_block.html.erb` — unified block for habits and medication doses. Reads `entry.source` to branch.
+
+### Health (`/salud`)
+- `HealthController` — tabs: `%w[medicamentos labs biometria configuracion]`. Dynamic visibility via `User#tab_visible?`.
+- Partials: `health/_medicamentos`, `health/_labs`, `health/_biometria`, `health/_configuracion`.
+- Biometría uses `turbo_frame "health_modal"` for create/history drawers; Labs uses `turbo_frame "health_tab"` inline.
+- Editing a medication or lab panel highlights the form panel (ring + tinted bg) and changes the title.
+
+### Home (`/`)
+- Ring view: monthly completion ring per daily habit. Segment toggle via Stimulus `ring-segment` controller.
+- `@strengths_map` precomputed in controller to avoid N+1 in template.
+
+---
+
+## Stimulus controllers
+
+| Name | File | Purpose |
+|---|---|---|
+| `agenda-block` | `agenda_block_controller.js` | Toggle completion via Turbo stream |
+| `resource-destroy` | `resource_destroy_controller.js` | Optimistic DELETE (fetch + DOM removal). Values: `url, selector, confirm`. |
+| `collapse` | `collapse_controller.js` | Toggle lab panel rows open/closed. Targets: `body`, `chevron`. |
+| `ring-segment` | `ring_segment_controller.js` | SVG ring segment toggle + legend sync |
+| `legend-toggle` | `legend_toggle_controller.js` | Syncs legend item state with ring |
+| `frequency-fields` | `frequency_fields_controller.js` | Show/hide habit form fields by frequency type |
+| `brand-hue` | `brand_hue_controller.js` | Live preview of accent color slider |
+| `inline-editor` | `inline_editor_controller.js` | In-place text editing |
+| `modal` | `modal_controller.js` | Generic modal open/close |
+
+---
+
+## CSS conventions
+
+Design system: **"The Quiet Almanac"** — warm off-white paper, ink serif type, mono numbers, accent from user's `brand_hue` (oklch).
+
+CSS variables (in `application.tailwind.css`):
+```
+--color-paper          --color-paper-deep
+--color-ink            --color-ink-soft     --color-ink-muted
+--color-hairline       --color-hairline-deep
+--color-accent         --color-accent-muted --color-accent-ghost  --color-accent-ink
+```
+
+Component classes: `.almanac-button`, `.almanac-button--ghost`, `.almanac-button--accent`, `.almanac-eyebrow`, `.period-nav`, `.period-nav-item`, `.field-label`, `.field-input`, `.field-hint`, `.log-modal`, `.metric-card`, `.lab-panel-row`, `.lab-status-chip`, `.health-modal-panel`, `.toggle-track`.
+
+---
+
+## i18n
+
+Default locale: `es` (Spanish). Both `es.yml` and `en.yml` are complete.  
+Key namespaces: `habits.*`, `completions.*`, `health.*`, `lab_panels.*`, `lab_results.*`, `biometric_metrics.*`, `biometric_entries.*`, `medications.*`, `settings.*`, `agenda.*`.
+
+---
+
+## Performance patterns
+
+- **No N+1 in controllers**: `AgendaController#preload_range` batches all queries for the visible range before rendering.
+- `Habits::StrengthCalculator` accepts `completions:` array to skip cache/DB when called in bulk.
+- `BiometricMetric` includes entries: `includes(:biometric_entries).ordered` in `HealthController`.
+- `LabPanel` includes results: `includes(:lab_results).ordered`.
+
+---
+
+## What is NOT here (out of scope)
+
+- `app/controllers/api/v1/` — **routes exist but no controllers**. See `docs/backlog.md`.
+- RSpec coverage is partial (model specs only, no request/feature specs). See `docs/backlog.md`.
+- No ActionCable / real-time. No dark mode. No drag-and-drop reorder.
+
+---
+
+## Conventions to follow
+
+1. **Hard delete everywhere** — no soft delete, no `Discard` gem. If it's deleted, it's gone.
+2. **Turbo-first** — prefer `turbo_stream` responses. Use `respond_to { format.turbo_stream; format.html }`.
+3. **Optimistic DOM removal** — use `resource-destroy` Stimulus controller for all delete buttons. Never `button_to` for deletes.
+4. **No comments in code** unless the WHY is non-obvious (hidden constraint, workaround).
+5. **Preload, don't lazy-load** — add to `preload_range` or use `.includes()` rather than letting the template query.
+6. `completed_at_minute` / `scheduled_at_minute` are always integers 0–1439. Time inputs (`type="time"`) must be converted with `parse_time_to_minute` in `HabitCompletionsController`.

@@ -1,0 +1,58 @@
+<div data-controller="frequency-fields">
+  <div class="mb-2">
+    <%= f.label :frequency_type, t("habits.form.frequency"), class: "field-label" %>
+    <%= f.select :frequency_type,
+          Habit::FREQUENCY_TYPES.map { |ft| [t("habits.frequency.#{ft}"), ft] },
+          {},
+          class: "field-input",
+          data: { frequency_select: "", action: "change->frequency-fields#update" } %>
+  </div>
+
+  <%# daily: nothing extra %>
+
+  <%# weekly_days: day toggles %>
+  <div data-frequency-fields-target="section" data-frequency-show-when="weekly_days" hidden>
+    <label class="field-label mt-3 mb-2"><%= t("habits.form.recurrence_days") %></label>
+    <div class="flex gap-2 flex-wrap">
+      <% day_abbrs = t("habits.form.day_abbrs") %>
+      <% (1..7).each do |cwday| %>
+        <% abbr = day_abbrs[cwday - 1] %>
+        <% active = habit.recurrence_days.include?(cwday) %>
+        <button type="button"
+                class="day-btn <%= 'day-btn--active' if active %>"
+                data-active="<%= active %>"
+                data-action="click->frequency-fields#toggleDay">
+          <%= abbr %>
+        </button>
+        <input type="hidden"
+               name="habit[recurrence_days][]"
+               value="<%= cwday %>"
+               <%= "disabled" unless active %>>
+      <% end %>
+    </div>
+  </div>
+
+  <%# x_per_week: numeric target %>
+  <div data-frequency-fields-target="section" data-frequency-show-when="x_per_week" hidden>
+    <div class="mt-3">
+      <%= f.label :weekly_target, t("habits.form.weekly_target"), class: "field-label" %>
+      <%= f.number_field :weekly_target, min: 1, max: 7, class: "field-input mono w-24" %>
+    </div>
+  </div>
+
+  <%# monthly: day of month %>
+  <div data-frequency-fields-target="section" data-frequency-show-when="monthly" hidden>
+    <div class="mt-3">
+      <%= f.label :monthly_day, t("habits.form.monthly_day"), class: "field-label" %>
+      <%= f.number_field :monthly_day, min: 1, max: 31, class: "field-input mono w-24" %>
+    </div>
+  </div>
+
+  <%# once: specific date %>
+  <div data-frequency-fields-target="section" data-frequency-show-when="once" hidden>
+    <div class="mt-3">
+      <%= f.label :occurs_on, t("habits.form.occurs_on"), class: "field-label" %>
+      <%= f.date_field :occurs_on, class: "field-input mono" %>
+    </div>
+  </div>
+</div>

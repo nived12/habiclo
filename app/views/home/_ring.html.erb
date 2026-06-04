@@ -1,0 +1,79 @@
+<%
+  n_habits    = daily_habits.length.clamp(1, 30)
+  vb          = 900          # fixed viewBox size
+  cx          = 450
+  cy          = 450
+  margin      = 28           # px margin from SVG edge to outermost ring outer edge
+  max_r       = (vb / 2) - margin   # 422
+  r_start     = 58           # innermost ring inner radius
+  gap         = 3
+  # Fit all rings: band = (available / n_habits) - gap
+  available   = max_r - r_start
+  raw_band    = (available.to_f / n_habits) - gap
+  band        = raw_band.clamp(10, 36).floor
+
+  total_angle  = 300.0       # degrees of the C-shape arc
+  start_offset = 210.0       # 7-o'clock going clockwise
+  days_count   = days.length
+  deg_per_day  = total_angle / days_count.to_f
+  outer_r      = r_start + n_habits * (band + gap)
+  tick_r       = outer_r + 14
+%>
+
+<svg class="habit-ring"
+     viewBox="0 0 <%= vb %> <%= vb %>"
+     xmlns="http://www.w3.org/2000/svg"
+     aria-label="<%= t('home.ring_aria') %>">
+
+  <%# Month label in center %>
+  <text x="<%= cx %>" y="<%= cy - 16 %>"
+        class="ring-month-label"
+        text-anchor="middle" dominant-baseline="middle">
+    <%= l(month_start, format: "%B").mb_chars.capitalize %>
+  </text>
+  <text x="<%= cx %>" y="<%= cy + 26 %>"
+        class="ring-year-label"
+        text-anchor="middle" dominant-baseline="middle">
+    <%= month_start.year %>
+  </text>
+
+  <%# Day number ticks around the outermost ring %>
+  <% days.each_with_index do |day, i| %>
+    <% angle = start_offset + i * deg_per_day + deg_per_day / 2.0 %>
+    <% rad = (angle - 90) * Math::PI / 180.0 %>
+    <% tx = cx + tick_r * Math.cos(rad) %>
+    <% ty = cy + tick_r * Math.sin(rad) %>
+    <% is_today = (day == today) %>
+    <text x="<%= tx.round(1) %>" y="<%= ty.round(1) %>"
+          class="ring-day-tick <%= 'ring-day-tick--today' if is_today %>"
+          text-anchor="middle" dominant-baseline="middle">
+      <%= day.day %>
+    </text>
+  <% end %>
+
+  <%# One ring per daily habit %>
+  <% daily_habits.each_with_index do |habit, hi| %>
+    <% r_inner = r_start + hi * (band + gap) %>
+    <% r_outer = r_inner + band %>
+    <% days.each_with_index do |day, di| %>
+      <% completed = completions_map[habit.id]&.include?(day) %>
+      <% start_deg = start_offset + di * deg_per_day %>
+      <% end_deg   = start_deg + deg_per_day %>
+      <% d_attr = arc_path(cx, cy, r_inner, r_outer, start_deg, end_deg) %>
+      <% toggle_url = toggle_habit_habit_completions_path(habit_id: habit.id, on: day.iso8601) %>
+      <path id="ring_seg_<%= habit.id %>_<%= day.iso8601 %>"
+            d="<%= d_attr %>"
+            class="ring-segment ring-segment--habit ring-segment--stagger-<%= hi % 20 %>"
+            style="--habit-hue: <%= habit.color_hue %>;"
+            data-completed="<%= completed %>"
+            data-controller="ring-segment"
+            data-ring-segment-url-value="<%= toggle_url %>"
+            data-ring-segment-date-value="<%= day.iso8601 %>"
+            data-ring-segment-habit-id-value="<%= habit.id %>"
+            data-ring-segment-completed-value="<%= completed %>"
+            data-action="click->ring-segment#toggle"
+            title="<%= habit.name %> · <%= l(day, format: :short) %>">
+      </path>
+    <% end %>
+  <% end %>
+</svg>

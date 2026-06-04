@@ -1,0 +1,40 @@
+<%# Inline form rendered inside the collapsed panel body %>
+<%= form_with(model: [panel, result],
+      url: lab_panel_lab_results_path(panel),
+      method: :post,
+      id: "lab_result_form_#{panel.id}",
+      class: "space-y-3 p-3 bg-[var(--color-paper)] rounded-lg border border-[var(--color-hairline)]") do |f| %>
+  <p class="almanac-eyebrow text-xs mb-2"><%= t("health.labs.add_result") %></p>
+  <% if result.errors.any? %>
+    <div class="marginalia mb-2">
+      <span class="note-label"><%= t("marginalia.error") %></span>
+      <%= result.errors.full_messages.to_sentence %>
+    </div>
+  <% end %>
+
+  <div class="grid grid-cols-2 gap-3">
+    <div>
+      <%= f.label :due_on, t("health.labs.result_form.due_on"), class: "field-label" %>
+      <%= f.date_field :due_on, class: "field-input mono text-sm" %>
+    </div>
+    <div>
+      <%= f.label :completed_on, t("health.labs.result_form.completed_on"), class: "field-label" %>
+      <%= f.date_field :completed_on, class: "field-input mono text-sm",
+            value: result.completed_on %>
+      <p class="field-hint text-xs mt-1"><%= t("health.labs.result_form.completed_on_hint") %></p>
+    </div>
+  </div>
+
+  <div>
+    <%= f.label :result_summary, t("health.labs.result_form.result_summary"), class: "field-label" %>
+    <%= f.text_area :result_summary, rows: 2, class: "field-input text-sm",
+          placeholder: t("health.labs.result_form.result_summary_placeholder") %>
+  </div>
+
+  <div class="flex gap-3">
+    <%= f.submit t("health.labs.result_form.save"), class: "almanac-button text-xs" %>
+    <button type="reset" class="almanac-button almanac-button--ghost text-xs">
+      <%= t("health.labs.result_form.cancel") %>
+    </button>
+  </div>
+<% end %>

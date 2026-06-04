@@ -1,0 +1,38 @@
+<div id="help_panel" class="help-panel">
+  <div class="help-panel-card" role="dialog" aria-labelledby="help-title">
+    <header class="help-header">
+      <p class="almanac-eyebrow"><%= t("help.eyebrow") %></p>
+      <h2 id="help-title" class="help-title"><%= t("help.title") %></h2>
+      <p class="help-sub"><%= t("help.sub") %></p>
+    </header>
+
+    <ol class="help-lessons">
+      <li>
+        <span class="help-step mono">01</span>
+        <div>
+          <h3><%= t("help.lesson_1_title") %></h3>
+          <p><%= t("help.lesson_1_body") %></p>
+        </div>
+      </li>
+      <li>
+        <span class="help-step mono">02</span>
+        <div>
+          <h3><%= t("help.lesson_2_title", plus: '<span class="keyboard-hint">+</span>').html_safe %></h3>
+          <p><%= t("help.lesson_2_body", plus: '<span class="keyboard-hint">+</span>', example: %(<span class="mono">#{t("help.lesson_2_example")}</span>)).html_safe %></p>
+        </div>
+      </li>
+      <li>
+        <span class="help-step mono">03</span>
+        <div>
+          <h3><%= t("help.lesson_3_title") %></h3>
+          <p><%= t("help.lesson_3_body") %> <strong><%= t("help.lesson_3_bold") %></strong></p>
+        </div>
+      </li>
+    </ol>
+
+    <footer class="help-footer">
+      <p class="mono text-xs text-[var(--color-ink-muted)]"><%= t("help.recall", key: '<span class="keyboard-hint">?</span>').html_safe %></p>
+      <button type="button" class="almanac-button text-xs" data-action="click->help#dismiss"><%= t("help.begin") %></button>
+    </footer>
+  </div>
+</div>

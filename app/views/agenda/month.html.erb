@@ -1,0 +1,51 @@
+<% content_for :title, "#{t('agenda.title')} — #{l(@on_date, format: '%B %Y')}" %>
+
+<section class="almanac-header almanac-header--week">
+  <div>
+    <p class="almanac-eyebrow"><%= t("agenda.title") %></p>
+    <h1 class="display-xl"><%= l(@month_start, format: "%B").mb_chars.capitalize %>
+      <span class="mono text-[var(--color-ink-muted)] text-[0.5em] align-middle ml-3"><%= l(@month_start, format: "%Y") %></span>
+    </h1>
+  </div>
+  <div class="flex items-center gap-2">
+    <%= link_to "←", agenda_month_path(on: (@month_start - 1.month).iso8601), class: "almanac-button almanac-button--ghost text-xs mono" %>
+    <%= link_to t("nav.today"), agenda_month_path(on: @today.iso8601), class: "almanac-button text-xs" %>
+    <%= link_to "→", agenda_month_path(on: (@month_start + 1.month).iso8601), class: "almanac-button almanac-button--ghost text-xs mono" %>
+  </div>
+</section>
+
+<% lead = @month_start.cwday - 1 %>
+<% trail = 7 - @month_end.cwday %>
+<% trail = 0 if trail == 7 %>
+
+<div class="mt-6 grid grid-cols-7 gap-0 mb-2 text-[var(--color-ink-muted)] mono text-xs uppercase tracking-wider">
+  <% %w[mon tue wed thu fri sat sun].each do |w| %>
+    <div class="px-2"><%= l(Date.parse("2024-01-#{%w[mon tue wed thu fri sat sun].index(w) + 1}"), format: "%a") %></div>
+  <% end %>
+</div>
+
+<div class="month-grid reveal-stagger">
+  <% lead.times do |i| %>
+    <div class="month-cell is-outside">
+      <span class="daynum"><%= (@month_start - (lead - i).days).day %></span>
+    </div>
+  <% end %>
+
+  <% @days.each do |d| %>
+    <% entries = @entries_by_day[d] %>
+    <%= link_to agenda_week_path(on: d.iso8601), class: "month-cell #{'is-today' if d == @today}" do %>
+      <span class="daynum mono"><%= d.day.to_s.rjust(2, "0") %></span>
+      <div class="ticks">
+        <% entries.first(10).each do |e| %>
+          <span class="tick <%= 'is-done' if e.completed %>" style="--tick-hue: <%= e.color_hue || 25 %>;"></span>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <% trail.times do |i| %>
+    <div class="month-cell is-outside">
+      <span class="daynum"><%= (@month_end + (i + 1).days).day %></span>
+    </div>
+  <% end %>
+</div>

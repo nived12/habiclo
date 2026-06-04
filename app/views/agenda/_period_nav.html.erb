@@ -1,0 +1,11 @@
+<nav class="period-nav">
+  <%= link_to agenda_day_path(on: on_date.iso8601), class: "period-nav-item #{'is-active' if current == :day}" do %>
+    <span class="mono">DAY</span>
+  <% end %>
+  <%= link_to agenda_week_path(on: on_date.iso8601), class: "period-nav-item #{'is-active' if current == :week}" do %>
+    <span class="mono">WEEK</span>
+  <% end %>
+  <%= link_to agenda_month_path(on: on_date.iso8601), class: "period-nav-item #{'is-active' if current == :month}" do %>
+    <span class="mono">MONTH</span>
+  <% end %>
+</nav>

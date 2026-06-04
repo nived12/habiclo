@@ -1,0 +1,57 @@
+<%= turbo_frame_tag "log_modal" do %>
+  <div class="log-modal-shroud" data-controller="modal" data-action="click->modal#dismissBackdrop keydown.esc@window->modal#dismiss">
+    <div class="log-modal" role="dialog" aria-label="<%= t('completions.log_button') %>">
+      <header class="log-modal-header">
+        <p class="almanac-eyebrow"><%= l(@on_date, format: "%A, %-d %B").mb_chars.capitalize %></p>
+        <h2 class="log-modal-title"><%= @habit.name %></h2>
+        <% if @habit.description.present? %>
+          <p class="log-modal-desc"><%= @habit.description %></p>
+        <% end %>
+      </header>
+
+      <%= form_with(model: @completion,
+            url: habit_habit_completions_path(habit_id: @habit.id, on: @on_date.iso8601),
+            method: :post,
+            data: { turbo_frame: "log_modal" },
+            class: "log-form") do |f| %>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="field-label"><%= t("completions.new.value_label") %></label>
+            <div class="flex items-baseline gap-2">
+              <%= f.number_field :value, step: 0.1, class: "field-input mono text-lg", autofocus: true %>
+              <span class="mono text-sm text-[var(--color-ink-muted)]"><%= @habit.unit %></span>
+            </div>
+            <p class="field-hint"><%= t("completions.new.target_prefix") %> <span class="mono"><%= @habit.target_value.to_s("F").sub(/\.0+$/, "") %> <%= @habit.unit %></span></p>
+          </div>
+          <div>
+            <label class="field-label"><%= t("completions.new.logged_at") %></label>
+            <% v = @completion.completed_at_minute || 0 %>
+            <%= f.text_field :completed_at_minute, type: :time, value: ("%02d:%02d" % [v / 60, v % 60]), class: "field-input mono" %>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <label class="field-label">
+            <%= t("completions.new.note_label") %>
+            <span class="mono text-[var(--color-ink-muted)]"><%= t("completions.new.note_optional") %></span>
+          </label>
+          <%= f.text_area :notes, rows: 2, class: "field-input", placeholder: t("completions.new.note_placeholder") %>
+        </div>
+
+        <div class="log-modal-actions">
+          <button type="button" class="almanac-button almanac-button--ghost text-xs" data-action="click->modal#dismiss"><%= t("completions.new.cancel") %></button>
+          <%= f.submit (@completion.persisted? ? t("completions.new.update") : t("completions.new.save")), class: "almanac-button text-xs" %>
+        </div>
+
+        <p class="log-modal-footnote mono">
+          <% if @habit.unit.to_s.downcase.in?(%w[kg cm mmhg hours minutes bpm %]) %>
+            <%= t("completions.new.footnote_biometric") %>
+          <% else %>
+            <%= t("completions.new.footnote_default") %>
+          <% end %>
+        </p>
+      <% end %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,25 @@
+<p class="almanac-eyebrow mb-3"><%= t("home.monthly_habits") %></p>
+
+<ul class="monthly-habits-list">
+  <% habits.each do |habit| %>
+    <% done_dates = completions_map[habit.id] || Set.new %>
+    <% completed = done_dates.any? { |d| d.year == month_start.year && d.month == month_start.month } %>
+    <% target_date = Date.new(month_start.year, month_start.month, habit.monthly_day || 1) rescue month_start %>
+    <% toggle_url = toggle_habit_habit_completions_path(habit_id: habit.id, on: target_date.iso8601) %>
+    <li class="monthly-habit-item"
+        data-controller="agenda-block"
+        data-agenda-block-url-value="<%= toggle_url %>"
+        data-agenda-block-compact-value="true"
+        data-completed="<%= completed %>">
+      <button type="button" class="monthly-habit-toggle"
+              data-action="click->agenda-block#toggle"
+              style="--block-hue: <%= habit.color_hue %>;">
+        <span class="monthly-check-mark">✓</span>
+        <span><%= habit.name %></span>
+      </button>
+      <svg class="ink-stroke" viewBox="0 0 100 20" preserveAspectRatio="none">
+        <path d="M 4 10 C 24 3, 50 17, 72 8 S 92 12, 96 10" />
+      </svg>
+    </li>
+  <% end %>
+</ul>

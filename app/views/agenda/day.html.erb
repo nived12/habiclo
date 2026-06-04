@@ -1,0 +1,105 @@
+<% content_for :title, "#{t('agenda.title')} — #{l(@on_date, format: :long)}" %>
+
+<% ratio = completion_ratio_for(@entries) %>
+
+<section class="almanac-header almanac-header--day">
+  <div>
+    <p class="almanac-eyebrow">
+      <% if @on_date == @today %>
+        <%= t("agenda.today_eyebrow") %>
+      <% else %>
+        <% diff = (@on_date - @today).to_i %>
+        <%= diff > 0 ? t("agenda.in_days", n: diff) : t("agenda.days_ago", n: -diff) %>
+      <% end %>
+      · <%= l(@on_date, format: "%A").mb_chars.capitalize %>
+    </p>
+    <h1 class="day-display">
+      <span class="mono"><%= @on_date.day.to_s.rjust(2, "0") %></span><span class="day-display-month"><%= l(@on_date, format: "%B").mb_chars.capitalize %></span>
+    </h1>
+  </div>
+  <div class="flex items-center gap-2 self-end">
+    <%= link_to "←", agenda_day_path(on: (@on_date - 1.day).iso8601),
+          class: "almanac-button almanac-button--ghost text-xs mono" %>
+    <%= link_to t("nav.today"), agenda_day_path(on: @today.iso8601), class: "almanac-button text-xs" %>
+    <%= link_to "→", agenda_day_path(on: (@on_date + 1.day).iso8601),
+          class: "almanac-button almanac-button--ghost text-xs mono" %>
+  </div>
+</section>
+
+<div class="day-spread mt-8">
+  <div class="day-spread-main">
+    <% if ratio %>
+      <div class="day-ratio-large mb-6">
+        <div class="day-ratio-bar"><div class="day-ratio-fill" style="width: <%= ratio[:pct] %>%;"></div></div>
+        <div class="mono text-xs text-[var(--color-ink-muted)] mt-2">
+          <strong class="text-[var(--color-ink)] mono"><%= ratio[:completed] %></strong> <%= t("agenda.of_label") %> <strong class="text-[var(--color-ink)] mono"><%= ratio[:total] %></strong> <%= t("agenda.scheduled_label") %> · <span class="text-[var(--color-accent)] mono"><%= ratio[:pct] %>%</span>
+        </div>
+      </div>
+    <% end %>
+
+    <% if @floating.any? %>
+      <section class="mb-8">
+        <p class="almanac-eyebrow"><%= t("agenda.anytime_today") %></p>
+        <div class="floating-rail mt-3 gap-2">
+          <% @floating.each do |entry| %>
+            <%= render "agenda/floating_chip", entry: entry, on_date: @on_date %>
+          <% end %>
+        </div>
+      </section>
+    <% end %>
+
+    <section>
+      <p class="almanac-eyebrow mb-3"><%= t("agenda.schedule") %></p>
+      <% if @scheduled.empty? %>
+        <p class="text-[var(--color-ink-muted)] italic text-center py-12"><%= t("agenda.empty", shortcut: "n") %></p>
+      <% else %>
+        <ol class="day-timeline day-timeline--large">
+          <% @scheduled.each do |entry| %>
+            <li class="day-timeline-row">
+              <span class="mono day-timeline-time">
+                <% if entry.scheduled_at_minute %>
+                  <%= "%02d:%02d" % [entry.scheduled_at_minute / 60, entry.scheduled_at_minute % 60] %>
+                <% else %>
+                  —
+                <% end %>
+              </span>
+              <span class="day-timeline-rule" style="--block-hue: <%= entry.color_hue %>;"></span>
+              <%= render "agenda/block", entry: entry, on_date: @on_date, compact: false,
+                    all_completions_map: @pre[:all_completions_map],
+                    completions_map: @pre[:completions_map] %>
+            </li>
+          <% end %>
+        </ol>
+      <% end %>
+    </section>
+  </div>
+
+  <aside class="day-spread-aside">
+    <section class="marginalia mb-6">
+      <span class="note-label"><%= t("marginalia.note") %></span>
+      <em><%= t("marginalia.strength_explainer") %></em>
+    </section>
+
+    <section>
+      <p class="almanac-eyebrow mb-3"><%= t("agenda.vitals") %></p>
+      <% if @recent_biometrics&.any? %>
+        <ul class="vitals-list">
+          <% @recent_biometrics.each do |b| %>
+            <li>
+              <span class="vitals-label"><%= b.biometric_metric.name %></span>
+              <span class="mono vitals-value">
+                <%= b.value.to_s("F").sub(/\.0+$/, "") %><% if b.biometric_metric.unit.present? %><span class="opacity-50"> <%= b.biometric_metric.unit %></span><% end %>
+              </span>
+              <span class="mono vitals-date"><%= l(b.recorded_on, format: "%-d %b") %></span>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="text-[var(--color-ink-muted)] italic text-sm"><%= t("agenda.no_readings") %></p>
+      <% end %>
+      <%= link_to t("agenda.log_reading"), new_biometric_entry_path,
+            class: "mono text-xs mt-3 inline-block text-[var(--color-accent)] hover:underline",
+            data: { turbo_frame: "log_modal" } %>
+    </section>
+  </aside>
+</div>

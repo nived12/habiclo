@@ -1,0 +1,303 @@
+es:
+  app:
+    name: Habiclo
+    tagline: Construye quién quieres ser, un hábito a la vez.
+  nav:
+    today: Hoy
+    week: Semana
+    month: Mes
+    day: Día
+    settings: Ajustes
+    sign_in: Iniciar sesión
+    sign_up: Guardar progreso
+    sign_out: Cerrar sesión
+    new_habit: Hábito
+    health: Salud
+    guest_banner: Estás como invitado. Tus entradas se guardan en este dispositivo.
+  agenda:
+    title: Agenda
+    new_entry: Nueva entrada
+    empty: "Sin entradas este día. Pulsa %{shortcut} para comenzar."
+    floating: En cualquier momento
+    anytime_today: En cualquier momento
+    schedule: Horario
+    margin_notes: Notas al margen
+    week_of: "Semana del %{date}"
+    today_eyebrow: HOY
+    in_days: "EN %{n} DÍAS"
+    days_ago: "HACE %{n} DÍAS"
+    of_label: de
+    scheduled_label: hábitos programados
+    vitals: Vitales
+    no_readings: Sin lecturas aún.
+    log_reading: Registrar una lectura →
+    mark_complete: Marcar completo
+    mark_pending: Marcar pendiente
+  marginalia:
+    note: Nota
+    tip: Sugerencia
+    error: Error
+    strength_explainer: "Cada bloque lleva un % de fuerza del hábito, una medida de consistencia continua. Crece cuando te presentas y decae con suavidad cuando faltas — perder un día no la regresa a cero."
+    week_intro: "La agenda se lee como una página. Pasa el cursor sobre un bloque para ver sus notas; haz clic para marcarlo completo con un trazo de tinta."
+    keyboard_intro: "Pulsa h / l para mover la semana, t para volver a hoy, n para una nueva entrada."
+  habits:
+    eyebrow: HÁBITOS
+    new:
+      title: Nuevo hábito
+    edit:
+      title: Editar hábito
+      delete: Eliminar hábito
+      confirm_delete: "¿Eliminar este hábito?"
+    destroy:
+      confirm: "¿Eliminar hábito y todo su historial?"
+    index:
+      title: Todos los hábitos
+      eyebrow: Hábitos
+    form:
+      name: Nombre
+      description: Descripción
+      category: Categoría
+      frequency: Frecuencia
+      time: Hora
+      duration: Duración (minutos)
+      color: Color
+      target: Objetivo
+      unit: Unidad
+      save: Guardar
+      cancel: Cancelar
+      recurrence_days: Días de la semana
+      weekly_target: Veces por semana
+      monthly_day: Día del mes
+      occurs_on: Fecha específica
+      day_abbrs: [L, M, X, J, V, S, D]
+    frequency:
+      daily: Cada día
+      weekly_days: Días específicos
+      x_per_week: X veces por semana
+      monthly: Una vez al mes
+      once: No se repite
+    categories:
+      movement: Movimiento
+      nutrition: Nutrición
+      sleep: Sueño
+      medical: Médico
+      mind: Mente
+      general: General
+  completions:
+    new:
+      value_label: Valor
+      logged_at: Registrado a las
+      note_label: Nota
+      note_optional: opcional
+      note_placeholder: "p. ej. después del café, peso +0.3 kg"
+      target_prefix: "Objetivo:"
+      save: Guardar entrada
+      update: Actualizar entrada
+      cancel: Cancelar
+      footnote_biometric: Al guardar también se registra esta lectura en Vitales.
+      footnote_default: "¿No necesitas detalles? Toca el bloque para marcarlo rápido."
+    log_button: Registrar con valor o nota →
+    strength_tooltip: "Fuerza del hábito: %{pct}%. Consistencia continua, no una racha."
+  help:
+    title: Cómo usar Habiclo.
+    sub: Tres lecciones. Listo.
+    eyebrow: Habiclo
+    lesson_1_title: Toca un bloque para marcarlo completo.
+    lesson_1_body: Aparece un trazo de tinta. Toca de nuevo para retirarlo — nada es irreversible.
+    lesson_2_title: Usa el %{plus} para registrar un valor o una nota.
+    lesson_2_body: "¿Pesándote? Toca el %{plus} de un bloque, escribe %{example}, añade una nota. La lectura también va a tus Vitales."
+    lesson_2_example: 87.0 kg
+    lesson_3_title: El porcentaje es consistencia continua.
+    lesson_3_body: "No es una racha. Crece cuando te presentas y decae con suavidad cuando faltas."
+    lesson_3_bold: Perder un día no la regresa a cero.
+    recall: "Pulsa %{key} en cualquier momento para volver a leerlo."
+    begin: Comenzar →
+  settings:
+    title: Ajustes
+    saved: Guardado.
+    brand_hue: Tono de acento
+    time_zone: Zona horaria
+    locale: Idioma
+    health_modules: Módulos de salud
+    modules:
+      sleep: Sueño
+      cardio_safety: Seguridad cardiovascular
+      med_labs: Medicamentos y laboratorios
+      dermatitis: Dermatitis
+      nutrition: Nutrición
+  lab_panels:
+    destroy:
+      confirm: "¿Eliminar este panel y todo su historial de resultados?"
+  lab_results:
+    destroy:
+      confirm: "¿Eliminar este resultado?"
+  medications:
+    destroy:
+      confirm: "¿Eliminar este medicamento?"
+  biometric_entries:
+    destroy:
+      confirm: "¿Eliminar esta lectura?"
+  biometric_metrics:
+    destroy:
+      confirm: "¿Eliminar esta métrica y todo su historial?"
+  home:
+    daily_habits: HÁBITOS DIARIOS
+    weekly_habits: HÁBITOS SEMANALES
+    monthly_habits: HÁBITOS MENSUALES
+    ring_aria: Anillo de hábitos del mes
+  health:
+    title: Salud
+    tabs:
+      medicamentos: Medicamentos
+      labs: Laboratorios
+      biometria: Biometría
+      configuracion: Configuración
+    medications:
+      list_title: MEDICAMENTOS ACTUALES
+      new_title: NUEVO MEDICAMENTO
+      edit_title: EDITAR MEDICAMENTO
+      empty: Sin medicamentos registrados.
+      edit: Editar
+      delete: Eliminar
+      confirm_delete: "¿Eliminar este medicamento?"
+      form:
+        name: Nombre
+        dose: Dosis
+        schedule: Horario de toma
+        add_time: Añadir horario
+        notes: Notas
+        save: Guardar medicamento
+    labs:
+      list_title: PANELES DE LABORATORIO
+      new_title: NUEVO PANEL
+      edit_title: EDITAR PANEL
+      empty: Sin paneles registrados.
+      due: Vence
+      edit: Editar
+      form:
+        name: Panel
+        due_on: Fecha programada
+        completed_on: Fecha completado
+        result: Resultado / resumen
+    biometria:
+      list_title: MIS MÉTRICAS
+      new_metric: Nueva métrica
+      empty_title: Sin métricas todavía.
+      empty_body: Crea la primera para comenzar a ver tu evolución.
+      empty_cta: Crear primera métrica
+      no_entries: Sin valores aún.
+      log_value: Registrar valor
+      view_history: Ver historial
+      delta_vs: vs hace
+      days_ago: "Hace %{n}d"
+      days_ago_zero: Hoy
+      days_ago_one: Ayer
+      entries_count:
+        one: "%{count} medición"
+        other: "%{count} mediciones"
+      history_title: Historial
+      add_value: Añadir valor
+      delete_metric: Eliminar métrica
+      metric_form:
+        name: Nombre
+        name_placeholder: "p. ej. Peso, Tensión sistólica"
+        unit: Unidad
+        unit_placeholder: "kg, mmHg, %"
+        category: Categoría
+        category_placeholder: opcional — agrupa visualmente
+        save: Crear métrica
+        save_edit: Guardar cambios
+        cancel: Cancelar
+        unit_suggestions: "Sugerencias:"
+      entry_form:
+        value: Valor
+        recorded_on: Fecha
+        save: Registrar
+        cancel: Cancelar
+    labs:
+      list_title: MIS PANELES
+      new_panel: Nuevo panel
+      empty_title: Sin paneles todavía.
+      empty_body: Crea un panel para llevar el historial de cualquier estudio de laboratorio.
+      empty_cta: Crear primer panel
+      no_results: Sin resultados aún.
+      add_result: Añadir resultado
+      delete_panel: Eliminar panel
+      expand: Expandir
+      collapse: Colapsar
+      status:
+        pending_due: "Vence %{date}"
+        pending_no_date: Pendiente
+        completed: "Completado %{date}"
+        empty: Sin resultados
+      panel_form:
+        name: Nombre del panel
+        name_placeholder: "p. ej. Perfil de lípidos"
+        notes: Notas
+        notes_placeholder: contexto, cadencia o doctor que lo solicita
+        save: Crear panel
+        save_edit: Guardar cambios
+        cancel: Cancelar
+      result_form:
+        due_on: Fecha programada
+        completed_on: Fecha completado
+        completed_on_hint: Déjalo vacío si aún está pendiente
+        result_summary: Resumen del resultado
+        result_summary_placeholder: valores numéricos, hallazgos, recomendación del doctor
+        save: Guardar resultado
+        cancel: Cancelar
+      result_row:
+        due: "Programado"
+        completed: "Completado"
+        pending: pendiente
+    configuracion:
+      title: CONFIGURACIÓN DE SALUD
+      subtitle: Decide qué módulos de salud aparecen en esta sección. Los ocultos siguen guardados — solo desaparecen de la navegación.
+      tabs_section: Pestañas visibles
+      tab_descriptions:
+        medicamentos: Lista de medicamentos activos y horarios.
+        labs: Paneles de laboratorio con historial de resultados.
+        biometria: Métricas personales con tendencia y gráfica.
+      active: Activa
+      inactive: Oculta
+      saved: Guardado.
+  errors:
+    forbidden: No tienes permiso para esa acción.
+  biometrics:
+    new_title: Nueva lectura
+    metric_label: Métrica
+    value_label: Valor
+    recorded_on_label: Fecha
+    save: Guardar lectura
+    metrics:
+      weight_kg: Peso
+      bp_systolic: Presión sistólica
+      bp_diastolic: Presión diastólica
+      rhr_bpm: Frec. cardiaca reposo
+      sleep_hours: Sueño
+      sleep_rr_rpm: Frec. respiratoria sueño
+      hrv_ms: HRV
+      aerobic_minutes: Minutos aeróbicos
+      waist_cm: Cintura
+      body_fat_pct: Grasa corporal
+  date:
+    day_names: [domingo, lunes, martes, miércoles, jueves, viernes, sábado]
+    abbr_day_names: [dom, lun, mar, mié, jue, vie, sáb]
+    month_names: [~, enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, noviembre, diciembre]
+    abbr_month_names: [~, ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic]
+    formats:
+      default: "%-d de %B de %Y"
+      long: "%-d de %B de %Y"
+      short: "%-d de %b"
+  time:
+    formats:
+      default: "%-d %b %Y, %H:%M"
+      short: "%H:%M"
+  devise:
+    sign_in_title: Iniciar sesión.
+    sign_up_title: Guarda tu progreso.
+    sign_up_subtitle: "Una cuenta conserva lo que ya comenzaste como invitado — no se pierde nada."
+    sign_in_link: Crear una cuenta
+    sign_in_submit: Iniciar sesión
+    sign_up_submit: Crear cuenta
+    password_min: "%{n}+ caracteres"

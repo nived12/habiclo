@@ -1,0 +1,36 @@
+<p class="almanac-eyebrow mb-3"><%= t("home.weekly_habits") %></p>
+
+<div class="weekly-habits-grid" style="--week-count: <%= week_starts.length %>;">
+  <div class="weekly-grid-row weekly-grid-header">
+    <span class="weekly-habit-name"></span>
+    <% week_starts.each_with_index do |ws, i| %>
+      <span class="weekly-week-label mono">W<%= i + 1 %></span>
+    <% end %>
+  </div>
+
+  <% habits.each do |habit| %>
+    <div class="weekly-grid-row">
+      <span class="weekly-habit-name">
+        <span class="ring-legend-dot" style="background: oklch(58% 0.16 <%= habit.color_hue %>);"></span>
+        <%= habit.name %>
+      </span>
+      <% week_starts.each do |ws| %>
+        <% we = ws + 6.days %>
+        <% week_days = ((ws > month_start ? ws : month_start)..(we < month_end ? we : month_end)).to_a %>
+        <% done = week_days.any? { |d| completions_map[habit.id]&.include?(d) } %>
+        <% rep_day = [ws, month_start].max %>
+        <% toggle_url = toggle_habit_habit_completions_path(habit_id: habit.id, on: rep_day.iso8601) %>
+        <button class="weekly-cell"
+                data-controller="weekly-cell"
+                data-weekly-cell-url-value="<%= toggle_url %>"
+                data-weekly-cell-done-value="<%= done %>"
+                data-done="<%= done %>"
+                data-action="click->weekly-cell#toggle"
+                style="<%= "color: oklch(58% 0.16 #{habit.color_hue}); border-color: oklch(58% 0.16 #{habit.color_hue});" if done %>"
+                title="<%= habit.name %> · W<%= week_starts.index(ws) + 1 %>">
+          <%= done ? "✓" : "" %>
+        </button>
+      <% end %>
+    </div>
+  <% end %>
+</div>

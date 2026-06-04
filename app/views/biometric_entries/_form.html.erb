@@ -1,0 +1,48 @@
+<%= turbo_frame_tag "health_modal" do %>
+  <div class="health-modal-shroud">
+    <div class="health-modal-panel" role="dialog">
+      <p class="health-modal-title">
+        <%= metric.name %>
+        <% if metric.unit.present? %>
+          <span class="text-sm font-normal text-[var(--color-ink-muted)] ml-1 mono">(<%= metric.unit %>)</span>
+        <% end %>
+      </p>
+
+      <%= form_with(model: [metric, entry],
+            url: biometric_metric_biometric_entries_path(metric),
+            method: :post,
+            class: "space-y-4") do |f| %>
+        <% if entry.errors.any? %>
+          <div class="marginalia">
+            <span class="note-label"><%= t("marginalia.error") %></span>
+            <%= entry.errors.full_messages.to_sentence %>
+          </div>
+        <% end %>
+
+        <div>
+          <%= f.label :value, t("health.biometria.entry_form.value"), class: "field-label" %>
+          <div class="flex items-center gap-2">
+            <%= f.number_field :value, step: "any", class: "field-input w-36",
+                  autofocus: true, value: entry.value %>
+            <% if metric.unit.present? %>
+              <span class="mono text-sm text-[var(--color-ink-muted)]"><%= metric.unit %></span>
+            <% end %>
+          </div>
+        </div>
+
+        <div>
+          <%= f.label :recorded_on, t("health.biometria.entry_form.recorded_on"), class: "field-label" %>
+          <%= f.date_field :recorded_on, class: "field-input w-auto",
+                value: entry.recorded_on || Date.current %>
+        </div>
+
+        <div class="flex gap-3 pt-2">
+          <%= f.submit t("health.biometria.entry_form.save"), class: "almanac-button text-xs" %>
+          <%= link_to t("health.biometria.entry_form.cancel"), health_path(tab: "biometria"),
+                class: "almanac-button almanac-button--ghost text-xs",
+                data: { turbo_frame: "health_modal" } %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

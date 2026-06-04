@@ -1,0 +1,22 @@
+<% content_for :title, t("habits.new.title") %>
+
+<section class="almanac-header almanac-header--week">
+  <div>
+    <p class="almanac-eyebrow"><%= t("habits.eyebrow") %></p>
+    <h1 class="display-lg"><%= t("habits.new.title") %></h1>
+  </div>
+</section>
+
+<div class="mt-6 grid lg:grid-cols-12 gap-8">
+  <div class="lg:col-span-8">
+    <%= render "form", habit: @habit %>
+  </div>
+  <aside class="lg:col-span-4">
+    <div class="marginalia">
+      <span class="note-label"><%= t("marginalia.tip") %></span>
+      <em><%= I18n.locale == :es ?
+        "Los hábitos con hora aparecen como bloques posicionados. Deja la hora vacía para que sean chips de \"en cualquier momento\"." :
+        "Time-bound habits appear as positioned blocks on the calendar. Leave the time empty for floating \"anytime today\" chips." %></em>
+    </div>
+  </aside>
+</div>

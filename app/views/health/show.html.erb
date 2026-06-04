@@ -1,0 +1,35 @@
+<% content_for :title, t("health.title") %>
+
+<section class="almanac-header almanac-header--week">
+  <div>
+    <p class="almanac-eyebrow"><%= t("nav.health").upcase %></p>
+    <h1 class="display-lg"><%= t("health.title") %></h1>
+  </div>
+</section>
+
+<div class="mt-6">
+  <%= turbo_frame_tag "health_tab" do %>
+    <nav class="period-nav mb-6" aria-label="Health tabs">
+      <% @visible_tabs.each do |tab| %>
+        <%= link_to t("health.tabs.#{tab}"),
+              health_path(tab: tab),
+              class: "period-nav-item #{'is-active' if @tab == tab}",
+              data: { turbo_frame: "health_tab", turbo_action: "advance" } %>
+      <% end %>
+    </nav>
+
+    <% case @tab
+       when "medicamentos" %>
+      <%= render "health/medicamentos", medications: @medications, medication: @medication %>
+    <% when "labs" %>
+      <%= render "health/labs", lab_panels: @lab_panels, lab_panel: @lab_panel %>
+    <% when "biometria" %>
+      <%= render "health/biometria", metrics: @biometric_metrics, metric: @biometric_metric %>
+    <% when "configuracion" %>
+      <%= render "health/configuracion", user: @user %>
+    <% end %>
+  <% end %>
+</div>
+
+<%# Drawer/modal mount point for biometric metric history and forms %>
+<%= turbo_frame_tag "health_modal" %>
