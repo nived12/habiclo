@@ -13,6 +13,7 @@ en:
     sign_out: Sign out
     new_habit: Habit
     health: Health
+    guest_name: Guest
     guest_banner: You are working as a guest. Your entries are saved on this device.
   agenda:
     title: Agenda
@@ -100,18 +101,23 @@ en:
     strength_tooltip: "Habit strength: %{pct}%. Rolling consistency, not a streak."
   help:
     title: How to use Habiclo.
-    sub: Three lessons. You'll be set.
+    sub: Your personal health and habit system.
     eyebrow: Habiclo
-    lesson_1_title: Tap a block to mark it complete.
-    lesson_1_body: An ink stroke draws across it. Click again to retract — nothing is irreversible.
-    lesson_2_title: Use the %{plus} to log a value or note.
-    lesson_2_body: "Weighing yourself? Tap the small %{plus} on a block, enter %{example}, add a note. The reading also flows into your Vitals."
-    lesson_2_example: 87.0 kg
-    lesson_3_title: The percentage is rolling consistency.
-    lesson_3_body: "Not a streak. It grows when you show up and decays gracefully when you miss."
-    lesson_3_bold: Missing a day will not reset it to zero.
+    lesson_1_title: Your day begins in the ring.
+    lesson_1_body: "Home shows your daily habits. Tap a block to mark it complete. Tap again to retract — nothing is irreversible."
+    lesson_2_title: Day, week or month — your call.
+    lesson_2_body: "Switch the view from the topbar. Blocks show when, how much, and what's missing."
+    lesson_3_title: Health, complete.
+    lesson_3_body: "Under \"Health\" you keep medications, lab panels and biometric metrics (weight, sleep, HRV, whatever). All in one page."
+    lesson_4_title: Log a value with %{plus}.
+    lesson_4_body: "Weighing yourself? Tap the %{plus} on a block, enter %{example}, add a note. The reading flows into your Vitals."
+    lesson_4_example: 87.0 kg
+    lesson_5_title: Start with a template.
+    lesson_5_body: "If you want a ready set (Wellness Basics, Strength, Personal Growth…), explore templates from here."
+    lesson_5_bold: Build who you want to be, one habit at a time.
     recall: "Press %{key} any time to read this again."
     begin: Begin →
+    explore_templates: Explore templates →
   settings:
     title: Settings
     saved: Saved.
@@ -145,6 +151,10 @@ en:
     weekly_habits: WEEKLY HABITS
     monthly_habits: MONTHLY HABITS
     ring_aria: Monthly habit ring
+    empty_title: Your agenda is empty.
+    empty_body: Start with a curated template or create your first habit.
+    empty_cta_templates: Explore templates →
+    empty_cta_new: Create a habit
   health:
     title: Health
     tabs:
@@ -260,3 +270,218 @@ en:
     sign_in_submit: Sign in
     sign_up_submit: Create account
     password_min: "%{n}+ characters"
+  templates:
+    eyebrow: Templates
+    index_title: Start with a template.
+    index_sub: Curated sets of habits, medications and metrics. Apply anytime — duplicates are skipped.
+    guest_note: As a guest, your data resets every 7 days.
+    see_template: See template
+    back: ← Back
+    apply: Apply template →
+    applied_simple: "Template applied — %{count} items added."
+    applied_detailed: "Template applied — %{added} added, %{skipped} already existed."
+    reset_done: Data reset to the welcome state.
+    reset_only_guest: Only guests can reset to the welcome state.
+    not_found: That template doesn't exist.
+    categories:
+      health: Health
+      movement: Movement
+      mind: Mind
+      medical: Medical
+      demo: Demo
+    counts:
+      habits:
+        one: "%{count} habit"
+        other: "%{count} habits"
+      medications:
+        one: "%{count} medication"
+        other: "%{count} medications"
+      metrics:
+        one: "%{count} metric"
+        other: "%{count} metrics"
+    section:
+      habits: Habits
+      medications: Medications
+      metrics: Metrics
+    frequency:
+      daily: Daily
+      weekly_days: Specific days
+      x_per_week: Times per week
+      monthly: Monthly
+      once: Once
+    wellness_basics:
+      name: Wellness Basics
+      blurb: Four daily habits for a solid foundation.
+    strength:
+      name: Strength
+      blurb: Weight training with protein and rest scheduled.
+    personal_growth:
+      name: Personal Growth
+      blurb: Reading, journaling, meditation, deep work.
+    sleep_recovery:
+      name: Sleep & Recovery
+      blurb: Sleep hygiene with recovery metrics.
+    nutrition:
+      name: Nutrition
+      blurb: Eat better, without obsessive calorie counting.
+    med_adherence:
+      name: Med Adherence
+      blurb: Medication reminders with blood-pressure tracking.
+    welcome:
+      name: Welcome
+      blurb: A sample view for guests.
+      habits:
+        hydration:
+          name: Hydration
+          description: 2 L of water a day.
+        walk:
+          name: Walk 30 min
+          description: Daily outdoor walk.
+        read:
+          name: Read 20 min
+          description: Before bed.
+        weigh_in:
+          name: Weigh in
+          description: Same time each morning.
+        stretch:
+          name: Stretch
+          description: Basic mobility.
+      medications:
+        vitamin_d:
+          name: Vitamin D
+          notes: With breakfast.
+    shared:
+      habits:
+        hydration:
+          name: Hydration
+          description: 2 L of water a day.
+        walk:
+          name: Walk 30 min
+          description: Daily movement.
+        read:
+          name: Read
+          description: Reading habit.
+        weigh_in:
+          name: Weigh in
+          description: Same time each morning.
+        stretch:
+          name: Stretch
+          description: Basic mobility.
+        sleep_7h:
+          name: Sleep 7 hours
+          description: Aim for 7h in bed.
+        breakfast:
+          name: Breakfast
+          description: Don't skip meals.
+        lift:
+          name: Lift weights
+          description: Strength session.
+        protein:
+          name: Daily protein
+          description: Hit minimum daily intake.
+        creatine:
+          name: Creatine
+          description: 5 g per day.
+        mobility:
+          name: Mobility
+          description: Short session.
+        rest_day:
+          name: Rest day
+          description: No training today.
+        journal:
+          name: Journal
+          description: Three lines a day.
+        meditate:
+          name: Meditate
+          description: 10 min on waking.
+        deep_work:
+          name: Deep work
+          description: Focus block, no interruptions.
+        no_phone:
+          name: No phone in bed
+          description: Lights-out window.
+        bedtime:
+          name: Bedtime
+          description: Same time every night.
+        no_screens:
+          name: No screens
+          description: 1h before sleep.
+        magnesium:
+          name: Magnesium
+          description: Sleep support.
+        morning_light:
+          name: Morning light
+          description: 10 min of sun at dawn.
+        vegetables:
+          name: Vegetables
+          description: 3 servings a day.
+        no_sugar:
+          name: No added sugar
+          description: One day sweetener-free.
+        log_meals:
+          name: Log meals
+          description: Note what you ate.
+        check_bp:
+          name: Check blood pressure
+          description: One reading a day.
+      medications:
+        vitamin_d:
+          name: Vitamin D
+          dose: 1 capsule
+          notes: With breakfast.
+        morning_meds:
+          name: Morning medication
+          dose: 1 tablet
+          notes: With breakfast.
+        evening_meds:
+          name: Evening medication
+          dose: 1 tablet
+          notes: With dinner.
+      units:
+        servings: servings
+        capsules: capsules
+        tablets: tablets
+      metrics:
+        weight:
+          name: Weight
+        sleep:
+          name: Sleep
+        hrv:
+          name: HRV
+        body_fat:
+          name: "Body fat %"
+        blood_pressure:
+          name: Blood pressure
+      categories:
+        body: Body
+        recovery: Recovery
+        vitals: Vitals
+  guest_banner:
+    example: "Demo view · Your data resets in %{count} days."
+    example_one: "Demo view · Your data resets in %{count} day."
+    example_hours: "Demo view · Your data resets in %{count} hours."
+    example_today: "Demo view · Your data resets today."
+    save_progress: Create account and keep my data →
+    change_template: Change template →
+    reset_now: Reset now
+    confirm_reset: "Reset to welcome state? Your current data will be erased."
+  registrations:
+    import_eyebrow: We'll bring over
+    import_intro: "When you create an account, this carries over:"
+    import_habits:
+      one: "%{count} habit"
+      other: "%{count} habits"
+    import_completions:
+      one: "%{count} habit log"
+      other: "%{count} habit logs"
+    import_medications:
+      one: "%{count} medication"
+      other: "%{count} medications"
+    import_metrics:
+      one: "%{count} metric"
+      other: "%{count} metrics"
+    import_metric_entries:
+      one: "%{count} reading"
+      other: "%{count} readings"
+    import_locale: Your language and timezone
+    imported_flash: "Account created. We imported %{summary}."

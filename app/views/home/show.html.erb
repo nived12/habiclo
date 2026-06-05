@@ -23,6 +23,19 @@
     </div>
   </header>
 
+  <% if @daily_habits.empty? && @weekly_habits.empty? && @monthly_habits.empty? %>
+    <div class="home-empty">
+      <h2 class="home-empty-title"><%= t("home.empty_title") %></h2>
+      <p class="home-empty-body"><%= t("home.empty_body") %></p>
+      <div class="home-empty-actions">
+        <%= link_to t("home.empty_cta_templates"), templates_path,
+              class: "almanac-button almanac-button--accent text-xs" %>
+        <%= link_to t("home.empty_cta_new"), new_habit_path,
+              class: "almanac-button almanac-button--ghost text-xs" %>
+      </div>
+    </div>
+  <% end %>
+
   <%# Main ring + legend %>
   <div class="home-ring-layout">
     <%# Legend %>

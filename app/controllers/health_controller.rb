@@ -17,7 +17,9 @@ class HealthController < ApplicationController
     @tab = requested && (@visible_tabs.include?(requested) || requested == "configuracion") ? requested : @visible_tabs.first
     load_tab_data
     respond_to do |format|
-      format.turbo_stream { render turbo_stream: turbo_stream.update("health_tab", partial: "health/#{@tab}", locals: tab_locals) }
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.update("health_tab", partial: "health/#{@tab}", locals: tab_locals)
+      end
       format.html { render :show }
     end
   end

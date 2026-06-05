@@ -5,6 +5,41 @@
   <h1 class="display-lg mb-3" style="font-style: italic;"><%= t("devise.sign_up_title") %></h1>
   <p class="text-sm text-[var(--color-ink-muted)] mb-8"><%= t("devise.sign_up_subtitle") %></p>
 
+  <% guest = current_or_guest_user if respond_to?(:current_or_guest_user) %>
+  <% if guest&.guest? %>
+    <%
+      habit_count = guest.habits.count
+      completion_count = HabitCompletion.where(habit_id: guest.habits.select(:id)).count
+      medication_count = guest.medications.count
+      metric_count = guest.biometric_metrics.count
+      metric_entry_count = guest.biometric_entries.count
+    %>
+    <% if habit_count + medication_count + metric_count > 0 %>
+      <div class="import-summary-card">
+        <p class="almanac-eyebrow"><%= t("registrations.import_eyebrow") %></p>
+        <p class="text-sm" style="color: var(--color-ink-soft);"><%= t("registrations.import_intro") %></p>
+        <ul>
+          <% if habit_count > 0 %>
+            <li><%= t("registrations.import_habits", count: habit_count) %></li>
+          <% end %>
+          <% if completion_count > 0 %>
+            <li><%= t("registrations.import_completions", count: completion_count) %></li>
+          <% end %>
+          <% if medication_count > 0 %>
+            <li><%= t("registrations.import_medications", count: medication_count) %></li>
+          <% end %>
+          <% if metric_count > 0 %>
+            <li><%= t("registrations.import_metrics", count: metric_count) %></li>
+          <% end %>
+          <% if metric_entry_count > 0 %>
+            <li><%= t("registrations.import_metric_entries", count: metric_entry_count) %></li>
+          <% end %>
+          <li><%= t("registrations.import_locale") %></li>
+        </ul>
+      </div>
+    <% end %>
+  <% end %>
+
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-6" }) do |f| %>
     <% if resource.errors.any? %>
       <div class="marginalia"><span class="note-label"><%= t("marginalia.note") %></span><%= resource.errors.full_messages.to_sentence %></div>

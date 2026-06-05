@@ -17,22 +17,44 @@
       <li>
         <span class="help-step mono">02</span>
         <div>
-          <h3><%= t("help.lesson_2_title", plus: '<span class="keyboard-hint">+</span>').html_safe %></h3>
-          <p><%= t("help.lesson_2_body", plus: '<span class="keyboard-hint">+</span>', example: %(<span class="mono">#{t("help.lesson_2_example")}</span>)).html_safe %></p>
+          <h3><%= t("help.lesson_2_title") %></h3>
+          <p><%= t("help.lesson_2_body") %></p>
         </div>
       </li>
       <li>
         <span class="help-step mono">03</span>
         <div>
           <h3><%= t("help.lesson_3_title") %></h3>
-          <p><%= t("help.lesson_3_body") %> <strong><%= t("help.lesson_3_bold") %></strong></p>
+          <p><%= t("help.lesson_3_body") %></p>
+        </div>
+      </li>
+      <li>
+        <span class="help-step mono">04</span>
+        <div>
+          <h3><%= t("help.lesson_4_title", plus: '<span class="keyboard-hint">+</span>').html_safe %></h3>
+          <p><%= t("help.lesson_4_body", plus: '<span class="keyboard-hint">+</span>', example: %(<span class="mono">#{t("help.lesson_4_example")}</span>)).html_safe %></p>
+        </div>
+      </li>
+      <li>
+        <span class="help-step mono">05</span>
+        <div>
+          <h3><%= t("help.lesson_5_title") %></h3>
+          <p><%= t("help.lesson_5_body") %> <strong><%= t("help.lesson_5_bold") %></strong></p>
         </div>
       </li>
     </ol>
 
     <footer class="help-footer">
-      <p class="mono text-xs text-[var(--color-ink-muted)]"><%= t("help.recall", key: '<span class="keyboard-hint">?</span>').html_safe %></p>
-      <button type="button" class="almanac-button text-xs" data-action="click->help#dismiss"><%= t("help.begin") %></button>
+      <p class="mono text-xs text-[var(--color-ink-muted)]">
+        <%= t("help.recall", key: '<span class="keyboard-hint">?</span>').html_safe %>
+      </p>
+      <div class="help-footer-actions">
+        <%= link_to t("help.explore_templates"),
+              templates_path,
+              class: "almanac-button almanac-button--ghost text-xs",
+              data: { action: "click->help#dismiss" } %>
+        <button type="button" class="almanac-button text-xs" data-action="click->help#dismiss"><%= t("help.begin") %></button>
+      </div>
     </footer>
   </div>
 </div>

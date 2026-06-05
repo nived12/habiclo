@@ -1,7 +1,7 @@
 class LabPanel < ApplicationRecord
   belongs_to :user
   has_many :lab_results, -> { order(Arel.sql("COALESCE(completed_on, due_on) DESC, id DESC")) },
-           dependent: :destroy
+    dependent: :destroy
 
   validates :name, presence: true, length: { maximum: 120 }
 
@@ -9,6 +9,7 @@ class LabPanel < ApplicationRecord
 
   def latest_result
     return nil if lab_results.empty?
+
     lab_results.loaded? ? lab_results.first : lab_results.first
   end
 
@@ -20,6 +21,7 @@ class LabPanel < ApplicationRecord
     latest = latest_result
     return :empty if latest.nil?
     return :pending if latest.completed_on.nil?
+
     :completed
   end
 end

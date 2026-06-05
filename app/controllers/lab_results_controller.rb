@@ -12,9 +12,11 @@ class LabResultsController < ApplicationController
       respond_to do |format|
         format.turbo_stream do
           panels = current_or_guest_user.lab_panels.includes(:lab_results).ordered
-          render turbo_stream: turbo_stream.update("health_tab",
+          render turbo_stream: turbo_stream.update(
+            "health_tab",
             partial: "health/labs",
-            locals: { lab_panels: panels, lab_panel: current_or_guest_user.lab_panels.new })
+            locals: { lab_panels: panels, lab_panel: current_or_guest_user.lab_panels.new }
+          )
         end
         format.html { redirect_to health_path(tab: "labs") }
       end
@@ -50,9 +52,11 @@ class LabResultsController < ApplicationController
       format.json { head :no_content }
       format.turbo_stream do
         panels = current_or_guest_user.lab_panels.includes(:lab_results).ordered
-        render turbo_stream: turbo_stream.update("health_tab",
+        render turbo_stream: turbo_stream.update(
+          "health_tab",
           partial: "health/labs",
-          locals: { lab_panels: panels, lab_panel: current_or_guest_user.lab_panels.new })
+          locals: { lab_panels: panels, lab_panel: current_or_guest_user.lab_panels.new }
+        )
       end
       format.html { redirect_to health_path(tab: "labs") }
     end

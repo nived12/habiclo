@@ -17,9 +17,11 @@ class LabPanelsController < ApplicationController
         format.turbo_stream do
           panels = current_or_guest_user.lab_panels.includes(:lab_results).ordered
           render turbo_stream: [
-            turbo_stream.update("health_tab",
+            turbo_stream.update(
+              "health_tab",
               partial: "health/labs",
-              locals: { lab_panels: panels, lab_panel: current_or_guest_user.lab_panels.new }),
+              locals: { lab_panels: panels, lab_panel: current_or_guest_user.lab_panels.new }
+            ),
             turbo_stream.update("health_modal", "")
           ]
         end
@@ -28,9 +30,11 @@ class LabPanelsController < ApplicationController
     else
       respond_to do |format|
         format.turbo_stream do
-          render turbo_stream: turbo_stream.update("health_modal",
+          render turbo_stream: turbo_stream.update(
+            "health_modal",
             partial: "lab_panels/form",
-            locals: { lab_panel: @lab_panel })
+            locals: { lab_panel: @lab_panel }
+          )
         end
         format.html { redirect_to health_path(tab: "labs"), alert: @lab_panel.errors.full_messages.to_sentence }
       end

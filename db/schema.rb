@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_06_04_010006) do
+ActiveRecord::Schema[8.0].define(version: 2026_06_04_010007) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -156,6 +156,11 @@ ActiveRecord::Schema[8.0].define(version: 2026_06_04_010006) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.jsonb "tabs_visibility", default: {}, null: false
+    t.datetime "help_seen_at"
+    t.string "template_key"
+    t.datetime "template_applied_at"
+    t.datetime "data_resets_at"
+    t.index ["data_resets_at"], name: "index_users_on_data_resets_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["guest"], name: "index_users_on_guest"
     t.index ["jti"], name: "index_users_on_jti", unique: true

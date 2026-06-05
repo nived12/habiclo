@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users,
-             controllers: { registrations: "users/registrations" }
+    controllers: { registrations: "users/registrations" }
 
   root "home#show"
 
@@ -31,6 +31,11 @@ Rails.application.routes.draw do
 
   get  "salud", to: "health#show",   as: :health
   get  "salud/tab", to: "health#tab", as: :health_tab
+
+  resources :templates, only: [ :index, :show ]
+  resources :template_applications, only: [ :create ]
+  resource  :guest_reset, only: [ :create ]
+  resource  :help_acknowledgment, only: [ :create ]
 
   resource :settings, only: [ :show, :update ]
 

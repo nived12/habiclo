@@ -40,7 +40,7 @@ module Habiclo
     config.generators.system_tests = nil
 
     config.i18n.available_locales = [ :en, :es ]
-    config.i18n.default_locale = :es
+    config.i18n.default_locale = :en
     config.i18n.fallbacks = [ :en ]
     config.time_zone = "America/Mexico_City"
   end

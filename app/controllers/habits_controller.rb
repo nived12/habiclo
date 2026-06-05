@@ -49,6 +49,7 @@ class HabitsController < ApplicationController
   def parse_time_to_minute(value)
     return value if value.is_a?(Integer)
     return nil if value.blank?
+
     if value.match?(/\A\d{2}:\d{2}\z/)
       h, m = value.split(":").map(&:to_i)
       h * 60 + m

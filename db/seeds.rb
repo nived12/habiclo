@@ -18,7 +18,8 @@ user.assign_attributes(
   locale: "es",
   brand_hue: 25,
   guest: false,
-  health_modules: { "sleep" => true, "cardio_safety" => true, "med_labs" => true, "dermatitis" => true, "nutrition" => true }
+  health_modules: { "sleep" => true, "cardio_safety" => true, "med_labs" => true, "dermatitis" => true,
+"nutrition" => true }
 )
 user.save!
 
@@ -35,58 +36,115 @@ user.agenda_items.destroy_all
 # === Habits — the day plan ===
 h = ->(name, time, dur, cat, hue, opts = {}) {
   hour, min = time.split(":").map(&:to_i)
-  user.habits.create!({
-    name: name,
-    scheduled_at_minute: hour * 60 + min,
-    duration_minutes: dur,
-    category: cat,
-    color_hue: hue,
-    frequency_type: "daily",
-    target_value: 1.0,
-    unit: "times",
-    position: user.habits.count
-  }.merge(opts))
+  user.habits.create!(
+    {
+        name: name,
+        scheduled_at_minute: hour * 60 + min,
+        duration_minutes: dur,
+        category: cat,
+        color_hue: hue,
+        frequency_type: "daily",
+        target_value: 1.0,
+        unit: "times",
+        position: user.habits.count
+      }.merge(opts)
+  )
 }
 
 # La Mañana
-h.call("Despertar sin pantallas", "06:45", 15, "mind",     220, description: "Prohibido revisar celular, correo del trabajo o código de Vittio.")
-h.call("Pesaje matinal",          "06:50", 5,  "general", 280, unit: "kg",  target_value: 86.0, description: "Vacía la vejiga. En ropa interior. Es solo un dato.")
-h.call("Hidratación 500 ml",      "06:55", 5,  "nutrition", 200, unit: "ml", target_value: 500.0, description: "Vaso grande de agua. Acompaña la dosis matinal.")
-h.call("Caminata con Blite (Zona 2)", "07:10", 30, "movement", 25, description: "Ritmo constante, sin picos. Oxigena y suma pasos sin exigirle al corazón.")
-h.call("Ducha y café negro",      "07:40", 80, "general", 35,  description: "Solo agua, té o café sin azúcar ni leche. Cero calorías.")
+h.call(
+  "Despertar sin pantallas", "06:45", 15, "mind",     220,
+  description: "Prohibido revisar celular, correo del trabajo o código de Vittio."
+)
+h.call(
+  "Pesaje matinal",          "06:50", 5,  "general", 280, unit: "kg",  target_value: 86.0,
+  description: "Vacía la vejiga. En ropa interior. Es solo un dato."
+)
+h.call(
+  "Hidratación 500 ml",      "06:55", 5,  "nutrition", 200, unit: "ml", target_value: 500.0,
+  description: "Vaso grande de agua. Acompaña la dosis matinal."
+)
+h.call(
+  "Caminata con Blite (Zona 2)", "07:10", 30, "movement", 25,
+  description: "Ritmo constante, sin picos. Oxigena y suma pasos sin exigirle al corazón."
+)
+h.call(
+  "Ducha y café negro",      "07:40", 80, "general", 35,
+  description: "Solo agua, té o café sin azúcar ni leche. Cero calorías."
+)
 
 # El Día
-h.call("Iniciar Home Office",     "09:00", 15, "mind",     220, description: "Termo de 1 L en el escritorio. Tómatelo antes de la primera comida.")
-h.call("Walking Pad",             "11:00", 45, "movement", 120, description: "Caminadora de escritorio durante correos y juntas sin cámara.")
-h.call("Comida 1 (rompe ayuno)",  "13:00", 30, "nutrition", 60,  description: "Prioriza proteína y grasas. Ensalada con pollo o tacos de carne asada con pico y aguacate.")
-h.call("Creatina 5 g",            "13:00", 1,  "medical",  320, unit: "g",  target_value: 5.0, description: "Mezcla con el agua de la comida.")
-h.call("Segundo litro de agua",   "13:45", 5,  "nutrition", 200, unit: "L", target_value: 1.0, description: "Llena el termo otra vez.")
-h.call("Cerrar laptop del trabajo", "17:00", 5, "mind",   220, description: "Sin este límite, el día se vuelve una masa amorfa de estrés.")
+h.call(
+  "Iniciar Home Office",     "09:00", 15, "mind",     220,
+  description: "Termo de 1 L en el escritorio. Tómatelo antes de la primera comida."
+)
+h.call(
+  "Walking Pad",             "11:00", 45, "movement", 120,
+  description: "Caminadora de escritorio durante correos y juntas sin cámara."
+)
+h.call(
+  "Comida 1 (rompe ayuno)",  "13:00", 30, "nutrition", 60,
+  description: "Prioriza proteína y grasas. Ensalada con pollo o tacos de carne asada con pico y aguacate."
+)
+h.call(
+  "Creatina 5 g",            "13:00", 1,  "medical",  320, unit: "g",  target_value: 5.0,
+  description: "Mezcla con el agua de la comida."
+)
+h.call(
+  "Segundo litro de agua",   "13:45", 5,  "nutrition", 200, unit: "L", target_value: 1.0,
+  description: "Llena el termo otra vez."
+)
+h.call(
+  "Cerrar laptop del trabajo", "17:00", 5, "mind",   220,
+  description: "Sin este límite, el día se vuelve una masa amorfa de estrés."
+)
 
 # La Tarde
-h.call("Entrenamiento de fuerza (sin Valsalva)", "17:15", 45, "movement", 0,
-       frequency_type: "weekly_days", recurrence_days: [ 1, 3, 5 ],
-       description: "Mancuernas, kettlebells o ligas. Exhala al levantar — la maniobra de Valsalva sube la presión intraocular.")
-h.call("Whey Protein con agua",   "18:00", 5,  "nutrition", 60, unit: "g", target_value: 30.0,
-       frequency_type: "weekly_days", recurrence_days: [ 1, 3, 5 ],
-       description: "Ventana anabólica inmediata post-entrenamiento.")
+h.call(
+  "Entrenamiento de fuerza (sin Valsalva)", "17:15", 45, "movement", 0,
+  frequency_type: "weekly_days", recurrence_days: [ 1, 3, 5 ],
+  description: "Mancuernas, kettlebells o ligas. Exhala al levantar — la maniobra de Valsalva sube la presión intraocular."
+)
+h.call(
+  "Whey Protein con agua",   "18:00", 5,  "nutrition", 60, unit: "g", target_value: 30.0,
+  frequency_type: "weekly_days", recurrence_days: [ 1, 3, 5 ],
+  description: "Ventana anabólica inmediata post-entrenamiento."
+)
 
 # La Noche
-h.call("Deep Work — Vittio",      "18:30", 120, "mind",    220, description: "Bloque de máxima concentración. Cerebro oxigenado, sin estrés laboral.")
-h.call("Comida 2 (cena ligera)",  "20:30", 30, "nutrition", 60, description: "Proteína ligera. Sashimi, salmón o pollo con vegetales. Cero carbohidratos pesados.")
-h.call("Magnesio",                "21:30", 1,  "medical",  300, unit: "mg", target_value: 400.0, description: "Relaja el sistema nervioso, controla la presión nocturna, mejora el sueño.")
-h.call("Apagón digital",          "22:00", 30, "mind",     220, description: "Cierra el código. Deja el celular lejos de la cama.")
-h.call("Dormir 7.5 h",            "22:30", 30, "sleep",    200, unit: "hours", target_value: 7.5, description: "Mínimo 7.5 horas para recuperación real.")
+h.call(
+  "Deep Work — Vittio",      "18:30", 120, "mind",    220,
+  description: "Bloque de máxima concentración. Cerebro oxigenado, sin estrés laboral."
+)
+h.call(
+  "Comida 2 (cena ligera)",  "20:30", 30, "nutrition", 60,
+  description: "Proteína ligera. Sashimi, salmón o pollo con vegetales. Cero carbohidratos pesados."
+)
+h.call(
+  "Magnesio",                "21:30", 1,  "medical",  300, unit: "mg", target_value: 400.0,
+  description: "Relaja el sistema nervioso, controla la presión nocturna, mejora el sueño."
+)
+h.call(
+  "Apagón digital",          "22:00", 30, "mind",     220,
+  description: "Cierra el código. Deja el celular lejos de la cama."
+)
+h.call(
+  "Dormir 7.5 h",            "22:30", 30, "sleep",    200, unit: "hours", target_value: 7.5,
+  description: "Mínimo 7.5 horas para recuperación real."
+)
 
 puts "  ↳ #{user.habits.count} habits"
 
 # === Medications ===
 [
-  { name: "Aprovasc",     dose: "150/5 mg",  schedule_minutes: [ 6 * 60 + 55 ], notes: "Irbesartán + amlodipino. Hipertensión." },
-  { name: "Cibinqo",      dose: "100 mg",    schedule_minutes: [ 6 * 60 + 55 ], notes: "Abrocitinib. Dermatitis atópica. Vigilar lípidos + hematología." },
+  { name: "Aprovasc",     dose: "150/5 mg",  schedule_minutes: [ 6 * 60 + 55 ],
+notes: "Irbesartán + amlodipino. Hipertensión." },
+  { name: "Cibinqo",      dose: "100 mg",    schedule_minutes: [ 6 * 60 + 55 ],
+notes: "Abrocitinib. Dermatitis atópica. Vigilar lípidos + hematología." },
   { name: "Mio-inositol", dose: "2 g",       schedule_minutes: [ 6 * 60 + 55 ], notes: "Sensibilidad a la insulina." },
   { name: "Creatina",     dose: "5 g",       schedule_minutes: [ 13 * 60 ],     notes: "Mezcla con agua." },
-  { name: "Whey Protein", dose: "30 g",      schedule_minutes: [ 18 * 60 ],     notes: "Ventana anabólica post-fuerza." },
+  { name: "Whey Protein", dose: "30 g",      schedule_minutes: [ 18 * 60 ],
+notes: "Ventana anabólica post-fuerza." },
   { name: "Magnesio",     dose: "400 mg",    schedule_minutes: [ 21 * 60 + 30 ], notes: "Bisglicinato preferido." }
 ].each { |attrs| user.medications.create!(attrs) }
 

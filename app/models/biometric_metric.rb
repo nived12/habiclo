@@ -3,7 +3,7 @@ class BiometricMetric < ApplicationRecord
   has_many :biometric_entries, -> { order(recorded_on: :desc, id: :desc) }, dependent: :destroy
 
   validates :name, presence: true, length: { maximum: 80 },
-                   uniqueness: { scope: :user_id, case_sensitive: false }
+    uniqueness: { scope: :user_id, case_sensitive: false }
   validates :unit, length: { maximum: 24 }, allow_blank: true
   validates :category, length: { maximum: 40 }, allow_blank: true
 
@@ -15,6 +15,7 @@ class BiometricMetric < ApplicationRecord
 
   def previous_entry
     return @previous_entry if defined?(@previous_entry)
+
     @previous_entry = if biometric_entries.loaded?
       biometric_entries[1]
     else
@@ -24,6 +25,7 @@ class BiometricMetric < ApplicationRecord
 
   def delta
     return nil unless latest_entry && previous_entry
+
     latest_entry.value - previous_entry.value
   end
 

@@ -22,9 +22,11 @@ class HabitCompletionsController < ApplicationController
       format.turbo_stream do
         render turbo_stream: [
           turbo_stream.update("log_modal", ""),
-          turbo_stream.replace("habit_block_#{@habit.id}_#{@on_date.iso8601}",
+          turbo_stream.replace(
+            "habit_block_#{@habit.id}_#{@on_date.iso8601}",
             partial: "agenda/block",
-            locals: { entry: rebuild_entry(@habit, @on_date), on_date: @on_date, compact: params[:compact] != "false" })
+            locals: { entry: rebuild_entry(@habit, @on_date), on_date: @on_date, compact: params[:compact] != "false" }
+          )
         ]
       end
       format.html { redirect_to root_path }
@@ -64,6 +66,7 @@ class HabitCompletionsController < ApplicationController
   def parse_time_to_minute(value)
     return value if value.is_a?(Integer)
     return nil if value.blank?
+
     if value.to_s.match?(/\A\d{1,2}:\d{2}\z/)
       h, m = value.split(":").map(&:to_i)
       h * 60 + m
@@ -89,6 +92,7 @@ class HabitCompletionsController < ApplicationController
 
   def maybe_create_biometric_entry!(completion)
     return unless completion.value.present? && completion.value > 0
+
     canonical_name = BIOMETRIC_UNIT_MAP[@habit.unit.to_s.strip.downcase]
     return unless canonical_name
 

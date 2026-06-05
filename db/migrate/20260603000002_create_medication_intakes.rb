@@ -10,6 +10,6 @@ class CreateMedicationIntakes < ActiveRecord::Migration[8.0]
     end
 
     add_index :medication_intakes, [ :medication_id, :taken_on, :scheduled_minute ],
-              unique: true, name: "idx_med_intakes_unique"
+      unique: true, name: "idx_med_intakes_unique"
   end
 end

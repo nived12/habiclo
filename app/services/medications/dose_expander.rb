@@ -11,7 +11,10 @@ module Medications
       meds = @meds || @user.medications.includes(:medication_intakes)
       meds.flat_map do |med|
         (med.schedule_minutes || []).map do |minute|
-          completed = @intakes_set ? @intakes_set.include?([ med.id, @on_date, minute ]) : med.taken_on?(@on_date, minute)
+          completed = @intakes_set ? @intakes_set.include?(
+            [ med.id, @on_date,
+            minute ]
+          ) : med.taken_on?(@on_date, minute)
           Agenda::DayComposer::Entry.new(
             source: :medication_dose,
             id: "med_#{med.id}_#{minute}",

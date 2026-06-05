@@ -5,12 +5,20 @@ class AgendaController < ApplicationController
 
   def week
     @on_date = parse_date(:on) || today
-    @focused_day = parse_date(:focus) || @on_date.then { |d| d == @on_date.beginning_of_week(:monday) ? today : (today.between?(@on_date.beginning_of_week(:monday), @on_date.end_of_week(:monday)) ? today : @on_date) }
+    @focused_day = parse_date(:focus) || @on_date.then do |d|
+      d == @on_date.beginning_of_week(:monday) ? today : (today.between?(
+        @on_date.beginning_of_week(:monday),
+        @on_date.end_of_week(:monday)
+      ) ? today : @on_date)
+    end
     @week_start = @on_date.beginning_of_week(:monday)
     @days = (0..6).map { |i| @week_start + i }
     @pre = preload_range(current_or_guest_user, @week_start, @week_start + 6)
     @entries_by_day = @days.index_with { |d| Agenda::DayComposer.call(user: current_or_guest_user, on_date: d, **@pre) }
-    @focused_entries = @entries_by_day[@focused_day] || Agenda::DayComposer.call(user: current_or_guest_user, on_date: @focused_day, **@pre)
+    @focused_entries = @entries_by_day[@focused_day] || Agenda::DayComposer.call(
+      user: current_or_guest_user,
+      on_date: @focused_day, **@pre
+    )
     @today = today
   end
 

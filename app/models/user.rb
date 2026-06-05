@@ -2,8 +2,8 @@ class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::JTIMatcher
 
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,
-         :jwt_authenticatable, jwt_revocation_strategy: self
+    :recoverable, :rememberable, :validatable,
+    :jwt_authenticatable, jwt_revocation_strategy: self
 
   has_many :habits, dependent: :destroy
   has_many :habit_completions, through: :habits
@@ -22,8 +22,31 @@ class User < ApplicationRecord
   end
 
   def display_name
-    return "Invitado" if guest?
+    return I18n.t("nav.guest_name", default: "Guest") if guest?
+
     username.presence || email.split("@").first
+  end
+
+  def days_until_reset
+    return if data_resets_at.blank?
+
+    seconds = data_resets_at - Time.current
+    return 0 if seconds <= 0
+
+    (seconds / 1.day).ceil
+  end
+
+  def hours_until_reset
+    return if data_resets_at.blank?
+
+    seconds = data_resets_at - Time.current
+    return 0 if seconds <= 0
+
+    (seconds / 1.hour).ceil
+  end
+
+  def help_seen?
+    help_seen_at.present?
   end
 
   def health_module_enabled?(name)

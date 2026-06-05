@@ -1,0 +1,84 @@
+<% content_for :title, "Habiclo — #{t("templates.#{@key}.name")}" %>
+
+<section class="template-detail">
+  <header class="template-detail-header">
+    <p class="almanac-eyebrow"><%= t("templates.categories.#{@template[:category]}", default: @template[:category].to_s.titleize) %></p>
+    <h1 class="template-detail-title"><%= t("templates.#{@key}.name") %></h1>
+    <p class="template-detail-blurb"><%= t("templates.#{@key}.blurb") %></p>
+  </header>
+
+  <% if @template[:habits].any? %>
+    <section class="template-section">
+      <h2 class="almanac-eyebrow"><%= t("templates.section.habits") %></h2>
+      <ul class="template-item-list">
+        <% @template[:habits].each do |spec| %>
+          <li class="template-item">
+            <span class="template-item-dot" style="background: oklch(58% 0.16 <%= spec[:color_hue] || 25 %>);"></span>
+            <div>
+              <strong><%= t("templates.#{@key}.habits.#{spec[:i18n]}.name", default: t("templates.shared.habits.#{spec[:i18n]}.name", default: spec[:i18n].to_s.titleize)) %></strong>
+              <p class="template-item-meta mono">
+                <%= t("templates.frequency.#{spec[:frequency_type]}") %>
+                <% if spec[:scheduled_at_minute] %>
+                  · <%= format("%02d:%02d", spec[:scheduled_at_minute] / 60, spec[:scheduled_at_minute] % 60) %>
+                <% end %>
+                <% if spec[:target_value] && spec[:unit] %>
+                  · <%= spec[:target_value] %> <%= spec[:unit] %>
+                <% end %>
+              </p>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </section>
+  <% end %>
+
+  <% if @template[:medications].any? %>
+    <section class="template-section">
+      <h2 class="almanac-eyebrow"><%= t("templates.section.medications") %></h2>
+      <ul class="template-item-list">
+        <% @template[:medications].each do |spec| %>
+          <li class="template-item">
+            <span class="template-item-dot template-item-dot--med"></span>
+            <div>
+              <strong><%= t("templates.#{@key}.medications.#{spec[:i18n]}.name", default: spec[:i18n].to_s.titleize) %></strong>
+              <p class="template-item-meta mono">
+                <%= spec[:dose] %>
+                <% (spec[:schedule_minutes] || []).each do |m| %>
+                  · <%= format("%02d:%02d", m / 60, m % 60) %>
+                <% end %>
+              </p>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </section>
+  <% end %>
+
+  <% if @template[:biometric_metrics].any? %>
+    <section class="template-section">
+      <h2 class="almanac-eyebrow"><%= t("templates.section.metrics") %></h2>
+      <ul class="template-item-list">
+        <% @template[:biometric_metrics].each do |spec| %>
+          <li class="template-item">
+            <span class="template-item-dot template-item-dot--metric"></span>
+            <div>
+              <strong><%= t("templates.shared.metrics.#{spec[:i18n]}.name", default: spec[:i18n].to_s.titleize) %></strong>
+              <p class="template-item-meta mono">
+                <%= spec[:unit] %>
+                <% if spec[:category_i18n] %>· <%= t("templates.shared.categories.#{spec[:category_i18n]}", default: spec[:category_i18n].to_s.titleize) %><% end %>
+              </p>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </section>
+  <% end %>
+
+  <footer class="template-detail-footer">
+    <%= link_to t("templates.back"), templates_path, class: "almanac-button almanac-button--ghost text-xs" %>
+    <%= button_to t("templates.apply"),
+          template_applications_path(template_id: @key),
+          method: :post,
+          class: "almanac-button almanac-button--accent text-xs" %>
+  </footer>
+</section>

@@ -1,15 +1,22 @@
 import { Controller } from "@hotwired/stimulus"
 
 // Help / onboarding panel. Mounted on <body>; the panel lives at #help_panel.
-// - Auto-opens on first visit (cookie not set).
-// - Opens via the ? button or pressing "?".
-// - Dismiss sets cookie habitower_help_seen=1 (1 year).
+// Persistence:
+//   - For logged-in users: server-side via POST /help_acknowledgment (sets user.help_seen_at).
+//     The server-rendered data-seen-value reflects user.help_seen_at presence.
+//   - For guests / anonymous: localStorage key `habiclo:help_seen`.
+//   - ? or Shift+/ always reopens (independent of flag).
+const STORAGE_KEY = "habiclo:help_seen"
+
 export default class extends Controller {
-  static values = { seen: Boolean }
+  static values = {
+    seen: Boolean,
+    ackUrl: String
+  }
 
   connect() {
     this.panel = document.getElementById("help_panel")
-    if (this.panel && !this.seenValue) this.show()
+    if (this.panel && !this.hasBeenSeen()) this.show()
     this.boundKey = this.handleKey.bind(this)
     document.addEventListener("keydown", this.boundKey)
   }
@@ -26,17 +33,39 @@ export default class extends Controller {
     }
   }
 
-  open()    { this.show() }
-  show()    {
+  open() { this.show() }
+
+  show() {
     if (!this.panel) return
     this.panel.classList.add("is-open")
     document.body.style.overflow = "hidden"
   }
+
   dismiss() {
     if (!this.panel) return
     this.panel.classList.remove("is-open")
     document.body.style.overflow = ""
-    document.cookie = "habitower_help_seen=1; max-age=31536000; path=/; samesite=lax"
+    this.markSeen()
+  }
+
+  hasBeenSeen() {
+    if (this.seenValue) return true
+    try { return localStorage.getItem(STORAGE_KEY) === "1" } catch (_) { return false }
+  }
+
+  markSeen() {
+    try { localStorage.setItem(STORAGE_KEY, "1") } catch (_) {}
+    if (this.hasAckUrlValue && this.ackUrlValue) {
+      const csrf = document.querySelector('meta[name="csrf-token"]')?.content
+      fetch(this.ackUrlValue, {
+        method: "POST",
+        headers: {
+          "X-CSRF-Token": csrf || "",
+          "Accept": "application/json"
+        },
+        credentials: "same-origin"
+      }).catch(() => {})
+    }
   }
 
   isEditing(el) {

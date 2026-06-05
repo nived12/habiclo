@@ -1,0 +1,21 @@
+<% content_for :title, "Habiclo — #{t('templates.index_title')}" %>
+
+<section class="templates-page">
+  <header class="templates-header">
+    <p class="almanac-eyebrow"><%= t("templates.eyebrow") %></p>
+    <h1 class="templates-title"><%= t("templates.index_title") %></h1>
+    <p class="templates-sub"><%= t("templates.index_sub") %></p>
+  </header>
+
+  <% if current_or_guest_user&.guest? %>
+    <p class="templates-guest-note mono">
+      <em><%= t("templates.guest_note") %></em>
+    </p>
+  <% end %>
+
+  <div class="templates-grid">
+    <% @templates.each do |key, template| %>
+      <%= render "templates/card", key: key, template: template %>
+    <% end %>
+  </div>
+</section>

@@ -21,11 +21,14 @@ class SettingsController < ApplicationController
   private
 
   def settings_params
-    raw = params.require(:user).permit(:brand_hue, :time_zone, :locale,
-                                       health_modules: {}, tabs_visibility: {})
+    raw = params.require(:user).permit(
+      :brand_hue, :time_zone, :locale,
+      health_modules: {}, tabs_visibility: {}
+    )
     bool_caster = ActiveModel::Type::Boolean.new
     %i[health_modules tabs_visibility].each do |key|
       next unless raw[key].is_a?(ActionController::Parameters)
+
       raw[key] = raw[key].transform_values { |v| bool_caster.cast(v) }
     end
     raw

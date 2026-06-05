@@ -14,9 +14,10 @@ module Users
         password_confirmation: password,
         guest: true,
         time_zone: @time_zone,
-        locale: @locale
+        locale: @locale,
+        data_resets_at: Users::GuestResetter::TTL.from_now
       )
-      Safety::Seeder.call(user) if defined?(Safety::Seeder)
+      Templates::Applier.new(user, "welcome").call
       user
     end
   end

@@ -2,6 +2,7 @@ module AgendaHelper
   def completion_ratio_for(entries)
     habit_entries = entries.select { |e| e.source == :habit }
     return nil if habit_entries.empty?
+
     completed = habit_entries.count(&:completed)
     { completed: completed, total: habit_entries.size, pct: (completed.to_f / habit_entries.size * 100).round }
   end

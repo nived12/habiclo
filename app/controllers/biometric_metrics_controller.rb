@@ -18,9 +18,11 @@ class BiometricMetricsController < ApplicationController
         format.turbo_stream do
           @biometric_metrics = current_or_guest_user.biometric_metrics.includes(:biometric_entries).ordered
           render turbo_stream: [
-            turbo_stream.update("health_tab",
+            turbo_stream.update(
+              "health_tab",
               partial: "health/biometria",
-              locals: { metrics: @biometric_metrics, metric: current_or_guest_user.biometric_metrics.new }),
+              locals: { metrics: @biometric_metrics, metric: current_or_guest_user.biometric_metrics.new }
+            ),
             turbo_stream.update("health_modal", "")
           ]
         end
@@ -29,9 +31,11 @@ class BiometricMetricsController < ApplicationController
     else
       respond_to do |format|
         format.turbo_stream do
-          render turbo_stream: turbo_stream.update("health_modal",
+          render turbo_stream: turbo_stream.update(
+            "health_modal",
             partial: "biometric_metrics/form",
-            locals: { metric: @metric })
+            locals: { metric: @metric }
+          )
         end
         format.html { redirect_to health_path(tab: "biometria"), alert: @metric.errors.full_messages.to_sentence }
       end

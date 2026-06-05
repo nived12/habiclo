@@ -23,7 +23,9 @@
     <style>:root { --brand-hue: <%= (current_or_guest_user&.brand_hue || 25) %>; }</style>
   </head>
 
-  <body data-controller="keyboard-nav brand-hue help" data-help-seen-value="<%= cookies[:habiclo_help_seen] == '1' %>">
+  <body data-controller="keyboard-nav brand-hue help"
+        data-help-seen-value="<%= (user_signed_in? && current_user.help_seen?).to_s %>"
+        data-help-ack-url-value="<%= user_signed_in? ? help_acknowledgment_path : '' %>">
     <%= render "shared/topbar" %>
     <%= render "shared/guest_banner" if current_or_guest_user&.guest? %>
 

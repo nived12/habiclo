@@ -18,5 +18,26 @@
         "Los hábitos con hora aparecen como bloques posicionados. Deja la hora vacía para que sean chips de \"en cualquier momento\"." :
         "Time-bound habits appear as positioned blocks on the calendar. Leave the time empty for floating \"anytime today\" chips." %></em>
     </div>
+
+    <div class="habits-new-templates-aside mt-6">
+      <p class="almanac-eyebrow"><%= t("templates.eyebrow") %></p>
+      <p class="mt-2 text-sm" style="color: var(--color-ink-soft);">
+        <%= I18n.locale == :es ? "¿No sabes por dónde empezar? Aplica un set listo." : "Not sure where to start? Apply a curated set." %>
+      </p>
+      <ul class="habits-new-templates-list">
+        <% Templates::Catalog.public_templates.first(3).each do |key, template| %>
+          <%= link_to template_path(key) do %>
+            <li class="contents">
+              <span><%= t("templates.#{key}.name") %></span>
+              <span class="mono text-xs" style="color: var(--color-ink-muted);">
+                <%= t("templates.counts.habits", count: template[:habits].size) %>
+              </span>
+            </li>
+          <% end %>
+        <% end %>
+      </ul>
+      <%= link_to t("templates.see_template") + " →", templates_path,
+            class: "block mt-3 text-xs mono", style: "color: var(--color-accent);" %>
+    </div>
   </aside>
 </div>

@@ -13,12 +13,28 @@ class ApplicationController < ActionController::Base
 
   def set_locale
     user = user_signed_in? ? current_user : load_guest_for_locale
-    I18n.locale = user&.locale&.to_sym || params[:locale]&.to_sym || I18n.default_locale
+    I18n.locale = user&.locale&.to_sym || params[:locale]&.to_sym || locale_from_browser || I18n.default_locale
   end
 
   def load_guest_for_locale
     return nil unless cookies.encrypted[GuestPipeline::GUEST_COOKIE].present?
+
     User.where(guest: true).find_by(id: cookies.encrypted[GuestPipeline::GUEST_COOKIE])
+  end
+
+  def locale_from_browser
+    header = request.env["HTTP_ACCEPT_LANGUAGE"]
+    return if header.blank?
+
+    available = I18n.available_locales.map(&:to_s)
+    parsed = header.split(",").map do |part|
+      tag, q = part.strip.split(";q=")
+      [ tag.to_s.downcase.split("-").first, (q || "1").to_f ]
+    end
+    parsed.sort_by { |_, q| -q }.each do |tag, _|
+      return tag.to_sym if available.include?(tag)
+    end
+    nil
   end
 
   def use_time_zone

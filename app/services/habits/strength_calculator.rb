@@ -15,6 +15,7 @@ module Habits
     def call
       # Skip cache when caller provided preloaded data — avoids stale reads after toggle.
       return compute if @preloaded_completions
+
       Rails.cache.fetch(cache_key, expires_in: 5.minutes) { compute }
     end
 

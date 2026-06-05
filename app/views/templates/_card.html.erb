@@ -1,0 +1,18 @@
+<%# Renders a template summary card. Locals: key, template %>
+<% habits_count = template[:habits].size %>
+<% meds_count   = template[:medications].size %>
+<% metrics_count = template[:biometric_metrics].size %>
+
+<%= link_to template_path(key), class: "template-card" do %>
+  <p class="almanac-eyebrow"><%= t("templates.categories.#{template[:category]}", default: template[:category].to_s.titleize) %></p>
+  <h3 class="template-card-title"><%= t("templates.#{key}.name") %></h3>
+  <p class="template-card-blurb"><%= t("templates.#{key}.blurb") %></p>
+
+  <ul class="template-card-counts mono">
+    <li><%= t("templates.counts.habits", count: habits_count) %></li>
+    <% if meds_count.positive? %><li><%= t("templates.counts.medications", count: meds_count) %></li><% end %>
+    <% if metrics_count.positive? %><li><%= t("templates.counts.metrics", count: metrics_count) %></li><% end %>
+  </ul>
+
+  <span class="template-card-cta mono"><%= t("templates.see_template") %> →</span>
+<% end %>

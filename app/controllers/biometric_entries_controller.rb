@@ -17,9 +17,11 @@ class BiometricEntriesController < ApplicationController
         format.turbo_stream do
           metrics = current_or_guest_user.biometric_metrics.includes(:biometric_entries).ordered
           render turbo_stream: [
-            turbo_stream.update("health_tab",
+            turbo_stream.update(
+              "health_tab",
               partial: "health/biometria",
-              locals: { metrics: metrics, metric: current_or_guest_user.biometric_metrics.new }),
+              locals: { metrics: metrics, metric: current_or_guest_user.biometric_metrics.new }
+            ),
             turbo_stream.update("health_modal", "")
           ]
         end
@@ -28,9 +30,11 @@ class BiometricEntriesController < ApplicationController
     else
       respond_to do |format|
         format.turbo_stream do
-          render turbo_stream: turbo_stream.update("health_modal",
+          render turbo_stream: turbo_stream.update(
+            "health_modal",
             partial: "biometric_entries/form",
-            locals: { metric: @metric, entry: @entry })
+            locals: { metric: @metric, entry: @entry }
+          )
         end
         format.html { redirect_to health_path(tab: "biometria") }
       end
@@ -45,9 +49,11 @@ class BiometricEntriesController < ApplicationController
         format.turbo_stream do
           metrics = current_or_guest_user.biometric_metrics.includes(:biometric_entries).ordered
           render turbo_stream: [
-            turbo_stream.update("health_tab",
+            turbo_stream.update(
+              "health_tab",
               partial: "health/biometria",
-              locals: { metrics: metrics, metric: current_or_guest_user.biometric_metrics.new }),
+              locals: { metrics: metrics, metric: current_or_guest_user.biometric_metrics.new }
+            ),
             turbo_stream.update("health_modal", "")
           ]
         end
@@ -64,9 +70,11 @@ class BiometricEntriesController < ApplicationController
       format.json { head :no_content }
       format.turbo_stream do
         metrics = current_or_guest_user.biometric_metrics.includes(:biometric_entries).ordered
-        render turbo_stream: turbo_stream.update("health_tab",
+        render turbo_stream: turbo_stream.update(
+          "health_tab",
           partial: "health/biometria",
-          locals: { metrics: metrics, metric: current_or_guest_user.biometric_metrics.new })
+          locals: { metrics: metrics, metric: current_or_guest_user.biometric_metrics.new }
+        )
       end
       format.html { redirect_to health_path(tab: "biometria") }
     end

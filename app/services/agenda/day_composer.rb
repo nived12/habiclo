@@ -38,6 +38,7 @@ module Agenda
       habits = @habits || @user.habits.ordered.includes(:habit_completions)
       habits.filter_map do |habit|
         next unless habit.scheduled_for?(@on_date)
+
         completed = @completions_map ? (@completions_map[habit.id]&.include?(@on_date) || false) : habit.completed_on?(@on_date)
         Entry.new(
           source: :habit,

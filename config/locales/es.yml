@@ -13,6 +13,7 @@ es:
     sign_out: Cerrar sesión
     new_habit: Hábito
     health: Salud
+    guest_name: Invitado
     guest_banner: Estás como invitado. Tus entradas se guardan en este dispositivo.
   agenda:
     title: Agenda
@@ -100,18 +101,23 @@ es:
     strength_tooltip: "Fuerza del hábito: %{pct}%. Consistencia continua, no una racha."
   help:
     title: Cómo usar Habiclo.
-    sub: Tres lecciones. Listo.
+    sub: Tu sistema personal de salud y hábitos.
     eyebrow: Habiclo
-    lesson_1_title: Toca un bloque para marcarlo completo.
-    lesson_1_body: Aparece un trazo de tinta. Toca de nuevo para retirarlo — nada es irreversible.
-    lesson_2_title: Usa el %{plus} para registrar un valor o una nota.
-    lesson_2_body: "¿Pesándote? Toca el %{plus} de un bloque, escribe %{example}, añade una nota. La lectura también va a tus Vitales."
-    lesson_2_example: 87.0 kg
-    lesson_3_title: El porcentaje es consistencia continua.
-    lesson_3_body: "No es una racha. Crece cuando te presentas y decae con suavidad cuando faltas."
-    lesson_3_bold: Perder un día no la regresa a cero.
+    lesson_1_title: Tu día empieza en el anillo.
+    lesson_1_body: "El home muestra tus hábitos diarios. Toca un bloque para marcarlo completo. Toca de nuevo para retirarlo — nada es irreversible."
+    lesson_2_title: Día, semana o mes — tú decides.
+    lesson_2_body: "Cambia la vista desde el topbar. Los bloques muestran cuándo, cuánto, y qué falta."
+    lesson_3_title: Salud, completo.
+    lesson_3_body: "En \"Salud\" llevas medicamentos, panel de labs y métricas biométricas (peso, sueño, HRV, lo que sea). Todo en una sola hoja."
+    lesson_4_title: Registra un valor con %{plus}.
+    lesson_4_body: "¿Pesándote? Toca el %{plus} de un bloque, escribe %{example}, añade una nota. La lectura va a tus Vitales."
+    lesson_4_example: 87.0 kg
+    lesson_5_title: Empieza con una plantilla.
+    lesson_5_body: "Si quieres un set listo (Salud básica, Fuerza, Crecimiento personal…), explora plantillas desde aquí."
+    lesson_5_bold: Construye quién quieres ser, un hábito a la vez.
     recall: "Pulsa %{key} en cualquier momento para volver a leerlo."
     begin: Comenzar →
+    explore_templates: Explorar plantillas →
   settings:
     title: Ajustes
     saved: Guardado.
@@ -145,6 +151,10 @@ es:
     weekly_habits: HÁBITOS SEMANALES
     monthly_habits: HÁBITOS MENSUALES
     ring_aria: Anillo de hábitos del mes
+    empty_title: Tu agenda está vacía.
+    empty_body: Empieza con una plantilla curada o crea tu primer hábito.
+    empty_cta_templates: Explorar plantillas →
+    empty_cta_new: Crear un hábito
   health:
     title: Salud
     tabs:
@@ -301,3 +311,218 @@ es:
     sign_in_submit: Iniciar sesión
     sign_up_submit: Crear cuenta
     password_min: "%{n}+ caracteres"
+  templates:
+    eyebrow: Plantillas
+    index_title: Empieza con una plantilla.
+    index_sub: Sets curados de hábitos, medicamentos y métricas. Aplícalos cuando quieras — los duplicados se omiten.
+    guest_note: Como invitado, tus datos se reinician cada 7 días.
+    see_template: Ver plantilla
+    back: ← Volver
+    apply: Aplicar plantilla →
+    applied_simple: "Plantilla aplicada — %{count} ítems añadidos."
+    applied_detailed: "Plantilla aplicada — %{added} añadidos, %{skipped} ya existían."
+    reset_done: Datos reiniciados al estado de bienvenida.
+    reset_only_guest: Solo los invitados pueden reiniciar al estado de bienvenida.
+    not_found: Esa plantilla no existe.
+    categories:
+      health: Salud
+      movement: Movimiento
+      mind: Mente
+      medical: Médico
+      demo: Demo
+    counts:
+      habits:
+        one: "%{count} hábito"
+        other: "%{count} hábitos"
+      medications:
+        one: "%{count} medicamento"
+        other: "%{count} medicamentos"
+      metrics:
+        one: "%{count} biométrico"
+        other: "%{count} biométricos"
+    section:
+      habits: Hábitos
+      medications: Medicamentos
+      metrics: Biométricos
+    frequency:
+      daily: Diario
+      weekly_days: Días específicos
+      x_per_week: Varias veces por semana
+      monthly: Mensual
+      once: Una vez
+    wellness_basics:
+      name: Salud básica
+      blurb: Cuatro hábitos diarios para una base sólida.
+    strength:
+      name: Fuerza
+      blurb: Entrenamiento de pesas con proteína y descanso programado.
+    personal_growth:
+      name: Crecimiento personal
+      blurb: Lectura, escritura, meditación y trabajo profundo.
+    sleep_recovery:
+      name: Sueño y recuperación
+      blurb: Higiene de sueño con métricas de recuperación.
+    nutrition:
+      name: Nutrición
+      blurb: Comer mejor, sin contar calorías obsesivamente.
+    med_adherence:
+      name: Adherencia médica
+      blurb: Recordatorios de medicamentos y registro de presión.
+    welcome:
+      name: Bienvenida
+      blurb: Una vista de ejemplo para invitados.
+      habits:
+        hydration:
+          name: Hidratación
+          description: 2 L de agua al día.
+        walk:
+          name: Caminar 30 min
+          description: Caminata diaria al aire libre.
+        read:
+          name: Leer 20 min
+          description: Antes de dormir.
+        weigh_in:
+          name: Pesarse
+          description: Mismo horario cada mañana.
+        stretch:
+          name: Estirarse
+          description: Movilidad básica.
+      medications:
+        vitamin_d:
+          name: Vitamina D
+          notes: Con el desayuno.
+    shared:
+      habits:
+        hydration:
+          name: Hidratación
+          description: 2 L de agua al día.
+        walk:
+          name: Caminar 30 min
+          description: Movimiento diario.
+        read:
+          name: Leer
+          description: Hábito de lectura.
+        weigh_in:
+          name: Pesarse
+          description: Mismo horario cada mañana.
+        stretch:
+          name: Estirarse
+          description: Movilidad básica.
+        sleep_7h:
+          name: Dormir 7 horas
+          description: Apunta a 7 h en cama.
+        breakfast:
+          name: Desayunar
+          description: Sin saltarse comidas.
+        lift:
+          name: Pesas
+          description: Sesión de fuerza.
+        protein:
+          name: Proteína diaria
+          description: Cuota mínima diaria.
+        creatine:
+          name: Creatina
+          description: 5 g al día.
+        mobility:
+          name: Movilidad
+          description: Sesión corta.
+        rest_day:
+          name: Día de descanso
+          description: Sin entrenamiento.
+        journal:
+          name: Journaling
+          description: Tres líneas al día.
+        meditate:
+          name: Meditar
+          description: 10 min al despertar.
+        deep_work:
+          name: Trabajo profundo
+          description: Bloque sin interrupciones.
+        no_phone:
+          name: Sin teléfono en la cama
+          description: Hora de apagado.
+        bedtime:
+          name: Hora de dormir
+          description: Misma hora cada noche.
+        no_screens:
+          name: Sin pantallas
+          description: 1 h antes de dormir.
+        magnesium:
+          name: Magnesio
+          description: Apoyo para el sueño.
+        morning_light:
+          name: Luz de la mañana
+          description: 10 min de sol al amanecer.
+        vegetables:
+          name: Verduras
+          description: 3 porciones al día.
+        no_sugar:
+          name: Sin azúcar añadida
+          description: Un día sin endulzantes.
+        log_meals:
+          name: Registrar comidas
+          description: Apunta lo que comes.
+        check_bp:
+          name: Tomar presión
+          description: Una lectura al día.
+      medications:
+        vitamin_d:
+          name: Vitamina D
+          dose: 1 cápsula
+          notes: Con el desayuno.
+        morning_meds:
+          name: Medicamento mañana
+          dose: 1 tableta
+          notes: Con el desayuno.
+        evening_meds:
+          name: Medicamento noche
+          dose: 1 tableta
+          notes: Con la cena.
+      units:
+        servings: porciones
+        capsules: cápsulas
+        tablets: tabletas
+      metrics:
+        weight:
+          name: Peso
+        sleep:
+          name: Sueño
+        hrv:
+          name: HRV
+        body_fat:
+          name: "% Grasa corporal"
+        blood_pressure:
+          name: Presión arterial
+      categories:
+        body: Cuerpo
+        recovery: Recuperación
+        vitals: Vitales
+  guest_banner:
+    example: "Vista de ejemplo · Tus datos se reinician en %{count} días."
+    example_one: "Vista de ejemplo · Tus datos se reinician en %{count} día."
+    example_hours: "Vista de ejemplo · Tus datos se reinician en %{count} horas."
+    example_today: "Vista de ejemplo · Hoy se reinician tus datos."
+    save_progress: Crear cuenta y conservar mis datos →
+    change_template: Cambiar plantilla →
+    reset_now: Reiniciar ahora
+    confirm_reset: "¿Reiniciar al estado de bienvenida? Tus datos actuales se borrarán."
+  registrations:
+    import_eyebrow: Importaremos
+    import_intro: "Al crear cuenta, esto pasa a tu nuevo perfil:"
+    import_habits:
+      one: "%{count} hábito"
+      other: "%{count} hábitos"
+    import_completions:
+      one: "%{count} registro de hábito"
+      other: "%{count} registros de hábitos"
+    import_medications:
+      one: "%{count} medicamento"
+      other: "%{count} medicamentos"
+    import_metrics:
+      one: "%{count} biométrico"
+      other: "%{count} biométricos"
+    import_metric_entries:
+      one: "%{count} lectura"
+      other: "%{count} lecturas"
+    import_locale: Tu idioma y zona horaria
+    imported_flash: "Cuenta creada. Importamos %{summary}."
