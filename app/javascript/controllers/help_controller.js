@@ -33,6 +33,15 @@ export default class extends Controller {
 
   open() { this.show() }
 
+  dismissAndNavigate(event) {
+    event.preventDefault()
+    this.markSeen()
+    this.panel?.classList.remove("is-open")
+    document.body.style.overflow = ""
+    const url = event.currentTarget.dataset.url
+    if (url) window.location.href = url
+  }
+
   show() {
     if (!this.panel) return
     this.panel.classList.add("is-open")
