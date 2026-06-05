@@ -46,8 +46,8 @@ export default class extends Controller {
   _applyFill(done) {
     if (done) {
       const hue = window.getComputedStyle(this.element).getPropertyValue("--habit-hue").trim() || "85"
-      this.element.style.fill = `oklch(56% 0.18 ${hue})`
-      this.element.style.stroke = `oklch(46% 0.20 ${hue})`
+      this.element.style.fill = `oklch(72% 0.09 ${hue})`
+      this.element.style.stroke = `oklch(60% 0.08 ${hue})`
       this.element.style.strokeWidth = "0.8"
     } else {
       this.element.style.fill = ""

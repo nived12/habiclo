@@ -12,6 +12,7 @@
             url: biometric_metric_biometric_entries_path(metric),
             method: :post,
             class: "space-y-4") do |f| %>
+        <%= hidden_field_tag :return_to, local_assigns[:return_to] if local_assigns[:return_to].present? %>
         <% if entry.errors.any? %>
           <div class="marginalia">
             <span class="note-label"><%= t("marginalia.error") %></span>

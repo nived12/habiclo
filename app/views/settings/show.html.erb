@@ -9,24 +9,23 @@
 
 <div class="mt-6 grid lg:grid-cols-12 gap-8">
   <%= form_with(model: @user, url: settings_path, method: :patch, class: "lg:col-span-8 space-y-8") do |f| %>
-    <div data-controller="brand-hue" data-brand-hue-url-value="<%= settings_path %>" class="space-y-2">
-      <label class="field-label"><%= t("settings.brand_hue") %> <span class="mono" data-brand-hue-target="swatch"><%= @user.brand_hue %></span></label>
-      <input type="range" name="user[brand_hue]" min="0" max="360" step="1"
-             value="<%= @user.brand_hue %>"
-             data-brand-hue-target="slider"
-             data-action="input->brand-hue#preview change->brand-hue#commit"
-             class="w-full" />
-      <div class="flex gap-1 mt-2">
-        <% [0, 25, 60, 120, 180, 220, 280, 320].each do |h| %>
-          <span class="w-6 h-6 rounded-sm" style="background: oklch(58% 0.16 <%= h %>);"></span>
-        <% end %>
-      </div>
+    <div data-controller="brand-hue" data-brand-hue-url-value="<%= settings_path %>">
+      <%= render "shared/color_swatch_picker",
+            name: "user[brand_hue]",
+            value: @user.brand_hue,
+            label: t("settings.accent_color") %>
+      <p class="field-hint mt-2"><%= t("settings.accent_color_hint") %></p>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-6">
+    <div class="grid md:grid-cols-2 gap-6"
+         data-controller="tz-detect">
       <div>
         <label class="field-label"><%= t("settings.time_zone") %></label>
-        <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones + ActiveSupport::TimeZone.all, {}, class: "field-input" %>
+        <%= f.time_zone_select :time_zone,
+              ActiveSupport::TimeZone.all,
+              { default: @user.time_zone.presence || @detected_time_zone },
+              class: "field-input" %>
+        <p class="field-hint mt-1"><%= t("settings.time_zone_hint") %></p>
       </div>
       <div>
         <label class="field-label"><%= t("settings.locale") %></label>
@@ -35,12 +34,17 @@
     </div>
 
     <div>
-      <label class="field-label"><%= t("settings.health_modules") %></label>
-      <div class="grid grid-cols-2 md:grid-cols-3 gap-2 mt-2">
-        <% User::HEALTH_MODULES.each do |mod| %>
-          <label class="flex items-center gap-2 text-sm">
-            <%= check_box_tag "user[health_modules][#{mod}]", "true", @user.health_module_enabled?(mod) %>
-            <%= t("settings.modules.#{mod}") %>
+      <label class="field-label"><%= t("settings.optional_sections") %></label>
+      <p class="field-hint mb-3"><%= t("settings.optional_sections_hint") %></p>
+      <div class="space-y-2">
+        <% { "medicamentos" => "medications", "labs" => "labs", "biometria" => "biometrics" }.each do |tab_key, i18n_key| %>
+          <label class="config-tab-row" style="cursor: pointer;">
+            <%= hidden_field_tag "user[tabs_visibility][#{tab_key}]", "false", id: nil %>
+            <%= check_box_tag "user[tabs_visibility][#{tab_key}]", "true", @user.tab_visible?(tab_key), class: "mt-1" %>
+            <div class="config-tab-info">
+              <div class="config-tab-name"><%= t("settings.sections.#{i18n_key}") %></div>
+              <div class="config-tab-desc"><%= t("settings.sections.#{i18n_key}_desc") %></div>
+            </div>
           </label>
         <% end %>
       </div>

@@ -1,4 +1,5 @@
 <%= form_with(model: habit, class: "inline-form space-y-5", local: true) do |f| %>
+  <%= hidden_field_tag :return_to, @return_to if @return_to.present? %>
   <% if habit.errors.any? %>
     <div class="marginalia"><span class="note-label"><%= t("marginalia.error") %></span><%= habit.errors.full_messages.to_sentence %></div>
   <% end %>
@@ -33,7 +34,7 @@
 
   <%= render "habits/frequency_section", f: f, habit: habit %>
 
-  <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+  <div class="grid grid-cols-2 gap-4">
     <div>
       <%= f.label :target_value, t("habits.form.target"), class: "field-label" %>
       <%= f.number_field :target_value, step: 0.5, class: "field-input mono" %>
@@ -42,20 +43,15 @@
       <%= f.label :unit, t("habits.form.unit"), class: "field-label" %>
       <%= f.text_field :unit, class: "field-input" %>
     </div>
-    <div>
-      <%= f.label :color_hue, t("habits.form.color"), class: "field-label" %>
-      <div class="flex items-center gap-3 color-hue-group">
-        <span class="hue-swatch w-6 h-6 rounded-full flex-shrink-0 border border-[var(--color-hairline)]"
-              style="background: oklch(58% 0.16 <%= habit.color_hue %>);"></span>
-        <%= f.range_field :color_hue, min: 0, max: 360, step: 1, class: "flex-1",
-              oninput: "var g=this.closest('.color-hue-group');g.querySelector('.hue-swatch').style.background=`oklch(58% 0.16 ${this.value})`;g.querySelector('.hue-label').textContent=this.value" %>
-        <span class="hue-label mono text-xs text-[var(--color-ink-muted)] w-10 text-right"><%= habit.color_hue %></span>
-      </div>
-    </div>
   </div>
 
+  <%= render "shared/color_swatch_picker",
+        name: "habit[color_hue]",
+        value: habit.color_hue,
+        label: t("habits.form.color") %>
+
   <div class="flex items-center justify-end gap-3 pt-3">
-    <%= link_to t("habits.form.cancel"), root_path, class: "almanac-button almanac-button--ghost text-xs" %>
+    <%= link_to t("habits.form.cancel"), (@return_to.presence || root_path), class: "almanac-button almanac-button--ghost text-xs" %>
     <%= f.submit t("habits.form.save"), class: "almanac-button text-xs" %>
   </div>
 <% end %>

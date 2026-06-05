@@ -22,13 +22,21 @@ class MedicationIntakesController < ApplicationController
 
     respond_to do |format|
       format.turbo_stream do
-        render turbo_stream: turbo_stream.replace(
-          "habit_block_med_#{@medication.id}_#{minute}_#{on_date.iso8601}",
-          partial: "agenda/block",
-          locals: { entry: entry, on_date: on_date, compact: compact }
-        )
+        if params[:home].present?
+          render turbo_stream: turbo_stream.replace(
+            "habit_block_med_#{@medication.id}_#{minute}_#{on_date.iso8601}",
+            partial: "home/med_item",
+            locals: { med: @medication, minute: minute, on_date: on_date, taken: taken }
+          )
+        else
+          render turbo_stream: turbo_stream.replace(
+            "habit_block_med_#{@medication.id}_#{minute}_#{on_date.iso8601}",
+            partial: "agenda/block",
+            locals: { entry: entry, on_date: on_date, compact: compact }
+          )
+        end
       end
-      format.html { redirect_to root_path }
+      format.html { redirect_back fallback_location: root_path }
     end
   end
 

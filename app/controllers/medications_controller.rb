@@ -1,4 +1,6 @@
 class MedicationsController < ApplicationController
+  include HealthPageSetup
+
   before_action :set_med, only: [ :edit, :update, :destroy ]
 
   def index
@@ -6,8 +8,8 @@ class MedicationsController < ApplicationController
   end
 
   def new
-    @medication = current_or_guest_user.medications.new
-    render "health/show", locals: { tab: "medicamentos" }
+    setup_health_page(tab: "medicamentos")
+    render "health/show"
   end
 
   def create
@@ -15,16 +17,12 @@ class MedicationsController < ApplicationController
     if @medication.save
       redirect_to health_path(tab: "medicamentos")
     else
-      @tab = "medicamentos"
-      @medications = current_or_guest_user.medications.order(:name)
       redirect_to health_path(tab: "medicamentos"), alert: @medication.errors.full_messages.to_sentence
     end
   end
 
   def edit
-    @medication = @med
-    @tab = "medicamentos"
-    @medications = current_or_guest_user.medications.order(:name)
+    setup_health_page(tab: "medicamentos", medication: @med)
     render "health/show"
   end
 

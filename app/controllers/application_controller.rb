@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include GuestPipeline
+  include ReturnTo
   include Pundit::Authorization
 
   allow_browser versions: :modern
@@ -39,7 +40,14 @@ class ApplicationController < ActionController::Base
 
   def use_time_zone
     user = current_or_guest_user
-    Time.use_zone(user&.time_zone || "America/Mexico_City") { yield }
+    Time.use_zone(user&.time_zone.presence || tz_from_cookie || "UTC") { yield }
+  end
+
+  def tz_from_cookie
+    iana = cookies[:tz_iana].to_s
+    return if iana.blank?
+
+    ActiveSupport::TimeZone.all.find { |z| z.tzinfo.name == iana }&.name
   end
 
   def forbidden

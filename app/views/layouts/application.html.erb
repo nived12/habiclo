@@ -23,11 +23,17 @@
     <style>:root { --brand-hue: <%= (current_or_guest_user&.brand_hue || 25) %>; }</style>
   </head>
 
-  <body data-controller="keyboard-nav brand-hue help"
+  <body data-controller="keyboard-nav brand-hue help tz-detect"
         data-help-seen-value="<%= current_or_guest_user&.help_seen?.to_s %>"
         data-help-ack-url-value="<%= help_acknowledgment_path %>">
     <%= render "shared/topbar" %>
     <%= render "shared/guest_banner" if current_or_guest_user&.guest? %>
+    <% if flash[:notice].present? %>
+      <div class="flash-notice" data-controller="flash" data-action="click->flash#dismiss animationend->flash#dismiss"><%= flash[:notice] %></div>
+    <% end %>
+    <% if flash[:alert].present? %>
+      <div class="flash-alert" data-controller="flash" data-action="click->flash#dismiss"><%= flash[:alert] %></div>
+    <% end %>
 
     <main class="almanac-page">
       <%= yield %>

@@ -51,5 +51,30 @@ class HomeController < ApplicationController
       @week_starts << d
       d += 7
     end
+
+    load_today_vitals
+    load_today_medications
+  end
+
+  private
+
+  def load_today_vitals
+    return unless @user.tab_visible?("biometria")
+
+    @today_vitals = @user.biometric_entries
+      .includes(:biometric_metric)
+      .where(recorded_on: @today)
+      .order(biometric_metric_id: :asc)
+  end
+
+  def load_today_medications
+    return unless @user.tab_visible?("medicamentos")
+
+    @today_medications = @user.medications.order(:id).to_a
+    return if @today_medications.empty?
+
+    @today_intakes_set = MedicationIntake
+      .where(medication_id: @today_medications.map(&:id), taken_on: @today)
+      .each_with_object(Set.new) { |i, s| s.add([ i.medication_id, i.scheduled_minute ]) }
   end
 end

@@ -1,0 +1,16 @@
+<section class="home-lower-section">
+  <div class="flex items-center justify-between mb-3">
+    <p class="almanac-eyebrow mb-0"><%= t("home.todays_medications") %></p>
+    <%= link_to t("home.manage"), health_path(tab: "medicamentos"),
+          class: "mono text-xs text-[var(--color-ink-muted)] hover:text-[var(--color-ink)]" %>
+  </div>
+  <ul class="space-y-2">
+    <% medications.each do |med| %>
+      <% med.schedule_minutes.to_a.each do |minute| %>
+        <%= render "home/med_item",
+              med: med, minute: minute, on_date: today,
+              taken: intakes_set.include?([med.id, minute]) %>
+      <% end %>
+    <% end %>
+  </ul>
+</section>

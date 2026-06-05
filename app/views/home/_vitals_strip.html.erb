@@ -1,0 +1,22 @@
+<section>
+  <div class="flex items-center justify-between mb-2">
+    <p class="almanac-eyebrow mb-0"><%= t("home.todays_vitals") %></p>
+    <%= link_to t("agenda.log_reading"), picker_biometric_entries_path,
+          class: "mono text-xs text-[var(--color-accent)] hover:underline",
+          data: { turbo_frame: "health_modal" } %>
+  </div>
+  <% if vitals.any? %>
+    <div class="home-vitals-strip">
+      <% vitals.each do |b| %>
+        <div class="vitals-strip-card">
+          <div class="vitals-strip-card-name"><%= b.biometric_metric.name %></div>
+          <div class="vitals-strip-card-value">
+            <%= b.value.to_s("F").sub(/\.?0+$/, "") %><% if b.biometric_metric.unit.present? %><span class="opacity-50 text-base ml-1 mono"><%= b.biometric_metric.unit %></span><% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-[var(--color-ink-muted)] italic text-sm mb-3"><%= t("agenda.no_readings") %></p>
+  <% end %>
+</section>

@@ -15,7 +15,11 @@ class User < ApplicationRecord
 
   before_validation :ensure_jti
 
-  HEALTH_MODULES = %w[sleep cardio_safety med_labs dermatitis nutrition].freeze
+  HEALTH_MODULES = %w[medicamentos labs biometria].freeze
+
+  def section_enabled?(name)
+    tab_visible?(name)
+  end
 
   def guest?
     guest == true

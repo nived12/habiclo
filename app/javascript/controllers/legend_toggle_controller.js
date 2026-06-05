@@ -42,8 +42,8 @@ export default class extends Controller {
     seg.dataset.completed = done.toString()
     if (done) {
       const hue = window.getComputedStyle(seg).getPropertyValue("--habit-hue").trim() || this.hueValue || "85"
-      seg.style.fill = `oklch(56% 0.18 ${hue})`
-      seg.style.stroke = `oklch(46% 0.20 ${hue})`
+      seg.style.fill = `oklch(72% 0.09 ${hue})`
+      seg.style.stroke = `oklch(60% 0.08 ${hue})`
       seg.style.strokeWidth = "0.8"
     } else {
       seg.style.fill = ""

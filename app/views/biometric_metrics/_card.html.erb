@@ -14,10 +14,11 @@
      data-resource-destroy-confirm-value="<%= t('biometric_metrics.destroy.confirm') %>">
 
   <div class="metric-card-actions">
-    <%= link_to "✎", edit_biometric_metric_path(metric),
-          class: "metric-action-btn", title: "Editar métrica" %>
+    <%= link_to "✎", edit_biometric_metric_path(metric, **return_to_param),
+          class: "metric-action-btn", title: t("health.biometria.metric_form.save_edit"),
+          data: { turbo_frame: "health_modal" } %>
     <%= link_to t("health.biometria.log_value"),
-          new_biometric_metric_biometric_entry_path(metric),
+          new_biometric_metric_biometric_entry_path(metric, **return_to_param),
           class: "metric-action-btn",
           data: { turbo_frame: "health_modal" } %>
     <%= link_to t("health.biometria.view_history"),

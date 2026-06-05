@@ -7,6 +7,8 @@ class TemplateApplicationsController < ApplicationController
 
     result = Templates::Applier.new(current_or_guest_user, key).call
     redirect_to root_path, notice: apply_message(result)
+  rescue ActiveRecord::RecordInvalid => e
+    redirect_to template_path(key), alert: e.message
   end
 
   private

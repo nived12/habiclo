@@ -20,7 +20,11 @@ Rails.application.routes.draw do
   resources :biometric_metrics do
     resources :biometric_entries, only: [ :new, :create, :destroy ], shallow: false
   end
-  resources :biometric_entries, only: [ :edit, :update ]
+  resources :biometric_entries, only: [ :edit, :update ] do
+    collection do
+      get :picker
+    end
+  end
   resources :medications, except: [ :show ] do
     post "intakes/toggle", to: "medication_intakes#toggle", as: :toggle_intake
   end

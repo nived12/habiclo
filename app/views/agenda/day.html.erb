@@ -66,7 +66,8 @@
               <span class="day-timeline-rule" style="--block-hue: <%= entry.color_hue %>;"></span>
               <%= render "agenda/block", entry: entry, on_date: @on_date, compact: false,
                     all_completions_map: @pre[:all_completions_map],
-                    completions_map: @pre[:completions_map] %>
+                    completions_map: @pre[:completions_map],
+                    strengths_map: @strengths_map %>
             </li>
           <% end %>
         </ol>
@@ -97,8 +98,8 @@
       <% else %>
         <p class="text-[var(--color-ink-muted)] italic text-sm"><%= t("agenda.no_readings") %></p>
       <% end %>
-      <% if @log_metric %>
-        <%= link_to t("agenda.log_reading"), new_biometric_metric_biometric_entry_path(@log_metric),
+      <% if @log_metrics&.any? %>
+        <%= link_to t("agenda.log_reading"), picker_biometric_entries_path(**return_to_param),
               class: "mono text-xs mt-3 inline-block text-[var(--color-accent)] hover:underline",
               data: { turbo_frame: "health_modal" } %>
       <% else %>

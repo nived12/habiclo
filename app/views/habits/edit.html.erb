@@ -11,6 +11,7 @@
   <div class="lg:col-span-8">
     <%= render "form", habit: @habit %>
     <%= button_to t("habits.edit.delete"), habit_path(@habit), method: :delete,
+          params: { return_to: @return_to }.compact,
           data: { turbo_confirm: t("habits.edit.confirm_delete") },
           class: "almanac-button almanac-button--ghost text-xs mt-4" %>
   </div>

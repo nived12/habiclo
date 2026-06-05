@@ -1,4 +1,5 @@
 <% current_section = controller_name == "agenda" ? action_name.to_sym : nil %>
+<% on_home = controller_name == "home" %>
 <header class="topbar">
   <div class="topbar-inner">
     <%= link_to root_path, class: "topbar-brand" do %>
@@ -7,13 +8,14 @@
     <% end %>
 
     <nav class="period-nav period-nav--top" aria-label="View">
+      <%= link_to root_path,         class: "period-nav-item #{'is-active' if on_home}"  do %><span class="mono"><%= t("nav.home").upcase %></span><% end %>
       <%= link_to agenda_day_path,   class: "period-nav-item #{'is-active' if current_section == :day}"   do %><span class="mono"><%= t("nav.day").upcase %></span><% end %>
       <%= link_to agenda_week_path,  class: "period-nav-item #{'is-active' if current_section == :week || current_section == :index}" do %><span class="mono"><%= t("nav.week").upcase %></span><% end %>
       <%= link_to agenda_month_path, class: "period-nav-item #{'is-active' if current_section == :month}" do %><span class="mono"><%= t("nav.month").upcase %></span><% end %>
     </nav>
 
     <nav class="topbar-actions">
-      <%= link_to new_habit_path, class: "almanac-button almanac-button--accent text-xs" do %>
+      <%= link_to new_habit_path(**return_to_param), class: "almanac-button almanac-button--accent text-xs" do %>
         <span class="mono mr-1">+</span><%= t("nav.new_habit") %>
       <% end %>
       <%= link_to t("nav.health"), health_path, class: "topbar-link hidden md:inline" %>

@@ -1,4 +1,6 @@
 class LabPanelsController < ApplicationController
+  include HealthPageSetup
+
   before_action :set_panel, only: [ :edit, :update, :destroy ]
 
   def index
@@ -42,8 +44,7 @@ class LabPanelsController < ApplicationController
   end
 
   def edit
-    @tab = "labs"
-    @lab_panels = current_or_guest_user.lab_panels.includes(:lab_results).ordered
+    setup_health_page(tab: "labs", lab_panel: @panel)
     render "health/show"
   end
 

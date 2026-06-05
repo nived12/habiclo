@@ -4,6 +4,7 @@ es:
     tagline: Construye quién quieres ser, un hábito a la vez.
   nav:
     today: Hoy
+    home: Inicio
     week: Semana
     month: Mes
     day: Día
@@ -30,8 +31,9 @@ es:
     of_label: de
     scheduled_label: hábitos programados
     vitals: Vitales
-    no_readings: Sin lecturas aún.
+    no_readings: Sin lecturas hoy.
     log_reading: Registrar una lectura →
+    today_vitals: Vitales de hoy
     mark_complete: Marcar completo
     mark_pending: Marcar pendiente
   marginalia:
@@ -121,16 +123,20 @@ es:
   settings:
     title: Ajustes
     saved: Guardado.
-    brand_hue: Tono de acento
+    accent_color: Color de acento
+    accent_color_hint: Elige el color que dará vida al anillo, botones y resaltados.
     time_zone: Zona horaria
+    time_zone_hint: Usamos la zona horaria de tu dispositivo por defecto.
     locale: Idioma
-    health_modules: Módulos de salud
-    modules:
-      sleep: Sueño
-      cardio_safety: Seguridad cardiovascular
-      med_labs: Medicamentos y laboratorios
-      dermatitis: Dermatitis
-      nutrition: Nutrición
+    optional_sections: Secciones opcionales
+    optional_sections_hint: Desactiva las partes de la app que no usas. Puedes reactivarlas cuando quieras.
+    sections:
+      medications: Medicamentos
+      medications_desc: Lleva el control de medicamentos, dosis y tomas diarias.
+      labs: Estudios de laboratorio
+      labs_desc: Programa y registra resultados de análisis.
+      biometrics: Biometría
+      biometrics_desc: Peso, sueño, ritmo cardíaco y cualquier métrica personalizada.
   lab_panels:
     destroy:
       confirm: "¿Eliminar este panel y todo su historial de resultados?"
@@ -143,10 +149,17 @@ es:
   biometric_entries:
     destroy:
       confirm: "¿Eliminar esta lectura?"
+    picker:
+      title: ¿Qué métrica?
+      empty: Aún no tienes métricas.
+      new_metric: + Crear nueva métrica
   biometric_metrics:
     destroy:
       confirm: "¿Eliminar esta métrica y todo su historial?"
   home:
+    todays_vitals: VITALES DE HOY
+    todays_medications: MEDICAMENTOS DE HOY
+    manage: Administrar →
     daily_habits: HÁBITOS DIARIOS
     weekly_habits: HÁBITOS SEMANALES
     monthly_habits: HÁBITOS MENSUALES

@@ -5,14 +5,14 @@
     <p class="almanac-eyebrow"><%= t("habits.index.eyebrow") %></p>
     <h1 class="display-lg"><%= t("habits.index.title") %></h1>
   </div>
-  <div><%= link_to t("habits.new.title"), new_habit_path, class: "almanac-button text-xs" %></div>
+  <div><%= link_to t("habits.new.title"), new_habit_path(**return_to_param), class: "almanac-button text-xs" %></div>
 </section>
 
 <ul class="mt-6 divide-y" style="border-color: var(--color-hairline);">
   <% @habits.each do |habit| %>
     <li class="py-3 flex items-center gap-4">
-      <span class="w-2 h-2 rounded-full" style="background: oklch(58% 0.16 <%= habit.color_hue %>);"></span>
-      <%= link_to habit.name, edit_habit_path(habit), class: "flex-1 hover:text-[var(--color-accent)]" %>
+      <span class="w-2 h-2 rounded-full" style="background: oklch(72% 0.09 <%= habit.color_hue %>);"></span>
+      <%= link_to habit.name, edit_habit_path(habit, **return_to_param), class: "flex-1 hover:text-[var(--color-accent)]" %>
       <span class="mono text-xs text-[var(--color-ink-muted)]"><%= t("habits.categories.#{habit.category}", default: habit.category) %></span>
       <span class="mono text-xs text-[var(--color-ink-muted)]">
         <%= habit.scheduled_at_minute ? "%02d:%02d" % [habit.scheduled_at_minute / 60, habit.scheduled_at_minute % 60] : "—" %>

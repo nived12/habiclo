@@ -1,5 +1,6 @@
 class HabitsController < ApplicationController
   before_action :set_habit, only: [ :edit, :update, :destroy ]
+  before_action :capture_return_to, only: [ :new, :edit ]
 
   def index
     @habits = current_or_guest_user.habits.ordered
@@ -16,8 +17,9 @@ class HabitsController < ApplicationController
   def create
     @habit = current_or_guest_user.habits.new(habit_params)
     if @habit.save
-      redirect_to root_path
+      redirect_after_save(fallback: root_path)
     else
+      capture_return_to
       render :new, status: :unprocessable_entity
     end
   end
@@ -26,8 +28,9 @@ class HabitsController < ApplicationController
 
   def update
     if @habit.update(habit_params)
-      redirect_to root_path
+      redirect_after_save(fallback: root_path)
     else
+      @return_to = safe_return_path(params[:return_to])
       render :edit, status: :unprocessable_entity
     end
   end
@@ -36,7 +39,7 @@ class HabitsController < ApplicationController
     @habit.destroy
     respond_to do |format|
       format.json { render json: { ok: true } }
-      format.html { redirect_to root_path }
+      format.html { redirect_after_save(fallback: root_path) }
     end
   end
 

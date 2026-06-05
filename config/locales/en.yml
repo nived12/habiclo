@@ -4,6 +4,7 @@ en:
     tagline: Build who you want to be, one habit at a time.
   nav:
     today: Today
+    home: Home
     week: Week
     month: Month
     day: Day
@@ -30,8 +31,9 @@ en:
     of_label: of
     scheduled_label: scheduled habits
     vitals: Vitals
-    no_readings: No readings yet.
+    no_readings: No readings logged today.
     log_reading: Log a reading →
+    today_vitals: Today's vitals
     mark_complete: Mark complete
     mark_pending: Mark pending
   marginalia:
@@ -121,16 +123,20 @@ en:
   settings:
     title: Settings
     saved: Saved.
-    brand_hue: Accent hue
+    accent_color: Accent color
+    accent_color_hint: Pick the color that flavors your habit ring, buttons, and highlights.
     time_zone: Time zone
+    time_zone_hint: We default to your device's time zone.
     locale: Language
-    health_modules: Health modules
-    modules:
-      sleep: Sleep
-      cardio_safety: Cardio safety
-      med_labs: Medications and labs
-      dermatitis: Dermatitis
-      nutrition: Nutrition
+    optional_sections: Optional sections
+    optional_sections_hint: Turn off the parts of the app you don't use. You can re-enable them anytime.
+    sections:
+      medications: Medications
+      medications_desc: Track meds, doses, and daily intake.
+      labs: Lab panels
+      labs_desc: Schedule and log blood-work results.
+      biometrics: Biometrics
+      biometrics_desc: Weight, sleep, heart rate, and any custom metric.
   lab_panels:
     destroy:
       confirm: "Delete this panel and all its result history?"
@@ -143,10 +149,17 @@ en:
   biometric_entries:
     destroy:
       confirm: "Delete this reading?"
+    picker:
+      title: Which metric?
+      empty: You don't have any metrics yet.
+      new_metric: + Create a new metric
   biometric_metrics:
     destroy:
       confirm: "Delete this metric and all its history?"
   home:
+    todays_vitals: TODAY'S VITALS
+    todays_medications: TODAY'S MEDICATIONS
+    manage: Manage →
     daily_habits: DAILY HABITS
     weekly_habits: WEEKLY HABITS
     monthly_habits: MONTHLY HABITS

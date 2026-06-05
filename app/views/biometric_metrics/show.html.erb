@@ -19,8 +19,9 @@
               class: "almanac-button almanac-button--ghost text-xs",
               data: { turbo_frame: "health_modal" } %>
         <%= link_to "✎ #{t('health.biometria.metric_form.save_edit')}",
-              edit_biometric_metric_path(@metric),
-              class: "almanac-button almanac-button--ghost text-xs" %>
+              edit_biometric_metric_path(@metric, **return_to_param),
+              class: "almanac-button almanac-button--ghost text-xs",
+              data: { turbo_frame: "health_modal" } %>
       </div>
 
       <% if @entries.empty? %>

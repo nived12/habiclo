@@ -1,0 +1,35 @@
+<%= turbo_frame_tag "health_modal" do %>
+  <div class="health-modal-panel log-modal">
+    <header class="flex items-center justify-between mb-4">
+      <p class="almanac-eyebrow mb-0"><%= t("biometric_entries.picker.title") %></p>
+      <%= link_to "✕", request.referer || health_path(tab: "biometria"),
+            class: "mono text-sm text-[var(--color-ink-muted)] hover:text-[var(--color-ink)]",
+            data: { turbo_frame: "health_modal" } %>
+    </header>
+    <% if @metrics.any? %>
+      <ul class="space-y-1">
+        <% @metrics.each do |metric| %>
+          <li>
+            <%= link_to new_biometric_metric_biometric_entry_path(metric, **return_to_param),
+                  class: "picker-item",
+                  data: { turbo_frame: "health_modal" } do %>
+              <span class="picker-item-name"><%= metric.name %></span>
+              <% if metric.unit.present? %>
+                <span class="picker-item-unit mono"><%= metric.unit %></span>
+              <% end %>
+              <span class="picker-item-arrow mono">→</span>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-[var(--color-ink-muted)] italic"><%= t("biometric_entries.picker.empty") %></p>
+    <% end %>
+    <div class="mt-4 pt-3 border-t border-[var(--color-hairline)]">
+      <%= link_to t("biometric_entries.picker.new_metric"),
+            new_biometric_metric_path(**return_to_param),
+            class: "mono text-xs text-[var(--color-accent)] hover:underline",
+            data: { turbo_frame: "health_modal" } %>
+    </div>
+  </div>
+<% end %>

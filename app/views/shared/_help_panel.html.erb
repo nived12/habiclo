@@ -52,7 +52,7 @@
         <%= link_to t("help.explore_templates"),
               templates_path,
               class: "almanac-button almanac-button--ghost text-xs",
-              data: { action: "click->help#dismiss", turbo_action: "advance" } %>
+              data: { action: "click->help#dismissAndNavigate", url: templates_path } %>
         <button type="button" class="almanac-button text-xs" data-action="click->help#dismiss"><%= t("help.begin") %></button>
       </div>
     </footer>

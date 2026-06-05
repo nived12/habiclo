@@ -60,7 +60,7 @@ target_value: 5,   unit: "g",  color_hue: 60,  duration_minutes: 1 },
           { i18n: "mobility", frequency_type: "x_per_week",  category: "movement",  weekly_target: 3,
 target_value: 15,  unit: "min", color_hue: 150, duration_minutes: 15 },
           { i18n: "rest_day", frequency_type: "weekly_days", category: "sleep",     recurrence_days: [ 7 ],
-target_value: 1,   unit: "times", color_hue: 230, duration_minutes: 0 }
+target_value: 1,   unit: "times", color_hue: 230, duration_minutes: 1 }
         ],
         medications: [],
         biometric_metrics: [

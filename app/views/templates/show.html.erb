@@ -13,7 +13,7 @@
       <ul class="template-item-list">
         <% @template[:habits].each do |spec| %>
           <li class="template-item">
-            <span class="template-item-dot" style="background: oklch(58% 0.16 <%= spec[:color_hue] || 25 %>);"></span>
+            <span class="template-item-dot" style="background: oklch(72% 0.09 <%= spec[:color_hue] || 25 %>);"></span>
             <div>
               <strong><%= t("templates.#{@key}.habits.#{spec[:i18n]}.name", default: t("templates.shared.habits.#{spec[:i18n]}.name", default: spec[:i18n].to_s.titleize)) %></strong>
               <p class="template-item-meta mono">

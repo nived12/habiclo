@@ -11,7 +11,7 @@
   <% habits.each do |habit| %>
     <div class="weekly-grid-row">
       <span class="weekly-habit-name">
-        <span class="ring-legend-dot" style="background: oklch(58% 0.16 <%= habit.color_hue %>);"></span>
+        <span class="ring-legend-dot" style="background: oklch(72% 0.09 <%= habit.color_hue %>);"></span>
         <%= habit.name %>
       </span>
       <% week_starts.each do |ws| %>
@@ -26,7 +26,7 @@
                 data-weekly-cell-done-value="<%= done %>"
                 data-done="<%= done %>"
                 data-action="click->weekly-cell#toggle"
-                style="<%= "color: oklch(58% 0.16 #{habit.color_hue}); border-color: oklch(58% 0.16 #{habit.color_hue});" if done %>"
+                style="<%= "color: oklch(72% 0.09 #{habit.color_hue}); border-color: oklch(72% 0.09 #{habit.color_hue});" if done %>"
                 title="<%= habit.name %> · W<%= week_starts.index(ws) + 1 %>">
           <%= done ? "✓" : "" %>
         </button>

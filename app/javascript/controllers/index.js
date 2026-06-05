@@ -12,6 +12,9 @@ import LegendToggleController from "./legend_toggle_controller"
 import WeeklyCellController from "./weekly_cell_controller"
 import ResourceDestroyController from "./resource_destroy_controller"
 import CollapseController from "./collapse_controller"
+import SwatchPickerController from "./swatch_picker_controller"
+import TzDetectController from "./tz_detect_controller"
+import FlashController from "./flash_controller"
 
 application.register("agenda-block", AgendaBlockController)
 application.register("brand-hue", BrandHueController)
@@ -25,3 +28,6 @@ application.register("legend-toggle", LegendToggleController)
 application.register("weekly-cell", WeeklyCellController)
 application.register("resource-destroy", ResourceDestroyController)
 application.register("collapse", CollapseController)
+application.register("swatch-picker", SwatchPickerController)
+application.register("tz-detect", TzDetectController)
+application.register("flash", FlashController)

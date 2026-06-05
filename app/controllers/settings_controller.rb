@@ -1,6 +1,7 @@
 class SettingsController < ApplicationController
   def show
     @user = current_or_guest_user
+    @detected_time_zone = detect_time_zone_from_cookie
   end
 
   def update
@@ -14,6 +15,7 @@ class SettingsController < ApplicationController
         format.html { redirect_to settings_path, notice: t("settings.saved") }
       end
     else
+      @detected_time_zone = detect_time_zone_from_cookie
       render :show, status: :unprocessable_entity
     end
   end
@@ -32,5 +34,12 @@ class SettingsController < ApplicationController
       raw[key] = raw[key].transform_values { |v| bool_caster.cast(v) }
     end
     raw
+  end
+
+  def detect_time_zone_from_cookie
+    iana = cookies[:tz_iana].to_s
+    return if iana.blank?
+
+    ActiveSupport::TimeZone.all.find { |z| z.tzinfo.name == iana }&.name
   end
 end

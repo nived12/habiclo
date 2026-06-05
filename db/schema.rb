@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_06_04_010007) do
+ActiveRecord::Schema[8.0].define(version: 2026_06_05_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -42,6 +42,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_06_04_010007) do
     t.bigint "biometric_metric_id", null: false
     t.index ["biometric_metric_id", "recorded_on"], name: "index_biometric_entries_on_metric_and_date"
     t.index ["biometric_metric_id"], name: "index_biometric_entries_on_biometric_metric_id"
+    t.index ["user_id", "recorded_on"], name: "idx_biometric_entries_user_date"
     t.index ["user_id"], name: "index_biometric_entries_on_user_id"
   end
 
@@ -125,6 +126,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_06_04_010007) do
     t.datetime "updated_at", null: false
     t.index ["medication_id", "taken_on", "scheduled_minute"], name: "idx_med_intakes_unique", unique: true
     t.index ["medication_id"], name: "index_medication_intakes_on_medication_id"
+    t.index ["taken_on", "medication_id"], name: "idx_med_intakes_date_med"
   end
 
   create_table "medications", force: :cascade do |t|

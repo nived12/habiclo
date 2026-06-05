@@ -35,6 +35,7 @@ class AgendaController < ApplicationController
   def day
     @on_date = parse_date(:on) || today
     @pre = preload_range(current_or_guest_user, @on_date, @on_date)
+    @strengths_map = build_strengths_map(@pre[:habits], @pre[:all_completions_map], @on_date)
     @entries = Agenda::DayComposer.call(user: current_or_guest_user, on_date: @on_date, **@pre)
     @scheduled  = @entries.reject(&:floating?)
     @floating   = @entries.select(&:floating?)
@@ -90,6 +91,16 @@ class AgendaController < ApplicationController
     }
   end
 
+  def build_strengths_map(habits, all_completions_map, on_date)
+    habits.each_with_object({}) do |habit, acc|
+      acc[habit.id] = (Habits::StrengthCalculator.call(
+        habit: habit,
+        on_date: on_date,
+        completions: all_completions_map[habit.id] || []
+      ) * 100).round
+    end
+  end
+
   def today
     Time.current.in_time_zone(current_or_guest_user.time_zone).to_date
   end
@@ -102,11 +113,10 @@ class AgendaController < ApplicationController
 
   def load_day_vitals
     user = current_or_guest_user
-    @log_metric = user.biometric_metrics.ordered.first
+    @log_metrics = user.biometric_metrics.ordered.to_a
     @recent_biometrics = user.biometric_entries
       .includes(:biometric_metric)
-      .where(recorded_on: ..@on_date)
-      .order(recorded_on: :desc)
-      .limit(6)
+      .where(recorded_on: @on_date)
+      .order(biometric_metric_id: :asc)
   end
 end

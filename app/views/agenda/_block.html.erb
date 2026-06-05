@@ -5,7 +5,14 @@
 <% can_log    = is_habit %>
 <% all_completions_map = local_assigns[:all_completions_map] %>
 <% completions_map = local_assigns[:completions_map] %>
-<% strength_pct = is_habit ? (Habits::StrengthCalculator.call(habit: entry.record, on_date: on_date, completions: all_completions_map ? (all_completions_map[entry.record.id] || []) : nil) * 100).round : nil %>
+<% strengths_map = local_assigns[:strengths_map] %>
+<% strength_pct = if is_habit
+     if strengths_map&.key?(entry.record.id)
+       strengths_map[entry.record.id]
+     else
+       (Habits::StrengthCalculator.call(habit: entry.record, on_date: on_date, completions: all_completions_map ? (all_completions_map[entry.record.id] || []) : nil) * 100).round
+     end
+   end %>
 <% pattern = (!compact && is_habit) ? habit_recent_pattern(entry.record, on_date, all_completions_map: all_completions_map) : nil %>
 <% min_height = compact ? ((entry.duration_minutes || 30).to_f / 60.0 * 100).clamp(55, 110) : nil %>
 
@@ -20,7 +27,7 @@
 <%
   # Manage menu config — habits and meds get edit + delete affordances
   manage = if is_habit
-    { edit: edit_habit_path(entry.record),
+    { edit: edit_habit_path(entry.record, **return_to_param),
       destroy: habit_path(entry.record),
       selector: "[data-habit-id=\"#{entry.record.id}\"]",
       confirm_key: "habits.destroy.confirm" }

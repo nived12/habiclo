@@ -1,0 +1,23 @@
+<%#
+  Renders an 8-swatch pastel picker bound to a hidden form input.
+  Locals:
+    name:    the form input name (e.g. "user[brand_hue]" or "habit[color_hue]")
+    value:   currently selected integer hue
+    label:   field label
+%>
+<div class="swatch-picker" data-controller="swatch-picker">
+  <label class="field-label"><%= label %></label>
+  <input type="hidden" name="<%= name %>" value="<%= value %>" data-swatch-picker-target="input">
+  <div class="swatch-picker-grid">
+    <% ApplicationHelper::PASTEL_PRESETS.each do |preset_name, hue| %>
+      <button type="button"
+              class="swatch-picker-item<%= " is-selected" if hue == value.to_i %>"
+              data-action="click->swatch-picker#select"
+              data-swatch-picker-hue-param="<%= hue %>"
+              title="<%= preset_name.capitalize %>">
+        <span class="swatch-picker-dot" style="background: <%= habit_color(hue) %>;"></span>
+        <span class="swatch-picker-name"><%= preset_name.capitalize %></span>
+      </button>
+    <% end %>
+  </div>
+</div>

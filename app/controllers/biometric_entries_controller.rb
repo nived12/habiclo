@@ -1,6 +1,12 @@
 class BiometricEntriesController < ApplicationController
-  before_action :set_metric
+  before_action :set_metric, except: [ :picker ]
   before_action :set_entry, only: [ :edit, :update, :destroy ]
+
+  before_action :capture_return_to, only: [ :new, :create, :update, :picker ]
+
+  def picker
+    @metrics = current_or_guest_user.biometric_metrics.ordered.to_a
+  end
 
   def new
     @entry = @metric.biometric_entries.new(
@@ -25,7 +31,7 @@ class BiometricEntriesController < ApplicationController
             turbo_stream.update("health_modal", "")
           ]
         end
-        format.html { redirect_to health_path(tab: "biometria") }
+        format.html { redirect_after_save(fallback: health_path(tab: "biometria")) }
       end
     else
       respond_to do |format|
@@ -33,10 +39,10 @@ class BiometricEntriesController < ApplicationController
           render turbo_stream: turbo_stream.update(
             "health_modal",
             partial: "biometric_entries/form",
-            locals: { metric: @metric, entry: @entry }
+            locals: { metric: @metric, entry: @entry, return_to: @return_to }
           )
         end
-        format.html { redirect_to health_path(tab: "biometria") }
+        format.html { redirect_after_save(fallback: health_path(tab: "biometria")) }
       end
     end
   end
@@ -57,10 +63,10 @@ class BiometricEntriesController < ApplicationController
             turbo_stream.update("health_modal", "")
           ]
         end
-        format.html { redirect_to health_path(tab: "biometria") }
+        format.html { redirect_after_save(fallback: health_path(tab: "biometria")) }
       end
     else
-      redirect_to health_path(tab: "biometria"), alert: @entry.errors.full_messages.to_sentence
+      redirect_after_save(fallback: health_path(tab: "biometria"))
     end
   end
 
@@ -76,7 +82,7 @@ class BiometricEntriesController < ApplicationController
           locals: { metrics: metrics, metric: current_or_guest_user.biometric_metrics.new }
         )
       end
-      format.html { redirect_to health_path(tab: "biometria") }
+      format.html { redirect_after_save(fallback: health_path(tab: "biometria")) }
     end
   end
 

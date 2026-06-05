@@ -30,7 +30,7 @@
       <div class="home-empty-actions">
         <%= link_to t("home.empty_cta_templates"), templates_path,
               class: "almanac-button almanac-button--accent text-xs" %>
-        <%= link_to t("home.empty_cta_new"), new_habit_path,
+        <%= link_to t("home.empty_cta_new"), new_habit_path(**return_to_param),
               class: "almanac-button almanac-button--ghost text-xs" %>
       </div>
     </div>
@@ -40,7 +40,14 @@
   <div class="home-ring-layout">
     <%# Legend %>
     <aside class="ring-legend">
-      <p class="almanac-eyebrow mb-3"><%= t("home.daily_habits") %></p>
+      <div class="home-secondary-cta">
+        <p class="almanac-eyebrow mb-0"><%= t("home.daily_habits") %></p>
+        <%= link_to new_habit_path(**return_to_param),
+              class: "almanac-button almanac-button--ghost text-xs",
+              title: t("nav.new_habit") do %>
+          <span class="mono mr-1">+</span><%= t("nav.new_habit") %>
+        <% end %>
+      </div>
       <% @daily_habits.each_with_index do |habit, i| %>
         <% today_done = @completions_map[habit.id]&.include?(@today) %>
         <% toggle_url = toggle_habit_habit_completions_path(habit_id: habit.id, on: @today.iso8601) %>
@@ -54,10 +61,10 @@
                 data-completed="<%= today_done %>"
                 data-action="click->legend-toggle#toggle"
                 title="<%= today_done ? t('agenda.mark_pending') : t('agenda.mark_complete') %>: <%= habit.name %>">
-          <span class="ring-legend-dot" style="--habit-hue: <%= habit.color_hue %>; background: oklch(58% 0.16 <%= habit.color_hue %>);"></span>
+          <span class="ring-legend-dot" style="--habit-hue: <%= habit.color_hue %>; background: oklch(72% 0.09 <%= habit.color_hue %>);"></span>
           <span class="ring-legend-name"><%= habit.name %></span>
           <span class="mono ring-legend-pct"><%= @strengths_map[habit] %>%</span>
-          <%= link_to "✎", edit_habit_path(habit),
+          <%= link_to "✎", edit_habit_path(habit, **return_to_param),
                 class: "ring-legend-edit mono",
                 title: t("habits.edit.title"),
                 data: { turbo: false } %>
@@ -76,8 +83,20 @@
     </div>
   </div>
 
+  <%# Vitals strip + medications %>
+  <% if @today_vitals %>
+    <%= render "home/vitals_strip", vitals: @today_vitals %>
+  <% end %>
+
   <%# Lower sections %>
   <div class="home-lower">
+    <% if @today_medications&.any? %>
+      <%= render "home/medications",
+            medications: @today_medications,
+            intakes_set: @today_intakes_set,
+            today: @today %>
+    <% end %>
+
     <% if @weekly_habits.any? %>
       <div class="home-lower-section">
         <%= render "home/weekly_habits",

@@ -1,0 +1,11 @@
+<li id="habit_block_med_<%= med.id %>_<%= minute %>_<%= on_date.iso8601 %>">
+  <%= button_to medication_toggle_intake_path(medication_id: med.id, on: on_date.iso8601, minute: minute),
+        method: :post,
+        params: { home: "1" },
+        form: { data: { turbo_method: "post" }, class: "w-full" },
+        class: "home-med-row #{'is-taken' if taken}" do %>
+    <span class="mono home-med-time"><%= "%02d:%02d" % [minute.to_i / 60, minute.to_i % 60] %></span>
+    <span class="home-med-name"><%= med.name %><% if med.dose.present? %><span class="opacity-60"> · <%= med.dose %></span><% end %></span>
+    <span class="mono home-med-tick"><%= taken ? "✓" : "○" %></span>
+  <% end %>
+</li>

@@ -33,7 +33,7 @@ module GuestPipeline
       return existing
     end
     guest = Users::GuestCreator.call(
-      time_zone: cookies[:time_zone].presence || "America/Mexico_City",
+      time_zone: resolved_time_zone,
       locale: I18n.locale.to_s
     )
     cookies.encrypted[GUEST_COOKIE] = {
@@ -50,6 +50,15 @@ module GuestPipeline
 
     Users::GuestResetter.call(guest)
     guest.reload
+  end
+
+  def resolved_time_zone
+    iana = cookies[:tz_iana].to_s
+    if iana.present?
+      rails_name = ActiveSupport::TimeZone.all.find { |z| z.tzinfo.name == iana }&.name
+      return rails_name if rails_name
+    end
+    cookies[:time_zone].presence || "UTC"
   end
 
   def load_guest_from_cookie
