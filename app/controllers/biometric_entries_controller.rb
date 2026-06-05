@@ -1,6 +1,6 @@
 class BiometricEntriesController < ApplicationController
   before_action :set_metric
-  before_action :set_entry, only: [:edit, :update, :destroy]
+  before_action :set_entry, only: [ :edit, :update, :destroy ]
 
   def new
     @entry = @metric.biometric_entries.new(

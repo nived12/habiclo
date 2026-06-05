@@ -8,17 +8,17 @@ class RefactorLabPanelsAddNotes < ActiveRecord::Migration[8.0]
     remove_column :lab_panels, :result_summary
     add_column :lab_panels, :notes, :text
     add_column :lab_panels, :position, :integer, null: false, default: 0
-    add_index :lab_panels, [:user_id, :position]
+    add_index :lab_panels, [ :user_id, :position ]
   end
 
   def down
-    remove_index :lab_panels, [:user_id, :position]
+    remove_index :lab_panels, [ :user_id, :position ]
     remove_column :lab_panels, :position
     remove_column :lab_panels, :notes
     add_column :lab_panels, :result_summary, :text
     add_column :lab_panels, :completed_on, :date
     add_column :lab_panels, :due_on, :date, null: false, default: -> { "CURRENT_DATE" }
     change_column_default :lab_panels, :due_on, nil
-    add_index :lab_panels, [:user_id, :due_on]
+    add_index :lab_panels, [ :user_id, :due_on ]
   end
 end

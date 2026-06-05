@@ -8,7 +8,7 @@ class CreateBiometricMetrics < ActiveRecord::Migration[8.0]
       t.integer :position, null: false, default: 0
       t.timestamps
     end
-    add_index :biometric_metrics, [:user_id, :name], unique: true
-    add_index :biometric_metrics, [:user_id, :position]
+    add_index :biometric_metrics, [ :user_id, :name ], unique: true
+    add_index :biometric_metrics, [ :user_id, :position ]
   end
 end

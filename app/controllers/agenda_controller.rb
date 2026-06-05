@@ -54,12 +54,12 @@ class AgendaController < ApplicationController
       .where(habit_id: habit_ids)
       .pluck(:habit_id, :completed_on, :value)
       .group_by(&:first)
-      .transform_values { |rows| rows.map { |_id, d, v| [d, v] } }
+      .transform_values { |rows| rows.map { |_id, d, v| [ d, v ] } }
 
     meds = user.medications.to_a
     intakes_set = MedicationIntake
       .where(medication_id: meds.map(&:id), taken_on: from..to)
-      .each_with_object(Set.new) { |i, s| s.add([i.medication_id, i.taken_on, i.scheduled_minute]) }
+      .each_with_object(Set.new) { |i, s| s.add([ i.medication_id, i.taken_on, i.scheduled_minute ]) }
 
     # Pre-grouped agenda items by date (avoids 1 query per day in DayComposer)
     agenda_items_by_date = user.agenda_items

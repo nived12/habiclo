@@ -18,7 +18,7 @@ class CreateHabits < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :habits, [:user_id, :position]
+    add_index :habits, [ :user_id, :position ]
     add_index :habits, :discarded_at
   end
 end

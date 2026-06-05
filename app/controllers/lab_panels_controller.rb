@@ -1,5 +1,5 @@
 class LabPanelsController < ApplicationController
-  before_action :set_panel, only: [:edit, :update, :destroy]
+  before_action :set_panel, only: [ :edit, :update, :destroy ]
 
   def index
     redirect_to health_path(tab: "labs")

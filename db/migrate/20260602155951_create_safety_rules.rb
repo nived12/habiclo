@@ -9,6 +9,6 @@ class CreateSafetyRules < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :safety_rules, [:user_id, :kind], unique: true
+    add_index :safety_rules, [ :user_id, :kind ], unique: true
   end
 end

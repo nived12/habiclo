@@ -49,7 +49,7 @@ module Habits
         c_value = 0.0
         if completions[idx]&.first == cursor
           target = @habit.target_value.to_f.nonzero? || 1.0
-          c_value = [completions[idx].last.to_f / target, 1.0].min
+          c_value = [ completions[idx].last.to_f / target, 1.0 ].min
           idx += 1
         end
 

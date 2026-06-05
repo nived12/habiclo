@@ -1,5 +1,5 @@
 class AgendaItemsController < ApplicationController
-  before_action :set_item, only: [:edit, :update, :destroy]
+  before_action :set_item, only: [ :edit, :update, :destroy ]
 
   def index
     @items = current_or_guest_user.agenda_items.order(:occurs_on)

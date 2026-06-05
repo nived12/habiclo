@@ -7,7 +7,7 @@ class CreateLabResults < ActiveRecord::Migration[8.0]
       t.text :result_summary
       t.timestamps
     end
-    add_index :lab_results, [:lab_panel_id, :completed_on]
+    add_index :lab_results, [ :lab_panel_id, :completed_on ]
     add_index :lab_results, :due_on
   end
 end

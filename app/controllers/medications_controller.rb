@@ -1,5 +1,5 @@
 class MedicationsController < ApplicationController
-  before_action :set_med, only: [:edit, :update, :destroy]
+  before_action :set_med, only: [ :edit, :update, :destroy ]
 
   def index
     redirect_to health_path(tab: "medicamentos")

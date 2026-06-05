@@ -10,7 +10,7 @@ class DropSafetyRules < ActiveRecord::Migration[8.0]
       t.boolean :enabled, default: true, null: false
       t.text :context_note
       t.timestamps
-      t.index [:user_id, :kind], unique: true
+      t.index [ :user_id, :kind ], unique: true
       t.index :user_id
     end
     add_foreign_key :safety_rules, :users

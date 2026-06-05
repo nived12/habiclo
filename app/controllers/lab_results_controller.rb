@@ -1,6 +1,6 @@
 class LabResultsController < ApplicationController
   before_action :set_panel
-  before_action :set_result, only: [:edit, :update, :destroy]
+  before_action :set_result, only: [ :edit, :update, :destroy ]
 
   def new
     @result = @panel.lab_results.new(completed_on: Date.current)

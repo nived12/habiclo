@@ -1,5 +1,5 @@
 class BiometricMetricsController < ApplicationController
-  before_action :set_metric, only: [:show, :edit, :update, :destroy]
+  before_action :set_metric, only: [ :show, :edit, :update, :destroy ]
 
   def index
     redirect_to health_path(tab: "biometria")

@@ -11,6 +11,6 @@ class CreateBiometricEntries < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :biometric_entries, [:user_id, :metric, :recorded_on]
+    add_index :biometric_entries, [ :user_id, :metric, :recorded_on ]
   end
 end

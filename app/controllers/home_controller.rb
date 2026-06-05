@@ -33,7 +33,7 @@ class HomeController < ApplicationController
       .where(habit_id: @daily_habits.map(&:id))
       .pluck(:habit_id, :completed_on, :value)
       .group_by(&:first)
-      .transform_values { |rows| rows.map { |_id, d, v| [d, v] } }
+      .transform_values { |rows| rows.map { |_id, d, v| [ d, v ] } }
 
     # Precompute strength % per daily habit at @today — used by legend
     @strengths_map = @daily_habits.index_with do |habit|

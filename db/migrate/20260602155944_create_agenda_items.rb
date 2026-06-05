@@ -15,8 +15,8 @@ class CreateAgendaItems < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :agenda_items, [:user_id, :occurs_on]
-    add_index :agenda_items, [:linked_type, :linked_id]
+    add_index :agenda_items, [ :user_id, :occurs_on ]
+    add_index :agenda_items, [ :linked_type, :linked_id ]
     add_index :agenda_items, :discarded_at
   end
 end

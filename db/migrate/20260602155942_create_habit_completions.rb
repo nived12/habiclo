@@ -10,6 +10,6 @@ class CreateHabitCompletions < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :habit_completions, [:habit_id, :completed_on], unique: true
+    add_index :habit_completions, [ :habit_id, :completed_on ], unique: true
   end
 end

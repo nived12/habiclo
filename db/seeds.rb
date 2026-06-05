@@ -65,10 +65,10 @@ h.call("Cerrar laptop del trabajo", "17:00", 5, "mind",   220, description: "Sin
 
 # La Tarde
 h.call("Entrenamiento de fuerza (sin Valsalva)", "17:15", 45, "movement", 0,
-       frequency_type: "weekly_days", recurrence_days: [1, 3, 5],
+       frequency_type: "weekly_days", recurrence_days: [ 1, 3, 5 ],
        description: "Mancuernas, kettlebells o ligas. Exhala al levantar — la maniobra de Valsalva sube la presión intraocular.")
 h.call("Whey Protein con agua",   "18:00", 5,  "nutrition", 60, unit: "g", target_value: 30.0,
-       frequency_type: "weekly_days", recurrence_days: [1, 3, 5],
+       frequency_type: "weekly_days", recurrence_days: [ 1, 3, 5 ],
        description: "Ventana anabólica inmediata post-entrenamiento.")
 
 # La Noche
@@ -82,12 +82,12 @@ puts "  ↳ #{user.habits.count} habits"
 
 # === Medications ===
 [
-  { name: "Aprovasc",     dose: "150/5 mg",  schedule_minutes: [6 * 60 + 55], notes: "Irbesartán + amlodipino. Hipertensión." },
-  { name: "Cibinqo",      dose: "100 mg",    schedule_minutes: [6 * 60 + 55], notes: "Abrocitinib. Dermatitis atópica. Vigilar lípidos + hematología." },
-  { name: "Mio-inositol", dose: "2 g",       schedule_minutes: [6 * 60 + 55], notes: "Sensibilidad a la insulina." },
-  { name: "Creatina",     dose: "5 g",       schedule_minutes: [13 * 60],     notes: "Mezcla con agua." },
-  { name: "Whey Protein", dose: "30 g",      schedule_minutes: [18 * 60],     notes: "Ventana anabólica post-fuerza." },
-  { name: "Magnesio",     dose: "400 mg",    schedule_minutes: [21 * 60 + 30], notes: "Bisglicinato preferido." }
+  { name: "Aprovasc",     dose: "150/5 mg",  schedule_minutes: [ 6 * 60 + 55 ], notes: "Irbesartán + amlodipino. Hipertensión." },
+  { name: "Cibinqo",      dose: "100 mg",    schedule_minutes: [ 6 * 60 + 55 ], notes: "Abrocitinib. Dermatitis atópica. Vigilar lípidos + hematología." },
+  { name: "Mio-inositol", dose: "2 g",       schedule_minutes: [ 6 * 60 + 55 ], notes: "Sensibilidad a la insulina." },
+  { name: "Creatina",     dose: "5 g",       schedule_minutes: [ 13 * 60 ],     notes: "Mezcla con agua." },
+  { name: "Whey Protein", dose: "30 g",      schedule_minutes: [ 18 * 60 ],     notes: "Ventana anabólica post-fuerza." },
+  { name: "Magnesio",     dose: "400 mg",    schedule_minutes: [ 21 * 60 + 30 ], notes: "Bisglicinato preferido." }
 ].each { |attrs| user.medications.create!(attrs) }
 
 puts "  ↳ #{user.medications.count} medications"
@@ -121,12 +121,12 @@ puts "  ↳ #{user.lab_panels.count} lab panels (#{LabResult.joins(:lab_panel).w
 baseline = today - 1.day
 
 metric_specs = [
-  { name: "Peso",                unit: "kg",      category: "Antropometría", values: [88.2, 87.8, 87.4, 87.1, 87.0] },
-  { name: "Frec. cardiaca reposo", unit: "bpm",   category: "Cardio",        values: [64, 63, 62, 61, 61] },
-  { name: "Sueño",               unit: "h",       category: "Recuperación",  values: [5.5, 5.8, 6.2, 6.0, 6.0] },
-  { name: "HRV",                 unit: "ms",      category: "Recuperación",  values: [32.1, 34.8, 36.2, 37.5, 38.7] },
-  { name: "Minutos aeróbicos",   unit: "min",     category: "Cardio",        values: [12, 18, 22, 24, 26] },
-  { name: "% grasa corporal",    unit: "%",       category: "Antropometría", values: [29.1, 28.6, 28.0, 27.8, 27.5] }
+  { name: "Peso",                unit: "kg",      category: "Antropometría", values: [ 88.2, 87.8, 87.4, 87.1, 87.0 ] },
+  { name: "Frec. cardiaca reposo", unit: "bpm",   category: "Cardio",        values: [ 64, 63, 62, 61, 61 ] },
+  { name: "Sueño",               unit: "h",       category: "Recuperación",  values: [ 5.5, 5.8, 6.2, 6.0, 6.0 ] },
+  { name: "HRV",                 unit: "ms",      category: "Recuperación",  values: [ 32.1, 34.8, 36.2, 37.5, 38.7 ] },
+  { name: "Minutos aeróbicos",   unit: "min",     category: "Cardio",        values: [ 12, 18, 22, 24, 26 ] },
+  { name: "% grasa corporal",    unit: "%",       category: "Antropometría", values: [ 29.1, 28.6, 28.0, 27.8, 27.5 ] }
 ]
 
 metric_specs.each_with_index do |spec, i|

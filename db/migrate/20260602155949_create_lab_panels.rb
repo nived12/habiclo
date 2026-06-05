@@ -10,6 +10,6 @@ class CreateLabPanels < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :lab_panels, [:user_id, :due_on]
+    add_index :lab_panels, [ :user_id, :due_on ]
   end
 end

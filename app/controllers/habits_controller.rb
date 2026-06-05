@@ -1,5 +1,5 @@
 class HabitsController < ApplicationController
-  before_action :set_habit, only: [:edit, :update, :destroy]
+  before_action :set_habit, only: [ :edit, :update, :destroy ]
 
   def index
     @habits = current_or_guest_user.habits.ordered

@@ -29,7 +29,7 @@ module Agenda
       entries.concat(agenda_item_entries)
       entries.concat(medication_entries)
       entries.concat(lab_result_entries)
-      entries.sort_by { |e| [e.scheduled_at_minute || 1500, e.title.to_s] }
+      entries.sort_by { |e| [ e.scheduled_at_minute || 1500, e.title.to_s ] }
     end
 
     private
