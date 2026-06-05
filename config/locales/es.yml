@@ -504,6 +504,10 @@ es:
     example_today: "Vista de ejemplo · Hoy se reinician tus datos."
     save_progress: Crear cuenta y conservar mis datos →
     change_template: Cambiar plantilla →
+    fresh_start: Limpiar todo
+    confirm_fresh_start: "¿Limpiar todo y empezar desde cero? Se borrarán hábitos, medicamentos y datos de salud."
+    fresh_start_done: Listo. Empieza a crear tus propios hábitos.
+    fresh_start_only_guest: Solo los invitados pueden empezar de cero.
     reset_now: Reiniciar ahora
     confirm_reset: "¿Reiniciar al estado de bienvenida? Tus datos actuales se borrarán."
   registrations:

@@ -22,7 +22,10 @@ module Users
         LabPanel.where(user_id: @guest.id).update_all(user_id: @target.id)
         BiometricMetric.where(user_id: @guest.id).update_all(user_id: @target.id)
 
-        @target.update!(data_resets_at: nil)
+        @target.update!(
+          data_resets_at: nil,
+          help_seen_at: @guest.help_seen_at || @target.help_seen_at
+        )
         @guest.delete
       end
 

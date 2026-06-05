@@ -35,6 +35,7 @@ Rails.application.routes.draw do
   resources :templates, only: [ :index, :show ]
   resources :template_applications, only: [ :create ]
   resource  :guest_reset, only: [ :create ]
+  resource  :guest_fresh_start, only: [ :create ]
   resource  :help_acknowledgment, only: [ :create ]
 
   resource :settings, only: [ :show, :update ]

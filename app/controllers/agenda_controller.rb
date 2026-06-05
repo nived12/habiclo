@@ -39,10 +39,7 @@ class AgendaController < ApplicationController
     @scheduled  = @entries.reject(&:floating?)
     @floating   = @entries.select(&:floating?)
     @today = today
-    @recent_biometrics = current_or_guest_user.biometric_entries
-                          .includes(:biometric_metric)
-                          .where("recorded_on <= ?", @on_date)
-                          .order(recorded_on: :desc).limit(6)
+    load_day_vitals
   end
 
   private
@@ -101,5 +98,15 @@ class AgendaController < ApplicationController
     Date.parse(params[key]) if params[key].present?
   rescue ArgumentError
     nil
+  end
+
+  def load_day_vitals
+    user = current_or_guest_user
+    @log_metric = user.biometric_metrics.ordered.first
+    @recent_biometrics = user.biometric_entries
+      .includes(:biometric_metric)
+      .where(recorded_on: ..@on_date)
+      .order(recorded_on: :desc)
+      .limit(6)
   end
 end

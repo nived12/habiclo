@@ -49,6 +49,10 @@ class User < ApplicationRecord
     help_seen_at.present?
   end
 
+  def mark_help_seen!
+    update!(help_seen_at: Time.current) unless help_seen?
+  end
+
   def health_module_enabled?(name)
     health_modules[name.to_s] == true
   end

@@ -1,8 +1,6 @@
 class HelpAcknowledgmentsController < ApplicationController
-  before_action :authenticate_user!
-
   def create
-    current_user.update(help_seen_at: Time.current)
+    current_or_guest_user.mark_help_seen!
     head :no_content
   end
 end

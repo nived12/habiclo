@@ -19,13 +19,6 @@
       <%= link_to t("nav.health"), health_path, class: "topbar-link hidden md:inline" %>
       <button type="button" class="help-trigger" data-action="click->help#open" title="How to use this">?</button>
       <%= link_to t("nav.settings"), settings_path, class: "topbar-link hidden md:inline" %>
-      <%# Quick locale switch %>
-      <% other_locale = I18n.locale == :es ? "en" : "es" %>
-      <%= button_to other_locale.upcase, settings_path,
-            method: :patch,
-            params: { user: { locale: other_locale } },
-            class: "topbar-link mono text-xs hidden md:inline",
-            title: I18n.locale == :es ? "Switch to English" : "Cambiar a Español" %>
       <% if user_signed_in? %>
         <%= button_to t("nav.sign_out"), destroy_user_session_path, method: :delete, class: "almanac-button almanac-button--ghost text-xs" %>
       <% else %>

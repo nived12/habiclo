@@ -1,11 +1,9 @@
 import { Controller } from "@hotwired/stimulus"
 
 // Help / onboarding panel. Mounted on <body>; the panel lives at #help_panel.
-// Persistence:
-//   - For logged-in users: server-side via POST /help_acknowledgment (sets user.help_seen_at).
-//     The server-rendered data-seen-value reflects user.help_seen_at presence.
-//   - For guests / anonymous: localStorage key `habiclo:help_seen`.
-//   - ? or Shift+/ always reopens (independent of flag).
+// Persistence: POST /help_acknowledgment sets user.help_seen_at (guests + signed-in).
+// data-seen-value mirrors help_seen_at; localStorage bridges Turbo navigations before ack lands.
+// ? or Shift+/ always reopens (independent of flag).
 const STORAGE_KEY = "habiclo:help_seen"
 
 export default class extends Controller {
@@ -42,10 +40,10 @@ export default class extends Controller {
   }
 
   dismiss() {
+    this.markSeen()
     if (!this.panel) return
     this.panel.classList.remove("is-open")
     document.body.style.overflow = ""
-    this.markSeen()
   }
 
   hasBeenSeen() {

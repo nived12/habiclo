@@ -24,8 +24,8 @@
   </head>
 
   <body data-controller="keyboard-nav brand-hue help"
-        data-help-seen-value="<%= (user_signed_in? && current_user.help_seen?).to_s %>"
-        data-help-ack-url-value="<%= user_signed_in? ? help_acknowledgment_path : '' %>">
+        data-help-seen-value="<%= current_or_guest_user&.help_seen?.to_s %>"
+        data-help-ack-url-value="<%= help_acknowledgment_path %>">
     <%= render "shared/topbar" %>
     <%= render "shared/guest_banner" if current_or_guest_user&.guest? %>
 
@@ -34,6 +34,7 @@
     </main>
 
     <%= turbo_frame_tag "log_modal" %>
+    <%= turbo_frame_tag "health_modal" %>
     <%= render "shared/help_panel" %>
   </body>
 </html>

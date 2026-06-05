@@ -27,6 +27,10 @@
           class: "guest-banner-cta underline decoration-1 underline-offset-4 hover:text-[var(--color-accent)]" %>
     <%= link_to t("guest_banner.change_template"), templates_path,
           class: "guest-banner-link" %>
+    <%= button_to t("guest_banner.fresh_start"), guest_fresh_start_path,
+          method: :post,
+          class: "guest-banner-link guest-banner-link--button",
+          data: { turbo_confirm: t("guest_banner.confirm_fresh_start") } %>
     <%= button_to t("guest_banner.reset_now"), guest_reset_path,
           method: :post,
           class: "guest-banner-link guest-banner-link--button",

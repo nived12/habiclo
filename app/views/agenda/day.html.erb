@@ -97,9 +97,14 @@
       <% else %>
         <p class="text-[var(--color-ink-muted)] italic text-sm"><%= t("agenda.no_readings") %></p>
       <% end %>
-      <%= link_to t("agenda.log_reading"), new_biometric_entry_path,
-            class: "mono text-xs mt-3 inline-block text-[var(--color-accent)] hover:underline",
-            data: { turbo_frame: "log_modal" } %>
+      <% if @log_metric %>
+        <%= link_to t("agenda.log_reading"), new_biometric_metric_biometric_entry_path(@log_metric),
+              class: "mono text-xs mt-3 inline-block text-[var(--color-accent)] hover:underline",
+              data: { turbo_frame: "health_modal" } %>
+      <% else %>
+        <%= link_to t("agenda.log_reading"), health_path(tab: "biometria"),
+              class: "mono text-xs mt-3 inline-block text-[var(--color-accent)] hover:underline" %>
+      <% end %>
     </section>
   </aside>
 </div>

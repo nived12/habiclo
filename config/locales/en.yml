@@ -463,6 +463,10 @@ en:
     example_today: "Demo view · Your data resets today."
     save_progress: Create account and keep my data →
     change_template: Change template →
+    fresh_start: Fresh start
+    confirm_fresh_start: "Clear everything and build from scratch? All habits, medications, and health data will be removed."
+    fresh_start_done: Cleared. Start building your own habits.
+    fresh_start_only_guest: Only guests can start fresh.
     reset_now: Reset now
     confirm_reset: "Reset to welcome state? Your current data will be erased."
   registrations:
