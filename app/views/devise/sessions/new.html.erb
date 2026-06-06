@@ -10,7 +10,10 @@
       <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "field-input" %>
     </div>
     <div>
-      <%= f.label :password, class: "field-label" %>
+      <div class="flex items-baseline justify-between">
+        <%= f.label :password, class: "field-label" %>
+        <%= link_to t("devise.forgot_password"), new_user_password_path, class: "text-xs text-[var(--color-ink-muted)] underline decoration-1 underline-offset-4 hover:text-[var(--color-accent)]" %>
+      </div>
       <%= f.password_field :password, autocomplete: "current-password", class: "field-input" %>
     </div>
     <%= f.submit t("devise.sign_in_submit"), class: "almanac-button w-full justify-center" %>

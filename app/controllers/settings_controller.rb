@@ -24,7 +24,7 @@ class SettingsController < ApplicationController
 
   def settings_params
     raw = params.require(:user).permit(
-      :brand_hue, :time_zone, :locale,
+      :username, :first_name, :last_name, :brand_hue, :time_zone, :locale,
       health_modules: {}, tabs_visibility: {}
     )
     bool_caster = ActiveModel::Type::Boolean.new

@@ -1,16 +1,24 @@
-<h2>Forgot your password?</h2>
+<% content_for :title, t("devise.forgot_password_title") %>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+<section class="max-w-md mx-auto py-8">
+  <p class="almanac-eyebrow"><%= t("app.name") %></p>
+  <h1 class="display-lg mb-3" style="font-style: italic;"><%= t("devise.forgot_password_title") %></h1>
+  <p class="text-sm text-[var(--color-ink-muted)] mb-8"><%= t("devise.forgot_password_subtitle") %></p>
 
-  <div class="field">
-    <p><%= f.label :email %></p>
-    <p><%= f.email_field :email, autofocus: true, autocomplete: "email" %></p>
-  </div>
+  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "space-y-6" }) do |f| %>
+    <% if resource.errors.any? %>
+      <div class="marginalia"><span class="note-label"><%= t("marginalia.note") %></span><%= resource.errors.full_messages.to_sentence %></div>
+    <% end %>
 
-  <div class="actions">
-    <%= f.submit "Send me password reset instructions" %>
-  </div>
-<% end %>
+    <div>
+      <%= f.label :email, class: "field-label" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "field-input" %>
+    </div>
 
-<%= render "devise/shared/links" %>
+    <%= f.submit t("devise.send_reset_instructions"), class: "almanac-button w-full justify-center" %>
+  <% end %>
+
+  <p class="mt-6 text-sm text-[var(--color-ink-muted)] text-center">
+    <%= link_to t("devise.back_to_sign_in"), new_user_session_path, class: "underline decoration-1 underline-offset-4" %>
+  </p>
+</section>

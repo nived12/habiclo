@@ -123,6 +123,9 @@ es:
   settings:
     title: Ajustes
     saved: Guardado.
+    username: Nombre para mostrar
+    username_placeholder: "p. ej. alex, nived"
+    username_hint: "Se muestra en la barra superior. Si lo dejas vacío, usamos tu correo."
     accent_color: Color de acento
     accent_color_hint: Elige el color que dará vida al anillo, botones y resaltados.
     time_zone: Zona horaria
@@ -286,6 +289,14 @@ es:
       saved: Guardado.
   errors:
     forbidden: No tienes permiso para esa acción.
+    messages:
+      missing_number: "debe incluir al menos un número"
+  activerecord:
+    attributes:
+      user:
+        first_name: "Nombre"
+        last_name: "Apellido"
+        username: "Usuario"
   biometrics:
     new_title: Nueva lectura
     metric_label: Métrica
@@ -324,6 +335,19 @@ es:
     sign_in_submit: Iniciar sesión
     sign_up_submit: Crear cuenta
     password_min: "%{n}+ caracteres"
+    password_rules: "%{n}+ caracteres, incluyendo al menos un número"
+    forgot_password: "¿Olvidaste tu contraseña?"
+    forgot_password_title: "¿Olvidaste tu contraseña?"
+    forgot_password_subtitle: "Ingresa tu correo y te enviaremos un enlace para crear una nueva."
+    send_reset_instructions: "Enviar instrucciones"
+    change_password_title: "Crea una nueva contraseña."
+    change_password_subtitle: "Elige algo memorable — la usarás la próxima vez que inicies sesión."
+    new_password_label: "Nueva contraseña"
+    confirm_password_label: "Confirmar nueva contraseña"
+    change_password_submit: "Guardar nueva contraseña"
+    back_to_sign_in: "Volver a iniciar sesión"
+    username_placeholder: "p. ej. alex, nived"
+    username_hint: "Opcional. Se muestra en la barra superior como tu nombre."
   templates:
     eyebrow: Plantillas
     index_title: Empieza con una plantilla.

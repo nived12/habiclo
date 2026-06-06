@@ -15,6 +15,9 @@ class User < ApplicationRecord
 
   before_validation :ensure_jti
 
+  validates :first_name, :last_name, presence: true, on: :create, unless: :guest?
+  validate :password_has_number
+
   HEALTH_MODULES = %w[medicamentos labs biometria].freeze
 
   def section_enabled?(name)
@@ -28,7 +31,7 @@ class User < ApplicationRecord
   def display_name
     return I18n.t("nav.guest_name", default: "Guest") if guest?
 
-    username.presence || email.split("@").first
+    username.presence || first_name.presence || email.split("@").first
   end
 
   def days_until_reset
@@ -69,5 +72,12 @@ class User < ApplicationRecord
 
   def ensure_jti
     self.jti ||= SecureRandom.uuid
+  end
+
+  def password_has_number
+    return if password.blank?
+    return if password.match?(/\d/)
+
+    errors.add(:password, :missing_number)
   end
 end

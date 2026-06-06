@@ -45,15 +45,31 @@
       <div class="marginalia"><span class="note-label"><%= t("marginalia.note") %></span><%= resource.errors.full_messages.to_sentence %></div>
     <% end %>
 
+    <div class="grid grid-cols-2 gap-3">
+      <div>
+        <%= f.label :first_name, class: "field-label" %>
+        <%= f.text_field :first_name, required: true, autocomplete: "given-name", autofocus: true, class: "field-input" %>
+      </div>
+      <div>
+        <%= f.label :last_name, class: "field-label" %>
+        <%= f.text_field :last_name, required: true, autocomplete: "family-name", class: "field-input" %>
+      </div>
+    </div>
     <div>
       <%= f.label :email, class: "field-label" %>
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "field-input" %>
+      <%= f.email_field :email, autocomplete: "email", class: "field-input" %>
+    </div>
+    <div>
+      <%= f.label :username, class: "field-label" %>
+      <%= f.text_field :username, autocomplete: "username", class: "field-input",
+            placeholder: t("devise.username_placeholder") %>
+      <p class="field-hint mt-1"><%= t("devise.username_hint") %></p>
     </div>
     <div>
       <%= f.label :password, class: "field-label" %>
       <%= f.password_field :password, autocomplete: "new-password", class: "field-input" %>
       <% if @minimum_password_length %>
-        <p class="mt-1 text-xs text-[var(--color-ink-muted)] mono"><%= t("devise.password_min", n: @minimum_password_length) %></p>
+        <p class="mt-1 text-xs text-[var(--color-ink-muted)] mono"><%= t("devise.password_rules", n: @minimum_password_length) %></p>
       <% end %>
     </div>
     <div>

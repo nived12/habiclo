@@ -1,25 +1,33 @@
-<h2>Change your password</h2>
+<% content_for :title, t("devise.change_password_title") %>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-  <%= f.hidden_field :reset_password_token %>
+<section class="max-w-md mx-auto py-8">
+  <p class="almanac-eyebrow"><%= t("app.name") %></p>
+  <h1 class="display-lg mb-3" style="font-style: italic;"><%= t("devise.change_password_title") %></h1>
+  <p class="text-sm text-[var(--color-ink-muted)] mb-8"><%= t("devise.change_password_subtitle") %></p>
 
-  <div class="field">
-    <p><%= f.label :password, "New password" %></p>
-    <% if @minimum_password_length %>
-      <p><em>(<%= @minimum_password_length %> characters minimum)</em></p>
+  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class: "space-y-6" }) do |f| %>
+    <% if resource.errors.any? %>
+      <div class="marginalia"><span class="note-label"><%= t("marginalia.note") %></span><%= resource.errors.full_messages.to_sentence %></div>
     <% end %>
-    <p><%= f.password_field :password, autofocus: true, autocomplete: "new-password" %></p>
-  </div>
 
-  <div class="field">
-    <p><%= f.label :password_confirmation, "Confirm new password" %></p>
-    <p><%= f.password_field :password_confirmation, autocomplete: "new-password" %></p>
-  </div>
+    <%= f.hidden_field :reset_password_token %>
 
-  <div class="actions">
-    <%= f.submit "Change my password" %>
-  </div>
-<% end %>
+    <div>
+      <%= f.label :password, t("devise.new_password_label"), class: "field-label" %>
+      <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class: "field-input" %>
+      <% if @minimum_password_length %>
+        <p class="mt-1 text-xs text-[var(--color-ink-muted)] mono"><%= t("devise.password_rules", n: @minimum_password_length) %></p>
+      <% end %>
+    </div>
+    <div>
+      <%= f.label :password_confirmation, t("devise.confirm_password_label"), class: "field-label" %>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "field-input" %>
+    </div>
 
-<%= render "devise/shared/links" %>
+    <%= f.submit t("devise.change_password_submit"), class: "almanac-button w-full justify-center" %>
+  <% end %>
+
+  <p class="mt-6 text-sm text-[var(--color-ink-muted)] text-center">
+    <%= link_to t("devise.back_to_sign_in"), new_user_session_path, class: "underline decoration-1 underline-offset-4" %>
+  </p>
+</section>

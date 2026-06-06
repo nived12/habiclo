@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
 
   allow_browser versions: :modern
 
+  before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_locale
   around_action :use_time_zone
 
@@ -48,6 +49,11 @@ class ApplicationController < ActionController::Base
     return if iana.blank?
 
     ActiveSupport::TimeZone.all.find { |z| z.tzinfo.name == iana }&.name
+  end
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :first_name, :last_name])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:username, :first_name, :last_name])
   end
 
   def forbidden

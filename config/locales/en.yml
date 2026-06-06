@@ -123,6 +123,9 @@ en:
   settings:
     title: Settings
     saved: Saved.
+    username: Display name
+    username_placeholder: "e.g. alex, nived"
+    username_hint: "Shown in the top bar. Defaults to your email if left blank."
     accent_color: Accent color
     accent_color_hint: Pick the color that flavors your habit ring, buttons, and highlights.
     time_zone: Time zone
@@ -275,6 +278,14 @@ en:
       saved: Saved.
   errors:
     forbidden: You don't have permission for that action.
+    messages:
+      missing_number: "must include at least one number"
+  activerecord:
+    attributes:
+      user:
+        first_name: "First name"
+        last_name: "Last name"
+        username: "Username"
   devise:
     sign_in_title: Sign in.
     sign_up_title: Save your progress.
@@ -283,6 +294,19 @@ en:
     sign_in_submit: Sign in
     sign_up_submit: Create account
     password_min: "%{n}+ characters"
+    password_rules: "%{n}+ characters, including at least one number"
+    forgot_password: "Forgot password?"
+    forgot_password_title: "Forgot your password?"
+    forgot_password_subtitle: "Enter your email and we'll send you a link to set a new one."
+    send_reset_instructions: "Send reset instructions"
+    change_password_title: "Set a new password."
+    change_password_subtitle: "Choose something memorable — you'll use it next time you sign in."
+    new_password_label: "New password"
+    confirm_password_label: "Confirm new password"
+    change_password_submit: "Save new password"
+    back_to_sign_in: "Back to sign in"
+    username_placeholder: "e.g. alex, nived"
+    username_hint: "Optional. Shown in the top bar as your display name."
   templates:
     eyebrow: Templates
     index_title: Start with a template.
