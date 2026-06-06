@@ -37,7 +37,7 @@ Rails.application.configure do
   if ENV["BREVO_API_KEY"].present?
     config.action_mailer.delivery_method = :brevo
     config.action_mailer.raise_delivery_errors = true
-    config.action_mailer.brevo_settings = { api_key: ENV.fetch("BREVO_API_KEY") }
+    config.action_mailer.brevo_settings = { api_key: ENV["BREVO_API_KEY"] }
   else
     config.action_mailer.delivery_method = :test
     config.action_mailer.raise_delivery_errors = false

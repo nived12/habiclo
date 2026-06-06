@@ -60,7 +60,7 @@ Rails.application.configure do
     host: ENV.fetch("APP_HOST", "habiclo.com"),
     protocol: "https"
   }
-  config.action_mailer.brevo_settings = { api_key: ENV.fetch("BREVO_API_KEY", nil) }
+  config.action_mailer.brevo_settings = { api_key: ENV["BREVO_API_KEY"] }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).

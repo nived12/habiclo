@@ -45,3 +45,6 @@ module Habiclo
     config.time_zone = "America/Mexico_City"
   end
 end
+
+require_relative "../lib/brevo_delivery"
+ActionMailer::Base.add_delivery_method :brevo, BrevoDelivery
