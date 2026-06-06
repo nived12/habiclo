@@ -17,7 +17,8 @@ module Mail
       raise DeliveryError, "BREVO_API_KEY is not set" if api_key.blank?
 
       payload = payload_for(mail)
-      raise DeliveryError, "Brevo email has no html or text body" if payload[:htmlContent].blank? && payload[:textContent].blank?
+      raise DeliveryError,
+        "Brevo email has no html or text body" if payload[:htmlContent].blank? && payload[:textContent].blank?
 
       uri = URI("https://api.brevo.com/v3/smtp/email")
       request = Net::HTTP::Post.new(uri)
