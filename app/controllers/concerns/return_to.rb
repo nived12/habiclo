@@ -34,7 +34,8 @@ module ReturnTo
   end
 
   def return_to_param
-    path = safe_return_path(request.original_url)
+    source = request.get? ? request.original_url : request.referer
+    path = safe_return_path(source)
     path ? { return_to: path } : {}
   end
 end
