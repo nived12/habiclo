@@ -8,6 +8,19 @@ export default class extends Controller {
 
   connect() {
     if (this.hasSliderTarget) this.preview()
+    this.boundChange = this.handleChange.bind(this)
+    this.element.addEventListener("change", this.boundChange)
+  }
+
+  disconnect() {
+    if (this.boundChange) this.element.removeEventListener("change", this.boundChange)
+  }
+
+  handleChange(event) {
+    const input = event.target.closest('input[name="user[brand_hue]"]')
+    if (!input) return
+    const hue = parseInt(input.value, 10) || 25
+    document.documentElement.style.setProperty("--brand-hue", hue)
   }
 
   preview() {

@@ -15,6 +15,8 @@ import CollapseController from "./collapse_controller"
 import SwatchPickerController from "./swatch_picker_controller"
 import TzDetectController from "./tz_detect_controller"
 import FlashController from "./flash_controller"
+import MobileMenuController from "./mobile_menu_controller"
+import OnceClickController from "./once_click_controller"
 
 application.register("agenda-block", AgendaBlockController)
 application.register("brand-hue", BrandHueController)
@@ -31,3 +33,5 @@ application.register("collapse", CollapseController)
 application.register("swatch-picker", SwatchPickerController)
 application.register("tz-detect", TzDetectController)
 application.register("flash", FlashController)
+application.register("mobile-menu", MobileMenuController)
+application.register("once-click", OnceClickController)

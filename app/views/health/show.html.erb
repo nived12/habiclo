@@ -9,7 +9,7 @@
 
 <div class="mt-6">
   <%= turbo_frame_tag "health_tab" do %>
-    <nav class="period-nav mb-6" aria-label="Health tabs">
+    <nav class="period-nav period-nav--scroll mb-6" aria-label="Health tabs">
       <% @visible_tabs.each do |tab| %>
         <%= link_to t("health.tabs.#{tab}"),
               health_path(tab: tab),

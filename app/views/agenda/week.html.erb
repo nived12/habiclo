@@ -20,7 +20,32 @@
   </div>
 </section>
 
-<div class="spread mt-6">
+<div class="week-mobile week-mobile-only mt-6">
+  <div class="week-day-strip" role="tablist" aria-label="<%= t('agenda.week_of', date: l(@week_start, format: :long)) %>">
+    <% @days.each do |d| %>
+      <% ratio = completion_ratio_for(@entries_by_day[d]) %>
+      <%= link_to agenda_week_path(on: @on_date.iso8601, focus: d.iso8601),
+            class: "week-day-chip #{'is-today' if d == @today} #{'is-focused' if d == @focused_day}",
+            data: { turbo_frame: "_top" },
+            role: "tab",
+            "aria-selected" => (d == @focused_day).to_s do %>
+        <span class="week-day-chip-weekday"><%= l(d, format: "%a") %></span>
+        <span class="week-day-chip-num mono"><%= d.day.to_s.rjust(2, "0") %></span>
+        <% if ratio %>
+          <span class="week-day-chip-ratio"><%= ratio[:completed] %>/<%= ratio[:total] %></span>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="week-mobile-day">
+    <%= render "agenda/day_page", on_date: @focused_day, entries: @focused_entries, today: @today,
+          all_completions_map: @pre[:all_completions_map],
+          completions_map: @pre[:completions_map] %>
+  </div>
+</div>
+
+<div class="week-desktop-only mt-6">
+<div class="spread">
   <%# LEFT PAGE — the week %>
   <div class="spread-week">
     <div class="agenda-grid agenda-grid--week reveal-stagger">
@@ -78,4 +103,5 @@
           all_completions_map: @pre[:all_completions_map],
           completions_map: @pre[:completions_map] %>
   </aside>
+</div>
 </div>

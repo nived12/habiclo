@@ -1,5 +1,6 @@
 <p class="almanac-eyebrow mb-3"><%= t("home.weekly_habits") %></p>
 
+<div class="weekly-habits-scroll">
 <div class="weekly-habits-grid" style="--week-count: <%= week_starts.length %>;">
   <div class="weekly-grid-row weekly-grid-header">
     <span class="weekly-habit-name"></span>
@@ -33,4 +34,5 @@
       <% end %>
     </div>
   <% end %>
+</div>
 </div>

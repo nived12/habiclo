@@ -40,6 +40,7 @@
     <% end %>
 
     <% if results.any? %>
+      <div class="lab-results-scroll">
       <table class="lab-results-table mb-4">
         <thead>
           <tr>
@@ -78,6 +79,7 @@
           <% end %>
         </tbody>
       </table>
+      </div>
     <% else %>
       <p class="text-xs italic text-[var(--color-ink-muted)] mb-3"><%= t("health.labs.no_results") %></p>
     <% end %>

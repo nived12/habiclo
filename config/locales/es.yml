@@ -14,6 +14,11 @@ es:
     sign_out: Cerrar sesión
     new_habit: Hábito
     health: Salud
+    menu: Menú
+    primary: Navegación principal
+    help: Ayuda
+    close: Cerrar
+    agenda: Agenda
     guest_name: Invitado
     guest_banner: Estás como invitado. Tus entradas se guardan en este dispositivo.
   agenda:
