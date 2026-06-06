@@ -1241,6 +1241,12 @@
     text-align: left;
     color: var(--color-ink);
     font: inherit;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .agenda-block--full .block-main {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
   .agenda-block--compact .title-2lines {
     font-size: 0.76rem;

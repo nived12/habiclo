@@ -7,9 +7,11 @@ export default class extends Controller {
   async toggle(event) {
     event.preventDefault()
     if (!this.urlValue) return
+    if (this.element.dataset.toggling === "true") return
 
     const wasCompleted = this.element.dataset.completed === "true"
     this.element.dataset.completed = wasCompleted ? "false" : "true"
+    this.element.dataset.toggling = "true"
 
     try {
       const token = document.querySelector('meta[name="csrf-token"]')?.content
@@ -27,6 +29,8 @@ export default class extends Controller {
     } catch (err) {
       console.error("toggle failed", err)
       this.element.dataset.completed = wasCompleted ? "true" : "false"
+    } finally {
+      this.element.dataset.toggling = "false"
     }
   }
 }
