@@ -39,11 +39,13 @@ Rails.application.configure do
     config.action_mailer.raise_delivery_errors = true
     config.action_mailer.smtp_settings = {
       address:              "smtp-relay.brevo.com",
-      port:                 587,
+      port:                 2525,
       user_name:            ENV.fetch("BREVO_SMTP_USER"),
       password:             ENV.fetch("BREVO_SMTP_PASSWORD"),
       authentication:       :plain,
-      enable_starttls_auto: true
+      enable_starttls_auto: true,
+      open_timeout:         15,
+      read_timeout:         15
     }
   else
     config.action_mailer.delivery_method = :test
