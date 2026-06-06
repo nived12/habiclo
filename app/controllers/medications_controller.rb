@@ -5,33 +5,33 @@ class MedicationsController < ApplicationController
   before_action :capture_return_to, only: [ :new, :edit ]
 
   def index
-    redirect_to health_path(tab: "medicamentos")
+    redirect_to health_path(tab: "medications")
   end
 
   def new
-    setup_health_page(tab: "medicamentos")
+    setup_health_page(tab: "medications")
     render "health/show"
   end
 
   def create
     @medication = current_or_guest_user.medications.new(med_params)
     if @medication.save
-      redirect_after_save(fallback: health_path(tab: "medicamentos"))
+      redirect_after_save(fallback: health_path(tab: "medications"))
     else
-      redirect_to health_path(tab: "medicamentos"), alert: @medication.errors.full_messages.to_sentence
+      redirect_to health_path(tab: "medications"), alert: @medication.errors.full_messages.to_sentence
     end
   end
 
   def edit
-    setup_health_page(tab: "medicamentos", medication: @med)
+    setup_health_page(tab: "medications", medication: @med)
     render "health/show"
   end
 
   def update
     if @med.update(med_params)
-      redirect_after_save(fallback: health_path(tab: "medicamentos"))
+      redirect_after_save(fallback: health_path(tab: "medications"))
     else
-      redirect_to health_path(tab: "medicamentos"), alert: @med.errors.full_messages.to_sentence
+      redirect_to health_path(tab: "medications"), alert: @med.errors.full_messages.to_sentence
     end
   end
 
@@ -39,7 +39,7 @@ class MedicationsController < ApplicationController
     @med.destroy
     respond_to do |format|
       format.json { head :no_content }
-      format.html { redirect_to health_path(tab: "medicamentos") }
+      format.html { redirect_to health_path(tab: "medications") }
     end
   end
 

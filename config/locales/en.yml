@@ -179,10 +179,10 @@ en:
   health:
     title: Health
     tabs:
-      medicamentos: Medications
+      medications: Medications
       labs: Labs
-      biometria: Biometrics
-      configuracion: Settings
+      biometrics: Biometrics
+      settings: Settings
     medications:
       list_title: CURRENT MEDICATIONS
       new_title: NEW MEDICATION
@@ -235,7 +235,7 @@ en:
         due: "Scheduled"
         completed: "Completed"
         pending: pending
-    biometria:
+    biometrics:
       list_title: MY METRICS
       new_metric: New metric
       empty_title: No metrics yet.
@@ -270,14 +270,14 @@ en:
         recorded_on: Date
         save: Save
         cancel: Cancel
-    configuracion:
+    settings:
       title: HEALTH SETTINGS
       subtitle: Choose which health modules appear in this section. Hidden ones are still saved — they just disappear from navigation.
       tabs_section: Visible tabs
       tab_descriptions:
-        medicamentos: Active medications list and schedules.
+        medications: Active medications list and schedules.
         labs: Lab panels with result history.
-        biometria: Personal metrics with trend and chart.
+        biometrics: Personal metrics with trend and chart.
       active: Active
       inactive: Hidden
       saved: Saved.
@@ -285,6 +285,7 @@ en:
     forbidden: You don't have permission for that action.
     messages:
       missing_number: "must include at least one number"
+      slot_full: "already has %{count} habits at that time. Choose a different time."
   activerecord:
     attributes:
       user:

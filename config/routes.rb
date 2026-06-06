@@ -33,8 +33,8 @@ Rails.application.routes.draw do
   end
   resources :lab_results, only: [ :edit, :update, :destroy ]
 
-  get  "salud", to: "health#show",   as: :health
-  get  "salud/tab", to: "health#tab", as: :health_tab
+  get  "health", to: "health#show",   as: :health
+  get  "health/tab", to: "health#tab", as: :health_tab
 
   resources :templates, only: [ :index, :show ]
   resources :template_applications, only: [ :create ]

@@ -43,10 +43,7 @@ class Habit < ApplicationRecord
                 .limit(MAX_HABITS_PER_SLOT)
                 .count
     if count >= MAX_HABITS_PER_SLOT
-      errors.add(
-        :scheduled_at_minute, :slot_full,
-        message: "ya tiene #{MAX_HABITS_PER_SLOT} hábitos a esa hora. Elige otro horario."
-      )
+      errors.add(:scheduled_at_minute, :slot_full, count: MAX_HABITS_PER_SLOT)
     end
   end
 

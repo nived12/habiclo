@@ -1,6 +1,6 @@
 <div class="flex items-center justify-between mb-6">
-  <p class="almanac-eyebrow mb-0"><%= t("health.biometria.list_title") %></p>
-  <%= link_to t("health.biometria.new_metric"),
+  <p class="almanac-eyebrow mb-0"><%= t("health.biometrics.list_title") %></p>
+  <%= link_to t("health.biometrics.new_metric"),
         new_biometric_metric_path(**return_to_param),
         class: "almanac-button almanac-button--ghost text-xs",
         data: { turbo_frame: "health_modal" } %>
@@ -8,9 +8,9 @@
 
 <% if metrics.empty? %>
   <div class="text-center py-16">
-    <p class="display-lg text-[var(--color-ink-muted)] mb-2"><%= t("health.biometria.empty_title") %></p>
-    <p class="text-sm text-[var(--color-ink-muted)] mb-6"><%= t("health.biometria.empty_body") %></p>
-    <%= link_to t("health.biometria.empty_cta"), new_biometric_metric_path(**return_to_param),
+    <p class="display-lg text-[var(--color-ink-muted)] mb-2"><%= t("health.biometrics.empty_title") %></p>
+    <p class="text-sm text-[var(--color-ink-muted)] mb-6"><%= t("health.biometrics.empty_body") %></p>
+    <%= link_to t("health.biometrics.empty_cta"), new_biometric_metric_path(**return_to_param),
           class: "almanac-button",
           data: { turbo_frame: "health_modal" } %>
   </div>

@@ -25,13 +25,13 @@ class BiometricEntriesController < ApplicationController
           render turbo_stream: [
             turbo_stream.update(
               "health_tab",
-              partial: "health/biometria",
+              partial: "health/biometrics",
               locals: { metrics: metrics, metric: current_or_guest_user.biometric_metrics.new }
             ),
             turbo_stream.update("health_modal", "")
           ]
         end
-        format.html { redirect_after_save(fallback: health_path(tab: "biometria")) }
+        format.html { redirect_after_save(fallback: health_path(tab: "biometrics")) }
       end
     else
       respond_to do |format|
@@ -42,7 +42,7 @@ class BiometricEntriesController < ApplicationController
             locals: { metric: @metric, entry: @entry, return_to: @return_to }
           )
         end
-        format.html { redirect_after_save(fallback: health_path(tab: "biometria")) }
+        format.html { redirect_after_save(fallback: health_path(tab: "biometrics")) }
       end
     end
   end
@@ -57,16 +57,16 @@ class BiometricEntriesController < ApplicationController
           render turbo_stream: [
             turbo_stream.update(
               "health_tab",
-              partial: "health/biometria",
+              partial: "health/biometrics",
               locals: { metrics: metrics, metric: current_or_guest_user.biometric_metrics.new }
             ),
             turbo_stream.update("health_modal", "")
           ]
         end
-        format.html { redirect_after_save(fallback: health_path(tab: "biometria")) }
+        format.html { redirect_after_save(fallback: health_path(tab: "biometrics")) }
       end
     else
-      redirect_after_save(fallback: health_path(tab: "biometria"))
+      redirect_after_save(fallback: health_path(tab: "biometrics"))
     end
   end
 
@@ -78,11 +78,11 @@ class BiometricEntriesController < ApplicationController
         metrics = current_or_guest_user.biometric_metrics.includes(:biometric_entries).ordered
         render turbo_stream: turbo_stream.update(
           "health_tab",
-          partial: "health/biometria",
+          partial: "health/biometrics",
           locals: { metrics: metrics, metric: current_or_guest_user.biometric_metrics.new }
         )
       end
-      format.html { redirect_after_save(fallback: health_path(tab: "biometria")) }
+      format.html { redirect_after_save(fallback: health_path(tab: "biometrics")) }
     end
   end
 

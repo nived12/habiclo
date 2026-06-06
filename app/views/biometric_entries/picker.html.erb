@@ -2,7 +2,7 @@
   <div class="health-modal-panel log-modal">
     <header class="flex items-center justify-between mb-4">
       <p class="almanac-eyebrow mb-0"><%= t("biometric_entries.picker.title") %></p>
-      <%= link_to "✕", request.referer || health_path(tab: "biometria"),
+      <%= link_to "✕", request.referer || health_path(tab: "biometrics"),
             class: "mono text-sm text-[var(--color-ink-muted)] hover:text-[var(--color-ink)]",
             data: { turbo_frame: "health_modal" } %>
     </header>

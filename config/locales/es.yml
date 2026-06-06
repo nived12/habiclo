@@ -179,10 +179,10 @@ es:
   health:
     title: Salud
     tabs:
-      medicamentos: Medicamentos
+      medications: Medicamentos
       labs: Laboratorios
-      biometria: Biometría
-      configuracion: Configuración
+      biometrics: Biometría
+      settings: Configuración
     medications:
       list_title: MEDICAMENTOS ACTUALES
       new_title: NUEVO MEDICAMENTO
@@ -210,7 +210,7 @@ es:
         due_on: Fecha programada
         completed_on: Fecha completado
         result: Resultado / resumen
-    biometria:
+    biometrics:
       list_title: MIS MÉTRICAS
       new_metric: Nueva métrica
       empty_title: Sin métricas todavía.
@@ -281,14 +281,14 @@ es:
         due: "Programado"
         completed: "Completado"
         pending: pendiente
-    configuracion:
+    settings:
       title: CONFIGURACIÓN DE SALUD
       subtitle: Decide qué módulos de salud aparecen en esta sección. Los ocultos siguen guardados — solo desaparecen de la navegación.
       tabs_section: Pestañas visibles
       tab_descriptions:
-        medicamentos: Lista de medicamentos activos y horarios.
+        medications: Lista de medicamentos activos y horarios.
         labs: Paneles de laboratorio con historial de resultados.
-        biometria: Métricas personales con tendencia y gráfica.
+        biometrics: Métricas personales con tendencia y gráfica.
       active: Activa
       inactive: Oculta
       saved: Guardado.
@@ -296,6 +296,7 @@ es:
     forbidden: No tienes permiso para esa acción.
     messages:
       missing_number: "debe incluir al menos un número"
+      slot_full: "ya tiene %{count} hábitos a esa hora. Elige otro horario."
   activerecord:
     attributes:
       user:

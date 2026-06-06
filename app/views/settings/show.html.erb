@@ -53,13 +53,13 @@
       <label class="field-label"><%= t("settings.optional_sections") %></label>
       <p class="field-hint mb-3"><%= t("settings.optional_sections_hint") %></p>
       <div class="space-y-2">
-        <% { "medicamentos" => "medications", "labs" => "labs", "biometria" => "biometrics" }.each do |tab_key, i18n_key| %>
+        <% %w[medications labs biometrics].each do |tab| %>
           <label class="config-tab-row" style="cursor: pointer;">
-            <%= hidden_field_tag "user[tabs_visibility][#{tab_key}]", "false", id: nil %>
-            <%= check_box_tag "user[tabs_visibility][#{tab_key}]", "true", @user.tab_visible?(tab_key), class: "mt-1" %>
+            <%= hidden_field_tag "user[tabs_visibility][#{tab}]", "false", id: nil %>
+            <%= check_box_tag "user[tabs_visibility][#{tab}]", "true", @user.tab_visible?(tab), class: "mt-1" %>
             <div class="config-tab-info">
-              <div class="config-tab-name"><%= t("settings.sections.#{i18n_key}") %></div>
-              <div class="config-tab-desc"><%= t("settings.sections.#{i18n_key}_desc") %></div>
+              <div class="config-tab-name"><%= t("settings.sections.#{tab}") %></div>
+              <div class="config-tab-desc"><%= t("settings.sections.#{tab}_desc") %></div>
             </div>
           </label>
         <% end %>

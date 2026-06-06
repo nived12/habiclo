@@ -2,7 +2,7 @@
 <div class="health-modal-shroud" data-action="click->modal-close#close">
   <div class="health-modal-panel" data-action="click->modal-close#stopPropagation" role="dialog">
     <p class="health-modal-title">
-      <%= metric.persisted? ? t("health.biometria.metric_form.save_edit") : t("health.biometria.metric_form.save") %>
+      <%= metric.persisted? ? t("health.biometrics.metric_form.save_edit") : t("health.biometrics.metric_form.save") %>
     </p>
 
     <%= form_with(model: metric,

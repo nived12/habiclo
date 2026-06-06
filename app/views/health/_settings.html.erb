@@ -1,17 +1,17 @@
 <%# user: current User %>
-<p class="almanac-eyebrow mb-6"><%= t("health.configuracion.title") %></p>
+<p class="almanac-eyebrow mb-6"><%= t("health.settings.title") %></p>
 
 <div class="max-w-lg">
   <div class="config-section">
-    <p class="config-section-title"><%= t("health.configuracion.tabs_section") %></p>
-    <p class="text-sm text-[var(--color-ink-muted)] mb-4"><%= t("health.configuracion.subtitle") %></p>
+    <p class="config-section-title"><%= t("health.settings.tabs_section") %></p>
+    <p class="text-sm text-[var(--color-ink-muted)] mb-4"><%= t("health.settings.subtitle") %></p>
 
     <%= form_with(url: settings_path, method: :patch, data: { controller: "auto-submit", auto_submit_delay_value: 300 }) do |f| %>
       <% HealthController::TOGGLEABLE_TABS.each do |tab| %>
         <div class="config-tab-row">
           <div class="config-tab-info">
             <p class="config-tab-name"><%= t("health.tabs.#{tab}") %></p>
-            <p class="config-tab-desc"><%= t("health.configuracion.tab_descriptions.#{tab}") %></p>
+            <p class="config-tab-desc"><%= t("health.settings.tab_descriptions.#{tab}") %></p>
           </div>
           <label class="flex items-center gap-2 cursor-pointer shrink-0">
             <%= check_box_tag "user[tabs_visibility][#{tab}]", "1",
@@ -20,7 +20,7 @@
                   data: { action: "change->auto-submit#submit" } %>
             <span class="toggle-track peer-checked:bg-[var(--color-accent)]"></span>
             <span class="mono text-xs text-[var(--color-ink-muted)]">
-              <%= user.tab_visible?(tab) ? t("health.configuracion.active") : t("health.configuracion.inactive") %>
+              <%= user.tab_visible?(tab) ? t("health.settings.active") : t("health.settings.inactive") %>
             </span>
           </label>
         </div>

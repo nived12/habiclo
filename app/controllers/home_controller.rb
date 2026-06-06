@@ -59,7 +59,7 @@ class HomeController < ApplicationController
   private
 
   def load_today_vitals
-    return unless @user.tab_visible?("biometria")
+    return unless @user.tab_visible?("biometrics")
 
     @today_vitals = @user.biometric_entries
       .includes(:biometric_metric)
@@ -68,7 +68,7 @@ class HomeController < ApplicationController
   end
 
   def load_today_medications
-    return unless @user.tab_visible?("medicamentos")
+    return unless @user.tab_visible?("medications")
 
     @today_medications = @user.medications.order(:id).to_a
     return if @today_medications.empty?

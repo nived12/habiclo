@@ -8,30 +8,30 @@
             <span class="text-sm font-normal text-[var(--color-ink-muted)] ml-1 mono">(<%= @metric.unit %>)</span>
           <% end %>
         </p>
-        <%= link_to "×", health_path(tab: "biometria"),
+        <%= link_to "×", health_path(tab: "biometrics"),
               class: "text-xl text-[var(--color-ink-muted)] hover:text-[var(--color-ink)] leading-none",
               data: { turbo_frame: "health_modal" } %>
       </div>
 
       <div class="flex gap-3 mb-5">
-        <%= link_to t("health.biometria.add_value"),
+        <%= link_to t("health.biometrics.add_value"),
               new_biometric_metric_biometric_entry_path(@metric),
               class: "almanac-button almanac-button--ghost text-xs",
               data: { turbo_frame: "health_modal" } %>
-        <%= link_to "✎ #{t('health.biometria.metric_form.save_edit')}",
+        <%= link_to "✎ #{t('health.biometrics.metric_form.save_edit')}",
               edit_biometric_metric_path(@metric, **return_to_param),
               class: "almanac-button almanac-button--ghost text-xs",
               data: { turbo_frame: "health_modal" } %>
       </div>
 
       <% if @entries.empty? %>
-        <p class="text-sm italic text-[var(--color-ink-muted)]"><%= t("health.biometria.no_entries") %></p>
+        <p class="text-sm italic text-[var(--color-ink-muted)]"><%= t("health.biometrics.no_entries") %></p>
       <% else %>
         <table class="lab-results-table w-full">
           <thead>
             <tr>
-              <th><%= t("health.biometria.entry_form.recorded_on") %></th>
-              <th class="text-right"><%= t("health.biometria.entry_form.value") %></th>
+              <th><%= t("health.biometrics.entry_form.recorded_on") %></th>
+              <th class="text-right"><%= t("health.biometrics.entry_form.value") %></th>
               <th></th>
             </tr>
           </thead>

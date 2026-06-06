@@ -18,7 +18,7 @@ class User < ApplicationRecord
   validates :first_name, :last_name, presence: true, on: :create, unless: :guest?
   validate :password_has_number
 
-  HEALTH_MODULES = %w[medicamentos labs biometria].freeze
+  HEALTH_MODULES = %w[medications labs biometrics].freeze
 
   def section_enabled?(name)
     tab_visible?(name)

@@ -67,7 +67,7 @@ app/
   views/
     home/           ring view (monthly habit ring)
     agenda/         day, week, month views + _block partial
-    health/         tabs: medicamentos, labs, biometria, configuracion
+    health/         tabs: medications, labs, biometrics, settings
   javascript/controllers/   Stimulus controllers
   assets/stylesheets/       application.tailwind.css (design system)
 config/

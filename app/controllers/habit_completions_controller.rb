@@ -75,9 +75,9 @@ class HabitCompletionsController < ApplicationController
     end
   end
 
-  # Si el habit.unit corresponde a una métrica biométrica conocida y el usuario YA tiene
-  # una BiometricMetric con ese nombre canónico, registramos también el valor en su historial.
-  # No auto-crea métricas — silencio si no existe.
+  # When habit.unit maps to a known biometric metric and the user already has a
+  # BiometricMetric with that canonical name, also log the value in its history.
+  # Does not auto-create metrics — silently skips if none exists.
   BIOMETRIC_UNIT_MAP = {
     "kg"      => "Peso",
     "cm"      => "Cintura",

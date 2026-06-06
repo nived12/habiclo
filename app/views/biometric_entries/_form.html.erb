@@ -21,7 +21,7 @@
         <% end %>
 
         <div>
-          <%= f.label :value, t("health.biometria.entry_form.value"), class: "field-label" %>
+          <%= f.label :value, t("health.biometrics.entry_form.value"), class: "field-label" %>
           <div class="flex items-center gap-2">
             <%= f.number_field :value, step: "any", class: "field-input w-36",
                   autofocus: true, value: entry.value %>
@@ -32,14 +32,14 @@
         </div>
 
         <div>
-          <%= f.label :recorded_on, t("health.biometria.entry_form.recorded_on"), class: "field-label" %>
+          <%= f.label :recorded_on, t("health.biometrics.entry_form.recorded_on"), class: "field-label" %>
           <%= f.date_field :recorded_on, class: "field-input w-auto",
                 value: entry.recorded_on || Date.current %>
         </div>
 
         <div class="flex gap-3 pt-2">
-          <%= f.submit t("health.biometria.entry_form.save"), class: "almanac-button text-xs" %>
-          <%= link_to t("health.biometria.entry_form.cancel"), health_path(tab: "biometria"),
+          <%= f.submit t("health.biometrics.entry_form.save"), class: "almanac-button text-xs" %>
+          <%= link_to t("health.biometrics.entry_form.cancel"), health_path(tab: "biometrics"),
                 class: "almanac-button almanac-button--ghost text-xs",
                 data: { turbo_frame: "health_modal" } %>
         </div>

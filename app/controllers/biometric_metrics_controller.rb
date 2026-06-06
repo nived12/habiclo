@@ -5,7 +5,7 @@ class BiometricMetricsController < ApplicationController
   before_action :capture_return_to, only: [ :new, :edit ]
 
   def index
-    redirect_to health_path(tab: "biometria")
+    redirect_to health_path(tab: "biometrics")
   end
 
   def new
@@ -22,13 +22,13 @@ class BiometricMetricsController < ApplicationController
           render turbo_stream: [
             turbo_stream.update(
               "health_tab",
-              partial: "health/biometria",
+              partial: "health/biometrics",
               locals: { metrics: @biometric_metrics, metric: current_or_guest_user.biometric_metrics.new }
             ),
             turbo_stream.update("health_modal", "")
           ]
         end
-        format.html { redirect_after_save(fallback: health_path(tab: "biometria")) }
+        format.html { redirect_after_save(fallback: health_path(tab: "biometrics")) }
       end
     else
       @return_to = safe_return_path(params[:return_to])
@@ -40,7 +40,7 @@ class BiometricMetricsController < ApplicationController
             locals: { metric: @metric, return_to: @return_to }
           )
         end
-        format.html { redirect_after_save(fallback: health_path(tab: "biometria")) }
+        format.html { redirect_after_save(fallback: health_path(tab: "biometrics")) }
       end
     end
   end
@@ -60,13 +60,13 @@ class BiometricMetricsController < ApplicationController
           render turbo_stream: [
             turbo_stream.update(
               "health_tab",
-              partial: "health/biometria",
+              partial: "health/biometrics",
               locals: { metrics: @biometric_metrics, metric: current_or_guest_user.biometric_metrics.new }
             ),
             turbo_stream.update("health_modal", "")
           ]
         end
-        format.html { redirect_after_save(fallback: health_path(tab: "biometria")) }
+        format.html { redirect_after_save(fallback: health_path(tab: "biometrics")) }
       end
     else
       @return_to = safe_return_path(params[:return_to])
@@ -90,7 +90,7 @@ class BiometricMetricsController < ApplicationController
     @metric.destroy
     respond_to do |format|
       format.json { head :no_content }
-      format.html { redirect_after_save(fallback: health_path(tab: "biometria")) }
+      format.html { redirect_after_save(fallback: health_path(tab: "biometrics")) }
     end
   end
 

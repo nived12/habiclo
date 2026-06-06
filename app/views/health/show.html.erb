@@ -19,14 +19,14 @@
     </nav>
 
     <% case @tab
-       when "medicamentos" %>
-      <%= render "health/medicamentos", medications: @medications, medication: @medication %>
+       when "medications" %>
+      <%= render "health/medications", medications: @medications, medication: @medication %>
     <% when "labs" %>
       <%= render "health/labs", lab_panels: @lab_panels, lab_panel: @lab_panel %>
-    <% when "biometria" %>
-      <%= render "health/biometria", metrics: @biometric_metrics, metric: @biometric_metric %>
-    <% when "configuracion" %>
-      <%= render "health/configuracion", user: @user %>
+    <% when "biometrics" %>
+      <%= render "health/biometrics", metrics: @biometric_metrics, metric: @biometric_metric %>
+    <% when "settings" %>
+      <%= render "health/settings", user: @user %>
     <% end %>
   <% end %>
 </div>

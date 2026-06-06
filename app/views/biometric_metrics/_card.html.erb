@@ -15,13 +15,13 @@
 
   <div class="metric-card-actions">
     <%= link_to "✎", edit_biometric_metric_path(metric, **return_to_param),
-          class: "metric-action-btn", title: t("health.biometria.metric_form.save_edit"),
+          class: "metric-action-btn", title: t("health.biometrics.metric_form.save_edit"),
           data: { turbo_frame: "health_modal" } %>
-    <%= link_to t("health.biometria.log_value"),
+    <%= link_to t("health.biometrics.log_value"),
           new_biometric_metric_biometric_entry_path(metric, **return_to_param),
           class: "metric-action-btn",
           data: { turbo_frame: "health_modal" } %>
-    <%= link_to t("health.biometria.view_history"),
+    <%= link_to t("health.biometrics.view_history"),
           biometric_metric_path(metric),
           class: "metric-action-btn",
           data: { turbo_frame: "health_modal" } %>
@@ -76,20 +76,20 @@
       </svg>
     <% end %>
   <% else %>
-    <p class="text-sm italic text-[var(--color-ink-muted)]"><%= t("health.biometria.no_entries") %></p>
+    <p class="text-sm italic text-[var(--color-ink-muted)]"><%= t("health.biometrics.no_entries") %></p>
   <% end %>
 
   <div class="metric-card-footer">
     <span>
       <% if latest %>
         <% if days_since == 0 %>
-          <%= t("health.biometria.days_ago_zero") %>
+          <%= t("health.biometrics.days_ago_zero") %>
         <% elsif days_since == 1 %>
-          <%= t("health.biometria.days_ago_one") %>
+          <%= t("health.biometrics.days_ago_one") %>
         <% else %>
-          <%= t("health.biometria.days_ago", n: days_since) %>
+          <%= t("health.biometrics.days_ago", n: days_since) %>
         <% end %>
-        · <%= t("health.biometria.entries_count", count: entries.size) %>
+        · <%= t("health.biometrics.entries_count", count: entries.size) %>
       <% end %>
     </span>
   </div>

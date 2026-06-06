@@ -64,10 +64,10 @@ bin/rails runner "puts User.count"        # quick sanity checks
 - `AgendaController` — `#day`, `#week`, `#month`. All use `preload_range` which returns a hash with keys: `habits, completions_map, all_completions_map, meds, intakes_set, agenda_items_by_date, lab_results_by_date`.
 - Partial `agenda/_block.html.erb` — unified block for habits and medication doses. Reads `entry.source` to branch.
 
-### Health (`/salud`)
-- `HealthController` — tabs: `%w[medicamentos labs biometria configuracion]`. Dynamic visibility via `User#tab_visible?`.
-- Partials: `health/_medicamentos`, `health/_labs`, `health/_biometria`, `health/_configuracion`.
-- Biometría uses `turbo_frame "health_modal"` for create/history drawers; Labs uses `turbo_frame "health_tab"` inline.
+### Health (`/health`)
+- `HealthController` — tabs: `%w[medications labs biometrics settings]`. Dynamic visibility via `User#tab_visible?`.
+- Partials: `health/_medications`, `health/_labs`, `health/_biometrics`, `health/_settings`.
+- Biometrics uses `turbo_frame "health_modal"` for create/history drawers; Labs uses `turbo_frame "health_tab"` inline.
 - Editing a medication or lab panel highlights the form panel (ring + tinted bg) and changes the title.
 
 ### Home (`/`)
