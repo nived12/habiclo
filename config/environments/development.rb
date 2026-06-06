@@ -34,19 +34,10 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
   config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
 
-  if ENV["BREVO_SMTP_USER"].present? && ENV["BREVO_SMTP_PASSWORD"].present?
-    config.action_mailer.delivery_method = :smtp
+  if ENV["BREVO_API_KEY"].present?
+    config.action_mailer.delivery_method = :brevo
     config.action_mailer.raise_delivery_errors = true
-    config.action_mailer.smtp_settings = {
-      address:              "smtp-relay.brevo.com",
-      port:                 2525,
-      user_name:            ENV.fetch("BREVO_SMTP_USER"),
-      password:             ENV.fetch("BREVO_SMTP_PASSWORD"),
-      authentication:       :plain,
-      enable_starttls_auto: true,
-      open_timeout:         15,
-      read_timeout:         15
-    }
+    config.action_mailer.brevo_settings = { api_key: ENV.fetch("BREVO_API_KEY") }
   else
     config.action_mailer.delivery_method = :test
     config.action_mailer.raise_delivery_errors = false

@@ -17,7 +17,7 @@
 
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
 
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
 
     <style>:root { --brand-hue: <%= (current_or_guest_user&.brand_hue || 25) %>; }</style>

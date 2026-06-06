@@ -103,7 +103,8 @@ h.call(
 h.call(
   "Entrenamiento de fuerza (sin Valsalva)", "17:15", 45, "movement", 0,
   frequency_type: "weekly_days", recurrence_days: [ 1, 3, 5 ],
-  description: "Mancuernas, kettlebells o ligas. Exhala al levantar — la maniobra de Valsalva sube la presión intraocular."
+  description: "Mancuernas, kettlebells o ligas. Exhala al levantar — " \
+               "la maniobra de Valsalva sube la presión intraocular."
 )
 h.call(
   "Whey Protein con agua",   "18:00", 5,  "nutrition", 60, unit: "g", target_value: 30.0,
@@ -173,7 +174,8 @@ panels_spec.each_with_index do |spec, i|
   )
 end
 
-puts "  ↳ #{user.lab_panels.count} lab panels (#{LabResult.joins(:lab_panel).where(lab_panels: { user_id: user.id }).count} results)"
+lab_result_count = LabResult.joins(:lab_panel).where(lab_panels: { user_id: user.id }).count
+puts "  ↳ #{user.lab_panels.count} lab panels (#{lab_result_count} results)"
 
 # === Biometric metrics + entries (from your Health Report) ===
 baseline = today - 1.day

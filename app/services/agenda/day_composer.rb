@@ -39,7 +39,11 @@ module Agenda
       habits.filter_map do |habit|
         next unless habit.scheduled_for?(@on_date)
 
-        completed = @completions_map ? (@completions_map[habit.id]&.include?(@on_date) || false) : habit.completed_on?(@on_date)
+        completed = if @completions_map
+          @completions_map[habit.id]&.include?(@on_date) || false
+        else
+          habit.completed_on?(@on_date)
+        end
         Entry.new(
           source: :habit,
           id: habit.id,
@@ -55,7 +59,11 @@ module Agenda
     end
 
     def agenda_item_entries
-      items = @agenda_items_by_date ? (@agenda_items_by_date[@on_date] || []) : @user.agenda_items.where(occurs_on: @on_date)
+      items = if @agenda_items_by_date
+        @agenda_items_by_date[@on_date] || []
+      else
+        @user.agenda_items.where(occurs_on: @on_date)
+      end
       items.map do |item|
         Entry.new(
           source: :agenda_item,

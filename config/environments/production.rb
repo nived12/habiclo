@@ -53,23 +53,14 @@ Rails.application.configure do
   config.active_job.queue_adapter = :solid_queue
   config.solid_queue.connects_to = { database: { writing: :queue } }
 
-  config.action_mailer.delivery_method       = :smtp
+  config.action_mailer.delivery_method       = :brevo
   config.action_mailer.perform_deliveries    = true
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default_url_options   = {
     host: ENV.fetch("APP_HOST", "habiclo.com"),
     protocol: "https"
   }
-  config.action_mailer.smtp_settings = {
-    address:              "smtp-relay.brevo.com",
-    port:                 2525,
-    user_name:            ENV.fetch("BREVO_SMTP_USER", nil),
-    password:             ENV.fetch("BREVO_SMTP_PASSWORD", nil),
-    authentication:       :plain,
-    enable_starttls_auto: true,
-    open_timeout:         15,
-    read_timeout:         15
-  }
+  config.action_mailer.brevo_settings = { api_key: ENV.fetch("BREVO_API_KEY", nil) }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
