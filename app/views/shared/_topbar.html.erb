@@ -1,5 +1,6 @@
 <% current_section = controller_name == "agenda" ? action_name.to_sym : nil %>
 <% on_home = controller_name == "home" %>
+<% on_habit_form = controller_name == "habits" && action_name.in?(%w[new create edit update]) %>
 <header class="topbar">
   <div class="topbar-inner">
     <%= link_to root_path, class: "topbar-brand" do %>
@@ -7,7 +8,7 @@
       <span class="brand-tagline hidden xl:inline">— <%= t("app.tagline") %></span>
     <% end %>
 
-    <nav class="period-nav period-nav--top" aria-label="View">
+    <nav class="period-nav period-nav--top hidden md:inline-flex" aria-label="View">
       <%= link_to root_path,         class: "period-nav-item #{'is-active' if on_home}"  do %><span class="mono"><%= t("nav.home").upcase %></span><% end %>
       <%= link_to agenda_day_path,   class: "period-nav-item #{'is-active' if current_section == :day}"   do %><span class="mono"><%= t("nav.day").upcase %></span><% end %>
       <%= link_to agenda_week_path,  class: "period-nav-item #{'is-active' if current_section == :week || current_section == :index}" do %><span class="mono"><%= t("nav.week").upcase %></span><% end %>
@@ -15,21 +16,45 @@
     </nav>
 
     <nav class="topbar-actions">
-      <%= link_to new_habit_path(**return_to_param), class: "almanac-button almanac-button--accent text-xs" do %>
-        <span class="mono mr-1">+</span><%= t("nav.new_habit") %>
+      <% if on_habit_form %>
+        <span class="topbar-new-habit is-disabled"
+              aria-disabled="true"
+              title="<%= t('nav.new_habit') %>">
+          <span class="mono topbar-new-habit-glyph">+</span>
+          <span class="topbar-new-habit-label"><%= t("nav.new_habit") %></span>
+        </span>
+      <% else %>
+        <%= link_to new_habit_path(**return_to_param),
+              class: "topbar-new-habit",
+              title: t("nav.new_habit"),
+              aria: { label: t("nav.new_habit") },
+              data: { controller: "once-click", action: "click->once-click#guard" } do %>
+          <span class="mono topbar-new-habit-glyph">+</span>
+          <span class="topbar-new-habit-label"><%= t("nav.new_habit") %></span>
+        <% end %>
       <% end %>
       <%= link_to t("nav.health"), health_path, class: "topbar-link hidden md:inline" %>
       <button type="button" class="help-trigger" data-action="click->help#open" title="How to use this">?</button>
       <%= link_to t("nav.settings"), settings_path, class: "topbar-link hidden md:inline" %>
       <% if user_signed_in? %>
-        <%= link_to settings_path, class: "topbar-user hidden sm:inline-flex" do %>
+        <%= link_to settings_path, class: "topbar-user hidden md:inline-flex" do %>
           <span class="user-monogram"><%= current_user.display_name.first.upcase %></span>
           <span class="mono text-xs user-display-name"><%= current_user.display_name %></span>
         <% end %>
-        <%= button_to t("nav.sign_out"), destroy_user_session_path, method: :delete, class: "almanac-button almanac-button--ghost text-xs" %>
+        <%= button_to t("nav.sign_out"), destroy_user_session_path, method: :delete,
+              class: "almanac-button almanac-button--ghost text-xs hidden md:inline-flex" %>
       <% else %>
-        <%= link_to t("nav.sign_in"), new_user_session_path, class: "almanac-button almanac-button--ghost text-xs" %>
+        <%= link_to t("nav.sign_in"), new_user_session_path,
+              class: "almanac-button almanac-button--ghost text-xs hidden md:inline-flex" %>
       <% end %>
+      <button type="button"
+              class="topbar-icon-btn"
+              data-action="click->mobile-menu#open"
+              aria-label="<%= t('nav.menu') %>"
+              aria-controls="mobile_menu"
+              aria-expanded="false">
+        <span class="mono">⋯</span>
+      </button>
     </nav>
   </div>
 </header>

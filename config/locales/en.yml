@@ -14,6 +14,11 @@ en:
     sign_out: Sign out
     new_habit: Habit
     health: Health
+    menu: Menu
+    primary: Primary navigation
+    help: Help
+    close: Close
+    agenda: Agenda
     guest_name: Guest
     guest_banner: You are working as a guest. Your entries are saved on this device.
   agenda:

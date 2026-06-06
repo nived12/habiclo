@@ -2,7 +2,7 @@
 <html lang="<%= I18n.locale %>">
   <head>
     <title><%= content_for(:title) || t("app.name") %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="description" content="<%= t("app.tagline") %>">
@@ -23,7 +23,7 @@
     <style>:root { --brand-hue: <%= (current_or_guest_user&.brand_hue || 25) %>; }</style>
   </head>
 
-  <body data-controller="keyboard-nav brand-hue help tz-detect"
+  <body data-controller="keyboard-nav brand-hue help tz-detect mobile-menu"
         data-help-seen-value="<%= current_or_guest_user&.help_seen?.to_s %>"
         data-help-ack-url-value="<%= help_acknowledgment_path %>">
     <%= render "shared/topbar" %>
@@ -39,8 +39,10 @@
       <%= yield %>
     </main>
 
+    <%= render "shared/bottom_nav" %>
     <%= turbo_frame_tag "log_modal" %>
     <%= turbo_frame_tag "health_modal" %>
+    <%= render "shared/mobile_menu" %>
     <%= render "shared/help_panel" %>
   </body>
 </html>

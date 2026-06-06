@@ -18,12 +18,17 @@
 <% trail = 7 - @month_end.cwday %>
 <% trail = 0 if trail == 7 %>
 
-<div class="mt-6 grid grid-cols-7 gap-0 mb-2 text-[var(--color-ink-muted)] mono text-xs uppercase tracking-wider">
+<div class="mt-6 grid grid-cols-7 gap-0 mb-2 text-[var(--color-ink-muted)] mono text-xs uppercase tracking-wider month-weekday-row">
   <% %w[mon tue wed thu fri sat sun].each do |w| %>
-    <div class="px-2"><%= l(Date.parse("2024-01-#{%w[mon tue wed thu fri sat sun].index(w) + 1}"), format: "%a") %></div>
+    <% sample = Date.parse("2024-01-#{%w[mon tue wed thu fri sat sun].index(w) + 1}") %>
+    <div class="px-2">
+      <span class="month-weekday-full"><%= l(sample, format: "%a") %></span>
+      <span class="month-weekday-short"><%= l(sample, format: "%a")[0] %></span>
+    </div>
   <% end %>
 </div>
 
+<div class="month-grid-wrapper">
 <div class="month-grid reveal-stagger">
   <% lead.times do |i| %>
     <div class="month-cell is-outside">
@@ -36,7 +41,7 @@
     <%= link_to agenda_week_path(on: d.iso8601), class: "month-cell #{'is-today' if d == @today}" do %>
       <span class="daynum mono"><%= d.day.to_s.rjust(2, "0") %></span>
       <div class="ticks">
-        <% entries.first(10).each do |e| %>
+        <% entries.first(6).each do |e| %>
           <span class="tick <%= 'is-done' if e.completed %>" style="--tick-hue: <%= e.color_hue || 25 %>;"></span>
         <% end %>
       </div>
@@ -48,4 +53,5 @@
       <span class="daynum"><%= (@month_end + (i + 1).days).day %></span>
     </div>
   <% end %>
+</div>
 </div>

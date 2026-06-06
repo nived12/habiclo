@@ -14,7 +14,7 @@
     <%= f.text_area :description, rows: 2, class: "field-input" %>
   </div>
 
-  <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-2">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-2">
     <div>
       <%= f.label :category, t("habits.form.category"), class: "field-label" %>
       <%= f.select :category, Habit::CATEGORIES.map { |c| [t("habits.categories.#{c}"), c] }, {}, class: "field-input" %>

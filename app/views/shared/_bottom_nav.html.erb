@@ -1,0 +1,13 @@
+<% current_section = controller_name == "agenda" ? action_name.to_sym : nil %>
+<% on_home = controller_name == "home" %>
+<nav class="bottom-nav" aria-label="<%= t('nav.primary') %>">
+  <%= link_to root_path, class: "bottom-nav-item #{'is-active' if on_home}" do %>
+    <span class="bottom-nav-label mono"><%= t("nav.home") %></span>
+  <% end %>
+  <%= link_to agenda_week_path, class: "bottom-nav-item #{'is-active' if current_section == :week || current_section == :index || current_section == :day}" do %>
+    <span class="bottom-nav-label mono"><%= t("nav.agenda") %></span>
+  <% end %>
+  <%= link_to agenda_month_path, class: "bottom-nav-item #{'is-active' if current_section == :month}" do %>
+    <span class="bottom-nav-label mono"><%= t("nav.month") %></span>
+  <% end %>
+</nav>
