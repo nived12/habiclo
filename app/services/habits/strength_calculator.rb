@@ -13,17 +13,10 @@ module Habits
     end
 
     def call
-      # Skip cache when caller provided preloaded data — avoids stale reads after toggle.
-      return compute if @preloaded_completions
-
-      Rails.cache.fetch(cache_key, expires_in: 5.minutes) { compute }
+      compute
     end
 
     private
-
-    def cache_key
-      "habit_strength/#{@habit.id}/#{@habit.updated_at.to_i}/#{@on_date}"
-    end
 
     def compute
       first_seen = @habit.created_at.in_time_zone(@habit.user.time_zone).to_date
