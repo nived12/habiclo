@@ -5,6 +5,7 @@ export default class extends Controller {
   static values = { url: String, compact: Boolean }
 
   async toggle(event) {
+    if (event.target.closest("[data-toggle-ignore]")) return
     event.preventDefault()
     if (!this.urlValue) return
     if (this.element.dataset.toggling === "true") return
