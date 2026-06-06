@@ -32,7 +32,7 @@
       selector: "[data-habit-id=\"#{entry.record.id}\"]",
       confirm_key: "habits.destroy.confirm" }
   elsif is_med
-    { edit: edit_medication_path(entry.record),
+    { edit: edit_medication_path(entry.record, **return_to_param),
       destroy: medication_path(entry.record),
       selector: "[data-medication-id=\"#{entry.record.id}\"]",
       confirm_key: "medications.destroy.confirm" }

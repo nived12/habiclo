@@ -1,6 +1,7 @@
 <%= form_with(model: medication, url: medication.new_record? ? medications_path : medication_path(medication),
                method: medication.new_record? ? :post : :patch,
                class: "space-y-4") do |f| %>
+  <%= hidden_field_tag :return_to, @return_to if @return_to.present? %>
   <% if medication.errors.any? %>
     <div class="marginalia">
       <span class="note-label"><%= t("marginalia.error") %></span>
@@ -37,6 +38,6 @@
   <div class="flex gap-3">
     <%= f.submit (medication.new_record? ? t("health.medications.form.save") : t("habits.form.save")),
           class: "almanac-button text-xs" %>
-    <%= link_to t("habits.form.cancel"), health_path, class: "almanac-button almanac-button--ghost text-xs" %>
+    <%= link_to t("habits.form.cancel"), (@return_to.presence || health_path), class: "almanac-button almanac-button--ghost text-xs" %>
   </div>
 <% end %>

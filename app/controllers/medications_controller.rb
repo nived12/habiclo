@@ -2,6 +2,7 @@ class MedicationsController < ApplicationController
   include HealthPageSetup
 
   before_action :set_med, only: [ :edit, :update, :destroy ]
+  before_action :capture_return_to, only: [ :new, :edit ]
 
   def index
     redirect_to health_path(tab: "medicamentos")
@@ -15,7 +16,7 @@ class MedicationsController < ApplicationController
   def create
     @medication = current_or_guest_user.medications.new(med_params)
     if @medication.save
-      redirect_to health_path(tab: "medicamentos")
+      redirect_after_save(fallback: health_path(tab: "medicamentos"))
     else
       redirect_to health_path(tab: "medicamentos"), alert: @medication.errors.full_messages.to_sentence
     end
@@ -28,7 +29,7 @@ class MedicationsController < ApplicationController
 
   def update
     if @med.update(med_params)
-      redirect_to health_path(tab: "medicamentos")
+      redirect_after_save(fallback: health_path(tab: "medicamentos"))
     else
       redirect_to health_path(tab: "medicamentos"), alert: @med.errors.full_messages.to_sentence
     end
