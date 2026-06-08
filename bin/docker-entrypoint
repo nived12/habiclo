@@ -18,15 +18,16 @@ if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
 
   # Solid Queue/Cache/Cable store their tables in the primary's physical DB, but
   # db:prepare skips loading their schema files because it sees the (shared)
-  # database already exists. So load each schema ONLY when its tables are
-  # missing — idempotent, and never wipes existing job/cache data.
-  missing=$(./bin/rails runner '
-    { "queue" => "solid_queue_jobs", "cache" => "solid_cache_entries", "cable" => "solid_cable_messages" }
-      .reject { |_, t| ActiveRecord::Base.connection.table_exists?(t) }.keys.each { |db| puts db }
-  ')
-  for db in $missing; do
-    echo "[entrypoint] Loading ${db} schema (tables missing)"
-    ./bin/rails "db:schema:load:${db}"
+  # database already exists. Load each schema file directly when its tables are
+  # missing — idempotent, and never wipes existing job/cache data. We load the
+  # file rather than `db:schema:load:<db>` because that rake task pulls in
+  # db:test:purge + the protected-environment guard, which aborts in production.
+  for pair in "queue:solid_queue_jobs" "cache:solid_cache_entries" "cable:solid_cable_messages"; do
+    db="${pair%%:*}"; table="${pair##*:}"
+    if ! ./bin/rails runner "exit(ActiveRecord::Base.connection.table_exists?('${table}') ? 0 : 1)"; then
+      echo "[entrypoint] Loading ${db} schema (${table} missing)"
+      ./bin/rails runner "ActiveRecord::Base.establish_connection(:${db}); load Rails.root.join('db', '${db}_schema.rb')"
+    fi
   done
 fi
 
