@@ -7,14 +7,27 @@ if [ -z "${LD_PRELOAD+x}" ]; then
 fi
 
 # If running the rails server then create or migrate existing database.
-# IMPORTANT (deploy gotcha): this auto-migration ONLY fires when the command
-# ends in exactly `./bin/rails server` (the Dockerfile's default CMD, served via
+# IMPORTANT (deploy gotcha): this block ONLY fires when the command ends in
+# exactly `./bin/rails server` (the Dockerfile's default CMD, served via
 # Thruster). Do NOT set a Railway "Custom Start Command" / railway.json
 # startCommand — it both fails this condition (so migrations never run) and
 # bypasses Thruster, leaving the container up with no Rails process (502).
-# New migrations (Ahoy, Solid Queue, etc.) apply automatically here on deploy.
+# New migrations (Ahoy, etc.) apply automatically here on deploy.
 if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
   ./bin/rails db:prepare
+
+  # Solid Queue/Cache/Cable store their tables in the primary's physical DB, but
+  # db:prepare skips loading their schema files because it sees the (shared)
+  # database already exists. So load each schema ONLY when its tables are
+  # missing — idempotent, and never wipes existing job/cache data.
+  missing=$(./bin/rails runner '
+    { "queue" => "solid_queue_jobs", "cache" => "solid_cache_entries", "cable" => "solid_cable_messages" }
+      .reject { |_, t| ActiveRecord::Base.connection.table_exists?(t) }.keys.each { |db| puts db }
+  ')
+  for db in $missing; do
+    echo "[entrypoint] Loading ${db} schema (tables missing)"
+    ./bin/rails "db:schema:load:${db}"
+  done
 fi
 
 exec "${@}"
