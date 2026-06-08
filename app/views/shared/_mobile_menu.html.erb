@@ -31,6 +31,14 @@
           <span class="mono text-xs text-[var(--color-ink-muted)]">?</span>
         </button>
       </li>
+      <% if owner_view? %>
+        <li>
+          <%= link_to admin_metrics_path, class: "mobile-menu-link", data: { action: "click->mobile-menu#close" } do %>
+            <span>Metrics</span>
+            <span class="mono text-xs text-[var(--color-ink-muted)]">→</span>
+          <% end %>
+        </li>
+      <% end %>
     </ul>
     <footer class="mobile-menu-footer">
       <% if user_signed_in? %>

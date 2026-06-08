@@ -1,0 +1,213 @@
+<% content_for :title, "Habiclo — Metrics" %>
+
+<%
+  # Local helper: renders a period-over-period delta chip. nil/zero baseline → "new".
+  delta_chip = lambda do |curr, prev|
+    if prev.to_i.zero?
+      curr.to_i.positive? ? content_tag(:span, "new", class: "metrics-delta is-up") : "".html_safe
+    else
+      pct = ((curr - prev) * 100.0 / prev).round
+      dir = pct >= 0 ? "is-up" : "is-down"
+      content_tag(:span, "#{pct >= 0 ? '▲' : '▼'} #{pct.abs}%", class: "metrics-delta #{dir}")
+    end
+  end
+
+  range_label = @period ? "last #{@period} days" : "#{l(@from, format: '%b %-d')} – #{l(@to, format: '%b %-d, %Y')}"
+%>
+
+<div class="metrics-page">
+  <header class="home-header">
+    <div>
+      <p class="almanac-eyebrow mb-0">Internal · <%= range_label %><%= " · #{@path}" if @path %></p>
+      <h1 class="display-lg">Metrics</h1>
+    </div>
+  </header>
+
+  <%# ── Controls ────────────────────────────────────────────────── %>
+  <section class="metrics-controls">
+    <nav class="period-nav" aria-label="Range">
+      <% Admin::MetricsController::PERIODS.each do |days| %>
+        <%= link_to admin_metrics_path(period: days, path: @path),
+              class: "period-nav-item #{'is-active' if @period == days}" do %>
+          <span class="mono"><%= days %>D</span>
+        <% end %>
+      <% end %>
+    </nav>
+
+    <%= form_with url: admin_metrics_path, method: :get, class: "metrics-filter" do %>
+      <input type="date" name="from" value="<%= @from.iso8601 %>" class="field-input metrics-date" aria-label="From">
+      <span class="mono metrics-filter-sep">→</span>
+      <input type="date" name="to" value="<%= @to.iso8601 %>" class="field-input metrics-date" aria-label="To">
+      <select name="path" class="field-input metrics-select" aria-label="Filter by page">
+        <option value="">All pages</option>
+        <% @paths.each do |p| %>
+          <option value="<%= p %>" <%= "selected" if p == @path %>><%= p %></option>
+        <% end %>
+      </select>
+      <button type="submit" class="almanac-button almanac-button--ghost text-xs">Apply</button>
+    <% end %>
+  </section>
+
+  <%# ── Headline cards ──────────────────────────────────────────── %>
+  <div class="metrics-summary metrics-summary--four">
+    <div class="metric-card">
+      <p class="mono text-xs metric-card-unit mb-1">page views</p>
+      <span class="mono metric-value-large"><%= number_with_delimiter(@stats[:views]) %></span>
+      <%= delta_chip.call(@stats[:views], @prev_stats[:views]) %>
+    </div>
+    <div class="metric-card">
+      <p class="mono text-xs metric-card-unit mb-1">sessions</p>
+      <span class="mono metric-value-large"><%= number_with_delimiter(@stats[:sessions]) %></span>
+      <%= delta_chip.call(@stats[:sessions], @prev_stats[:sessions]) %>
+    </div>
+    <div class="metric-card">
+      <p class="mono text-xs metric-card-unit mb-1">unique visitors <span class="metrics-hint">· by day</span></p>
+      <span class="mono metric-value-large"><%= number_with_delimiter(@stats[:uniques]) %></span>
+      <%= delta_chip.call(@stats[:uniques], @prev_stats[:uniques]) %>
+    </div>
+    <div class="metric-card">
+      <p class="mono text-xs metric-card-unit mb-1">bounce rate</p>
+      <span class="mono metric-value-large"><%= @stats[:bounce_rate] %>%</span>
+      <%= delta_chip.call(@stats[:bounce_rate], @prev_stats[:bounce_rate]) %>
+    </div>
+  </div>
+  <p class="metrics-footnote mono">
+    Views per session <%= @stats[:views_per_session] %>.
+    Unique visitors are deduplicated within each day (cookieless), so multi-day totals count returning people once per day.
+  </p>
+
+  <%# ── Trend ───────────────────────────────────────────────────── %>
+  <section class="metrics-section">
+    <p class="almanac-eyebrow">Page views per day</p>
+    <% if @views_by_day.empty? %>
+      <p class="home-empty-body">No traffic recorded in this range.</p>
+    <% else %>
+      <div class="metrics-bars">
+        <% (@from..@to).each do |day| %>
+          <% count = @views_by_day[day] || 0 %>
+          <% pct = @peak_day.positive? ? (100.0 * count / @peak_day).round : 0 %>
+          <div class="metrics-bar" title="<%= l(day, format: '%b %-d') %>: <%= count %>">
+            <span class="metrics-bar-fill" style="height: <%= [ pct, 2 ].max %>%;"></span>
+          </div>
+        <% end %>
+      </div>
+      <div class="metrics-bars-axis mono">
+        <span><%= l(@from, format: "%b %-d") %></span>
+        <span>
+          <%= l(@to, format: "%b %-d") %> · peak <%= @peak_day %>
+          · prev <%= number_with_delimiter(@prev_total) %> <%= delta_chip.call(@stats[:views], @prev_total) %>
+        </span>
+      </div>
+    <% end %>
+  </section>
+
+  <%# ── Behavior: top pages comparison ──────────────────────────── %>
+  <section class="metrics-section">
+    <p class="almanac-eyebrow">Top pages · vs previous period</p>
+    <% if @top_pages.empty? %>
+      <p class="home-empty-body">—</p>
+    <% else %>
+      <table class="metrics-table">
+        <thead>
+          <tr class="mono">
+            <th class="metrics-table-path">page</th>
+            <th class="metrics-table-num">views</th>
+            <th class="metrics-table-num">prev</th>
+            <th class="metrics-table-num">Δ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @top_pages.each do |path, count, prev_count, _pct| %>
+            <tr>
+              <td class="metrics-table-path mono"><%= path %></td>
+              <td class="metrics-table-num mono"><%= number_with_delimiter(count) %></td>
+              <td class="metrics-table-num mono metrics-muted"><%= number_with_delimiter(prev_count) %></td>
+              <td class="metrics-table-num"><%= delta_chip.call(count, prev_count) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+  </section>
+
+  <%# ── Acquisition + Audience ──────────────────────────────────── %>
+  <div class="metrics-cols">
+    <section class="metrics-section">
+      <p class="almanac-eyebrow">Top referrers</p>
+      <% if @referrers.empty? %>
+        <p class="home-empty-body">Direct / none recorded.</p>
+      <% else %>
+        <ol class="metrics-list">
+          <% @referrers.each do |domain, count| %>
+            <li class="metrics-list-row">
+              <span class="metrics-list-label mono"><%= domain %></span>
+              <span class="metrics-list-value mono"><%= number_with_delimiter(count) %></span>
+            </li>
+          <% end %>
+        </ol>
+      <% end %>
+    </section>
+
+    <section class="metrics-section">
+      <p class="almanac-eyebrow">Devices</p>
+      <% if @devices.empty? %>
+        <p class="home-empty-body">—</p>
+      <% else %>
+        <ol class="metrics-list">
+          <% @devices.each do |device, count| %>
+            <li class="metrics-list-row">
+              <span class="metrics-list-label mono"><%= device.presence || "unknown" %></span>
+              <span class="metrics-list-value mono"><%= number_with_delimiter(count) %></span>
+            </li>
+          <% end %>
+        </ol>
+      <% end %>
+    </section>
+  </div>
+
+  <%# ── Audience split + returning ──────────────────────────────── %>
+  <section class="metrics-section">
+    <p class="almanac-eyebrow">Audience</p>
+    <% signed_in = @stats[:auth_split]["true"] || 0 %>
+    <% guest = @stats[:auth_split]["false"] || 0 %>
+    <ol class="metrics-list">
+      <li class="metrics-list-row">
+        <span class="metrics-list-label mono">signed-in views</span>
+        <span class="metrics-list-value mono"><%= number_with_delimiter(signed_in) %></span>
+      </li>
+      <li class="metrics-list-row">
+        <span class="metrics-list-label mono">guest views</span>
+        <span class="metrics-list-value mono"><%= number_with_delimiter(guest) %></span>
+      </li>
+      <li class="metrics-list-row">
+        <span class="metrics-list-label mono">signed-in users (sessions)</span>
+        <span class="metrics-list-value mono"><%= number_with_delimiter(@returning[:total]) %></span>
+      </li>
+      <li class="metrics-list-row">
+        <span class="metrics-list-label mono">returning signed-in users</span>
+        <span class="metrics-list-value mono"><%= number_with_delimiter(@returning[:returning]) %></span>
+      </li>
+    </ol>
+  </section>
+
+  <%# ── Funnel ──────────────────────────────────────────────────── %>
+  <section class="metrics-section">
+    <p class="almanac-eyebrow">Conversion funnel</p>
+    <% top = @funnel.first.last %>
+    <ol class="metrics-funnel">
+      <% @funnel.each_with_index do |(label, count), i| %>
+        <% width = top.positive? ? [ (100.0 * count / top).round, 2 ].max : 2 %>
+        <% rate = top.positive? ? (100.0 * count / top).round(1) : 0 %>
+        <li class="metrics-funnel-step">
+          <div class="metrics-funnel-head mono">
+            <span><%= label %></span>
+            <span class="metrics-list-value"><%= number_with_delimiter(count) %><%= " · #{rate}%" unless i.zero? %></span>
+          </div>
+          <div class="metrics-funnel-track">
+            <span class="metrics-funnel-fill" style="width: <%= width %>%;"></span>
+          </div>
+        </li>
+      <% end %>
+    </ol>
+  </section>
+</div>

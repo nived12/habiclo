@@ -2,6 +2,8 @@ es:
   app:
     name: Habiclo
     tagline: Construye quién quieres ser, un hábito a la vez.
+  support:
+    link: Apoya a Habiclo
   nav:
     today: Hoy
     home: Inicio

@@ -8,6 +8,7 @@ module Users
         result = convert_guest!(resource)
       end
       super
+      ahoy.track "Signed up" if resource.persisted?
       flash[:notice] = imported_flash(result.counts) if result&.success? && result.counts.values.sum.positive?
     end
 

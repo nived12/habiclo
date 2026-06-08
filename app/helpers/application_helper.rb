@@ -19,4 +19,15 @@ module ApplicationHelper
 
     PASTEL_PRESETS.min_by { |_, h| (h - hue.to_i).abs }&.first
   end
+
+  def owner_view?
+    return false unless user_signed_in?
+
+    owner_emails.include?(current_user.email)
+  end
+
+  def owner_emails
+    ENV.fetch("OWNER_EMAILS", "nivedvengilat@gmail.com,nivedvengilat@example.com")
+       .split(",").map(&:strip)
+  end
 end

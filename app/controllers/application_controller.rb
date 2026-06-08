@@ -8,10 +8,27 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_locale
   around_action :use_time_zone
+  after_action :track_page_view
 
   rescue_from Pundit::NotAuthorizedError, with: :forbidden
 
   private
+
+  def track_page_view
+    return unless request.get? && request.format.html? && response.successful?
+    return if request.path.start_with?("/admin")
+
+    ahoy.track "$view", path: request.path, signed_in: user_signed_in?, visitor: visitor_fingerprint
+  end
+
+  # Plausible/Fathom-style daily-rotating fingerprint: lets us count daily unique
+  # visitors without a cookie (no consent-banner obligation). The salt rotates each
+  # day, so a fingerprint is only comparable within the same day, and the raw IP is
+  # never stored (Ahoy.mask_ips = true).
+  def visitor_fingerprint
+    day_salt = OpenSSL::HMAC.hexdigest("SHA256", Rails.application.secret_key_base, Date.current.to_s)
+    OpenSSL::HMAC.hexdigest("SHA256", day_salt, "#{request.remote_ip}#{request.user_agent}")[0, 16]
+  end
 
   def set_locale
     user = user_signed_in? ? current_user : load_guest_for_locale

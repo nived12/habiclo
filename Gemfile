@@ -49,6 +49,9 @@ gem "devise-jwt"
 # Authorization
 gem "pundit"
 
+# First-party, privacy-friendly analytics [https://github.com/ankane/ahoy]
+gem "ahoy_matey"
+
 # Soft deletes
 gem "discard"
 

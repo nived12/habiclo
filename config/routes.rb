@@ -44,6 +44,10 @@ Rails.application.routes.draw do
 
   resource :settings, only: [ :show, :update ]
 
+  namespace :admin do
+    resource :metrics, only: [ :show ]
+  end
+
   namespace :api do
     namespace :v1 do
       post "login",  to: "sessions#create"
