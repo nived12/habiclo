@@ -26,6 +26,16 @@ bin/rails runner "puts User.count"        # quick sanity checks
 
 ---
 
+## Deployment (Railway) — read before touching deploy config
+
+- Prod runs on **Railway** (services: `habiclo` web + `Postgres`), built from the repo **`Dockerfile`** (NOT Nixpacks — Railway uses the Dockerfile because it exists; any `"builder": "NIXPACKS"` in a `railway.json` is ignored).
+- **Migrations run automatically on every deploy** via `bin/docker-entrypoint`: it runs `db:prepare` (covers primary + Solid Queue/Cache/Cable schemas) whenever the command ends in `./bin/rails server`, then serves through **Thruster**.
+- **DO NOT set a Railway "Custom Start Command" or add a `railway.json` `startCommand`.** Doing so (a) breaks the entrypoint's auto-migrate condition and (b) bypasses Thruster, so the container stays "up" with no Rails process → **502, with empty deploy logs**. This already bit us once (June 2026). New migrations apply through the entrypoint — no override needed.
+- Sub-databases (queue/cache/cable) are **schema-loaded**, not migration-based: there is no `db/queue_migrate/` dir, so `db:migrate:queue` fails. Use `db:prepare` (the entrypoint already does).
+- Background jobs (Solid Queue) run **inside Puma** via `plugin :solid_queue if ENV["SOLID_QUEUE_IN_PUMA"]` — set `SOLID_QUEUE_IN_PUMA=true` on the web service; no separate worker service/cost. Recurring jobs live in `config/recurring.yml`.
+
+---
+
 ## Domain model (current schema)
 
 | Table | Key fields | Notes |
