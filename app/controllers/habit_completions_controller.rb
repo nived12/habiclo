@@ -16,6 +16,7 @@ class HabitCompletionsController < ApplicationController
     @completion = @habit.habit_completions.find_or_initialize_by(completed_on: @on_date)
     @completion.assign_attributes(completion_params)
     @completion.save!
+    ahoy.track "Logged completion"
     maybe_create_biometric_entry!(@completion)
 
     respond_to do |format|
@@ -36,6 +37,7 @@ class HabitCompletionsController < ApplicationController
   def toggle
     on_date = parse_date(params[:on]) || today
     result = Habits::ToggleCompleter.call(habit: @habit, on_date: on_date)
+    ahoy.track "Logged completion" if result.value[:completion].present?
     compact = params[:compact] != "false"
 
     respond_to do |format|

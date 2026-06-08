@@ -17,6 +17,7 @@ class HabitsController < ApplicationController
   def create
     @habit = current_or_guest_user.habits.new(habit_params)
     if @habit.save
+      ahoy.track "Created habit"
       redirect_after_save(fallback: root_path)
     else
       capture_return_to

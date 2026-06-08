@@ -2541,3 +2541,220 @@
     line-height: 1.4rem;
   }
 }
+
+/* ============================================================
+   Admin metrics (owner-only internal dashboard)
+   ============================================================ */
+.metrics-page {
+  padding: 0 clamp(1rem, 4vw, 3rem) 4rem;
+}
+.metrics-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+.metrics-section {
+  margin-bottom: 2.5rem;
+}
+.metrics-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 140px;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--color-hairline);
+}
+.metrics-bar {
+  flex: 1 1 0;
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+  min-width: 4px;
+}
+.metrics-bar-fill {
+  width: 100%;
+  background: var(--color-accent-muted);
+  border-radius: 2px 2px 0 0;
+  transition: background 160ms ease;
+}
+.metrics-bar:hover .metrics-bar-fill {
+  background: var(--color-accent);
+}
+.metrics-bars-axis {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--color-ink-muted);
+  letter-spacing: 0.04em;
+  margin-top: 0.4rem;
+}
+.metrics-list {
+  display: flex;
+  flex-direction: column;
+}
+.metrics-list-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--color-hairline);
+}
+.metrics-list-label {
+  font-size: 0.85rem;
+  color: var(--color-ink-soft);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.metrics-list-value {
+  font-size: 0.85rem;
+  color: var(--color-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- controls --- */
+.metrics-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.metrics-filter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.metrics-filter-sep {
+  color: var(--color-ink-muted);
+}
+.metrics-date,
+.metrics-select {
+  font-size: 0.78rem;
+  padding: 0.4rem 0.6rem;
+  width: auto;
+}
+.metrics-select {
+  max-width: 13rem;
+}
+
+/* --- four-up headline --- */
+.metrics-summary--four {
+  grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+  margin-bottom: 0.75rem;
+}
+.metrics-summary .metric-value-large {
+  display: block;
+}
+.metrics-hint {
+  color: var(--color-ink-muted);
+  font-weight: 400;
+}
+.metrics-footnote {
+  font-size: 0.7rem;
+  line-height: 1.5;
+  color: var(--color-ink-muted);
+  letter-spacing: 0.02em;
+  margin-bottom: 2.5rem;
+  max-width: 46rem;
+}
+
+/* --- delta chip --- */
+.metrics-delta {
+  display: inline-block;
+  margin-top: 0.45rem;
+  font-size: 0.7rem;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  letter-spacing: 0.03em;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+}
+.metrics-delta.is-up {
+  color: var(--color-accent-ink, var(--color-accent));
+  background: var(--color-accent-ghost);
+}
+.metrics-delta.is-down {
+  color: var(--color-ink-muted);
+  background: var(--color-paper-deep);
+}
+
+/* --- comparison table --- */
+.metrics-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.metrics-table th {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-ink-muted);
+  font-weight: 400;
+  padding: 0 0 0.5rem;
+  border-bottom: 1px solid var(--color-hairline-deep);
+}
+.metrics-table td {
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--color-hairline);
+  font-size: 0.82rem;
+}
+.metrics-table-path {
+  text-align: left;
+  color: var(--color-ink-soft);
+  max-width: 1px;
+  width: 60%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.metrics-table-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.metrics-muted {
+  color: var(--color-ink-muted);
+}
+.metrics-table .metrics-delta {
+  margin-top: 0;
+}
+
+/* --- two-column blocks --- */
+.metrics-cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1rem 2.5rem;
+  margin-bottom: 2.5rem;
+}
+.metrics-cols .metrics-section {
+  margin-bottom: 0;
+}
+
+/* --- funnel --- */
+.metrics-funnel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+.metrics-funnel-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--color-ink-soft);
+  margin-bottom: 0.3rem;
+}
+.metrics-funnel-track {
+  height: 0.6rem;
+  background: var(--color-paper-deep);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.metrics-funnel-fill {
+  display: block;
+  height: 100%;
+  background: var(--color-accent-muted);
+  border-radius: 4px;
+}

@@ -2,6 +2,8 @@ en:
   app:
     name: Habiclo
     tagline: Build who you want to be, one habit at a time.
+  support:
+    link: Support Habiclo
   nav:
     today: Today
     home: Home

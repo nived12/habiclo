@@ -34,8 +34,15 @@
         <% end %>
       <% end %>
       <%= link_to t("nav.health"), health_path, class: "topbar-link hidden md:inline" %>
+      <% if ENV["SUPPORT_URL"].present? %>
+        <%= link_to t("support.link"), ENV["SUPPORT_URL"], class: "topbar-link hidden md:inline",
+              target: "_blank", rel: "noopener" %>
+      <% end %>
       <button type="button" class="help-trigger" data-action="click->help#open" title="How to use this">?</button>
       <%= link_to t("nav.settings"), settings_path, class: "topbar-link hidden md:inline" %>
+      <% if owner_view? %>
+        <%= link_to "Metrics", admin_metrics_path, class: "topbar-link hidden md:inline" %>
+      <% end %>
       <% if user_signed_in? %>
         <%= link_to settings_path, class: "topbar-user hidden md:inline-flex" do %>
           <span class="user-monogram"><%= current_user.display_name.first.upcase %></span>
