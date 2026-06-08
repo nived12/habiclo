@@ -4,6 +4,6 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "bin/rails db:migrate db:migrate:cache db:migrate:queue db:migrate:cable && bin/rails server -b 0.0.0.0 -p $PORT"
+    "startCommand": "bin/rails db:prepare && bin/rails server -b 0.0.0.0 -p $PORT"
   }
 }
