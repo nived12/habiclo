@@ -90,7 +90,7 @@ GEM
     bindex (0.8.1)
     bootsnap (1.24.5)
       msgpack (~> 1.2)
-    brakeman (8.0.4)
+    brakeman (8.0.5)
       racc
     builder (3.3.0)
     cgi (0.5.1)
@@ -254,6 +254,8 @@ GEM
     raabro (1.4.0)
     racc (1.8.1)
     rack (3.2.6)
+    rack-attack (6.8.0)
+      rack (>= 1.0, < 4)
     rack-cors (3.0.0)
       logger
       rack (>= 3.0.14)
@@ -457,6 +459,7 @@ DEPENDENCIES
   propshaft
   puma (>= 5.0)
   pundit
+  rack-attack
   rack-cors
   rails (~> 8.0.5)
   rspec-rails

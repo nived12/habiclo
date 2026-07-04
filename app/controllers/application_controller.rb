@@ -12,11 +12,16 @@ class ApplicationController < ActionController::Base
 
   rescue_from Pundit::NotAuthorizedError, with: :forbidden
 
+  # Infra/non-content paths we never want in analytics. /up especially: it renders
+  # a 200 HTML page, so healthchecks/uptime monitors would otherwise log a $view +
+  # a new (cookieless) visit row on every ping — this once filled the DB volume.
+  SKIP_TRACK_PREFIXES = %w[/admin /up /rails /cable /assets].freeze
+
   private
 
   def track_page_view
     return unless request.get? && request.format.html? && response.successful?
-    return if request.path.start_with?("/admin")
+    return if SKIP_TRACK_PREFIXES.any? { |prefix| request.path.start_with?(prefix) }
 
     ahoy.track "$view", path: request.path, signed_in: user_signed_in?, visitor: visitor_fingerprint
   end
