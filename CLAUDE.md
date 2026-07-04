@@ -137,6 +137,19 @@ Key namespaces: `habits.*`, `completions.*`, `health.*`, `lab_panels.*`, `lab_re
 
 ---
 
+## Analytics (Ahoy) — read before touching tracking
+
+First-party analytics via **`ahoy_matey`** (cookieless: `Ahoy.cookies = :none`, `Ahoy.mask_ips = true`, `track_bots` off by default). Data lives in `ahoy_visits` / `ahoy_events` **in the primary Postgres** (same physical volume as everything else).
+
+- Pageviews auto-tracked in `ApplicationController#track_page_view` (`after_action`). It **skips `SKIP_TRACK_PREFIXES`** (`/admin /up /rails /cable /assets`) — never remove `/up` from that list: it renders 200 HTML, so healthchecks/monitors would log a `$view` **and a new visit row per ping**. Cookieless means one visit row *per request*, so infra pings compound fast.
+- Named events: `"Signed up"`, `"Created habit"`, `"Logged completion"` (in the respective controllers).
+- Consumer: `Admin::MetricsController` (`/admin/metrics`, owner-only) — the dashboard that reads this data. Don't drop the tables.
+- Retention: **90 days** via `PruneAnalyticsJob` (`RETAIN_DAYS = 90`, batched deletes), scheduled daily 3am in `config/recurring.yml`.
+- Rate limiting: `rack-attack` (`config/initializers/rack_attack.rb`, in-memory store) throttles 100 req/min/IP.
+- **History:** an unfiltered `/up` healthcheck + cookieless visits + a 6-month retention that never fired filled the 5 GB volume and 502'd the site (July 2026). The four safeguards above are the fix — don't undo them.
+
+---
+
 ## What is NOT here (out of scope)
 
 - `app/controllers/api/v1/` — **routes exist but no controllers**. See `docs/backlog.md`.

@@ -65,6 +65,9 @@ gem "rswag-ui"
 # CORS for API consumers
 gem "rack-cors"
 
+# Per-IP rate limiting so a crawler can't hammer the app (and inflate analytics)
+gem "rack-attack"
+
 group :development, :test do
   gem "rspec-rails"
   gem "factory_bot_rails"
