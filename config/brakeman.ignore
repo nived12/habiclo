@@ -1,0 +1,28 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "HTTP Verb Confusion",
+      "warning_code": 118,
+      "fingerprint": "672dc5f42fefd8516cd8b7ad9ec771a6d4ef67abac28c28213d5422cf3d3de25",
+      "check_name": "VerbConfusion",
+      "message": "Potential HTTP verb confusion. `HEAD` is routed like `GET` but `request.get?` will return `false`",
+      "file": "app/controllers/concerns/return_to.rb",
+      "line": 37,
+      "link": "https://brakemanscanner.org/docs/warning_types/http_verb_confusion/",
+      "code": "request.get? ? (request.original_url) : (request.referer)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ReturnTo",
+        "method": "return_to_param"
+      },
+      "user_input": null,
+      "confidence": "Weak",
+      "cwe_id": [
+        352
+      ],
+      "note": "Return-to source only picks which URL to remember for redirect-back; the value is always sanitized by safe_return_path (same-host + leading-slash checks) before use, so verb confusion has no security impact here."
+    }
+  ],
+  "brakeman_version": "8.0.5"
+}
