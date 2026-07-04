@@ -9,7 +9,10 @@ RSpec.describe PruneAnalyticsJob, type: :job do
 
   it "deletes visits and events older than the retention window" do
     old_visit = visit_at(PruneAnalyticsJob::RETAIN_DAYS.days.ago - 1.day)
-    old_event = Ahoy::Event.create!(visit: old_visit, name: "$view", time: PruneAnalyticsJob::RETAIN_DAYS.days.ago - 1.day)
+    old_event = Ahoy::Event.create!(
+      visit: old_visit, name: "$view",
+      time: PruneAnalyticsJob::RETAIN_DAYS.days.ago - 1.day
+    )
 
     described_class.perform_now
 
