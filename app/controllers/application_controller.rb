@@ -62,8 +62,9 @@ class ApplicationController < ActionController::Base
   end
 
   def use_time_zone
-    user = current_or_guest_user
-    Time.use_zone(user&.time_zone.presence || tz_from_cookie || "UTC") { yield }
+    # Never create a guest just to resolve a timezone (this ran on every request).
+    tz = user_signed_in? ? current_user.time_zone : (tz_from_cookie || "UTC")
+    Time.use_zone(tz.presence || "UTC") { yield }
   end
 
   def tz_from_cookie

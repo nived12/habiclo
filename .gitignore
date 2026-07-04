@@ -38,3 +38,6 @@
 !/app/assets/builds/.keep
 
 /node_modules
+
+# Local prod data backups (contain PII/health data — never commit)
+backup_*.csv

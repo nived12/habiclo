@@ -150,6 +150,17 @@ First-party analytics via **`ahoy_matey`** (cookieless: `Ahoy.cookies = :none`, 
 
 ---
 
+## Guest accounts — read before touching guest creation
+
+Anonymous visitors get a real (persisted) guest `User` seeded with a "welcome" demo (`Users::GuestCreator` → `Templates::Applier`), converted to a real account on sign-up (`Users::GuestConverter`), and reset after 7 days (`Users::GuestResetter` / `GuestResetJob`).
+
+- Guest creation is gated in `GuestPipeline#load_or_create_guest`: **only real, non-bot HTML page loads/writes persist a guest.** Bots (`request_is_bot?` via `device_detector`), blank UAs, and non-HTML GETs get a `transient_guest` (`User.new`, **never saved** — pages render, nothing is written).
+- `use_time_zone` must **not** call `current_or_guest_user` — it resolves the tz from `current_user`/cookie only. (It once minted a seeded guest on *every* request.)
+- Welcome demo history is capped at `Templates::Applier::HISTORY_DAYS` (small on purpose) so real-visitor guests cost only a handful of rows.
+- **History:** cookieless bots minting a fully-seeded guest per request created **530k guests / ~21M rows** and filled the volume (July 2026). Reclaimed by keeping the 2 real users and `TRUNCATE`-ing the rest. Don't undo the bot-gate.
+
+---
+
 ## What is NOT here (out of scope)
 
 - `app/controllers/api/v1/` — **routes exist but no controllers**. See `docs/backlog.md`.

@@ -2,6 +2,10 @@ module Templates
   class Applier < ApplicationService
     Result = Struct.new(:added, :skipped, keyword_init: true)
 
+    # Backdated demo history seeded per guest. Kept small so a real anonymous
+    # visitor costs only a handful of rows (guests that bounce are reset after 7 days).
+    HISTORY_DAYS = 3
+
     def initialize(user, template_key, force: false, seed_history: nil)
       @user = user
       @template = Templates::Catalog.find(template_key)
@@ -94,7 +98,7 @@ module Templates
 
     def seed_history_for(habits, metrics)
       today = Date.current
-      days = 7
+      days = HISTORY_DAYS
       habits.each do |habit, spec|
         days.times do |i|
           date = today - (days - i).days
