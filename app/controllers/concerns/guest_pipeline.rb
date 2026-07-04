@@ -32,6 +32,8 @@ module GuestPipeline
       reset_if_expired(existing)
       return existing
     end
+    return transient_guest if skip_guest_persistence?
+
     guest = Users::GuestCreator.call(
       time_zone: resolved_time_zone,
       locale: I18n.locale.to_s
@@ -43,6 +45,28 @@ module GuestPipeline
       same_site: :lax
     }
     guest
+  end
+
+  # In-memory guest for bots / non-page requests: pages still render (empty state),
+  # but nothing is written to the DB. This is what stops crawlers — which send no
+  # cookie, so every request would otherwise mint a fresh seeded guest — from
+  # refilling the volume.
+  def transient_guest
+    @transient_guest ||= User.new(guest: true, time_zone: resolved_time_zone, locale: I18n.locale.to_s)
+  end
+
+  # Persist a guest only for real human HTML navigations and writes. Skip bots (any
+  # method) and non-HTML GETs (assets, JSON, healthchecks). Writes (POST / turbo_stream)
+  # still persist because request.get? is false for them.
+  def skip_guest_persistence?
+    request_is_bot? || (request.get? && !request.format.html?)
+  end
+
+  def request_is_bot?
+    return @request_is_bot if defined?(@request_is_bot)
+
+    ua = request.user_agent
+    @request_is_bot = ua.blank? || DeviceDetector.new(ua).bot?
   end
 
   def reset_if_expired(guest)

@@ -52,6 +52,9 @@ gem "pundit"
 # First-party, privacy-friendly analytics [https://github.com/ankane/ahoy]
 gem "ahoy_matey"
 
+# User-agent bot detection (also a transitive ahoy dep) — used to gate guest creation
+gem "device_detector"
+
 # Soft deletes
 gem "discard"
 

@@ -448,6 +448,7 @@ DEPENDENCIES
   brakeman
   cssbundling-rails
   debug
+  device_detector
   devise
   devise-jwt
   discard
