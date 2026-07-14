@@ -130,6 +130,8 @@ es:
   settings:
     title: Ajustes
     saved: Guardado.
+    email: Correo de la cuenta
+    email_hint: La cuenta con la que iniciaste sesión. No se puede cambiar.
     username: Nombre para mostrar
     username_placeholder: "p. ej. alex, nived"
     username_hint: "Se muestra en la barra superior. Si lo dejas vacío, usamos tu correo."

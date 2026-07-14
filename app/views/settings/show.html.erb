@@ -9,6 +9,11 @@
 
 <div class="mt-6 grid lg:grid-cols-12 gap-8">
   <%= form_with(model: @user, url: settings_path, method: :patch, class: "lg:col-span-8 space-y-8") do |f| %>
+    <div>
+      <label class="field-label"><%= t("settings.email") %></label>
+      <p class="field-input" style="background: var(--color-paper-deep); color: var(--color-ink-muted); cursor: default;"><%= @user.email %></p>
+      <p class="field-hint mt-1"><%= t("settings.email_hint") %></p>
+    </div>
     <div class="grid md:grid-cols-2 gap-6">
       <div>
         <%= f.label :first_name, class: "field-label" %>

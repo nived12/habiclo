@@ -130,6 +130,8 @@ en:
   settings:
     title: Settings
     saved: Saved.
+    email: Account email
+    email_hint: The account you're signed in with. This can't be changed.
     username: Display name
     username_placeholder: "e.g. alex, nived"
     username_hint: "Shown in the top bar. Defaults to your email if left blank."
