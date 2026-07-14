@@ -75,6 +75,8 @@ es:
       unit: Unidad
       save: Guardar
       cancel: Cancelar
+      hide_from_dashboard: Ocultar del inicio
+      hide_from_dashboard_hint: No aparecerá en el anillo ni en las tablas de inicio. Sigue visible en tu agenda diaria.
       recurrence_days: Días de la semana
       weekly_target: Veces por semana
       monthly_day: Día del mes
@@ -130,6 +132,8 @@ es:
   settings:
     title: Ajustes
     saved: Guardado.
+    email: Correo de la cuenta
+    email_hint: La cuenta con la que iniciaste sesión. No se puede cambiar.
     username: Nombre para mostrar
     username_placeholder: "p. ej. alex, nived"
     username_hint: "Se muestra en la barra superior. Si lo dejas vacío, usamos tu correo."
@@ -344,6 +348,7 @@ es:
     sign_up_submit: Crear cuenta
     password_min: "%{n}+ caracteres"
     password_rules: "%{n}+ caracteres, incluyendo al menos un número"
+    toggle_password: Mostrar u ocultar la contraseña
     forgot_password: "¿Olvidaste tu contraseña?"
     forgot_password_title: "¿Olvidaste tu contraseña?"
     forgot_password_subtitle: "Ingresa tu correo y te enviaremos un enlace para crear una nueva."

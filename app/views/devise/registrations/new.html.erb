@@ -67,14 +67,14 @@
     </div>
     <div>
       <%= f.label :password, class: "field-label" %>
-      <%= f.password_field :password, autocomplete: "new-password", class: "field-input" %>
+      <%= render "shared/password_field", f: f, field: :password, autocomplete: "new-password" %>
       <% if @minimum_password_length %>
         <p class="mt-1 text-xs text-[var(--color-ink-muted)] mono"><%= t("devise.password_rules", n: @minimum_password_length) %></p>
       <% end %>
     </div>
     <div>
       <%= f.label :password_confirmation, class: "field-label" %>
-      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "field-input" %>
+      <%= render "shared/password_field", f: f, field: :password_confirmation, autocomplete: "new-password" %>
     </div>
 
     <%= f.submit t("devise.sign_up_submit"), class: "almanac-button w-full justify-center" %>

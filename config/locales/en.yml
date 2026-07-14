@@ -75,6 +75,8 @@ en:
       unit: Unit
       save: Save
       cancel: Cancel
+      hide_from_dashboard: Hide from home
+      hide_from_dashboard_hint: Won't appear in the ring or the home tables. Still visible in your daily agenda.
       recurrence_days: Days of the week
       weekly_target: Times per week
       monthly_day: Day of month
@@ -130,6 +132,8 @@ en:
   settings:
     title: Settings
     saved: Saved.
+    email: Account email
+    email_hint: The account you're signed in with. This can't be changed.
     username: Display name
     username_placeholder: "e.g. alex, nived"
     username_hint: "Shown in the top bar. Defaults to your email if left blank."
@@ -303,6 +307,7 @@ en:
     sign_up_submit: Create account
     password_min: "%{n}+ characters"
     password_rules: "%{n}+ characters, including at least one number"
+    toggle_password: Show or hide password
     forgot_password: "Forgot password?"
     forgot_password_title: "Forgot your password?"
     forgot_password_subtitle: "Enter your email and we'll send you a link to set a new one."

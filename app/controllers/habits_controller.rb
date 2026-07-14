@@ -66,7 +66,7 @@ class HabitsController < ApplicationController
     params.require(:habit).permit(
       :name, :description, :frequency_type, :target_value, :unit,
       :category, :color_hue, :position, :scheduled_at_minute, :duration_minutes,
-      :occurs_on, :weekly_target, :monthly_day,
+      :occurs_on, :weekly_target, :monthly_day, :hidden_from_dashboard,
       recurrence_days: []
     ).tap do |p|
       if p.key?(:recurrence_days)

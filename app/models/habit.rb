@@ -17,6 +17,7 @@ class Habit < ApplicationRecord
   MAX_HABITS_PER_SLOT = 3
 
   scope :ordered, -> { order(:position, :id) }
+  scope :on_dashboard, -> { where(hidden_from_dashboard: false) }
 
   def scheduled?
     scheduled_at_minute.present?
