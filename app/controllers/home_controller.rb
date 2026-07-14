@@ -12,7 +12,7 @@ class HomeController < ApplicationController
     @month_end   = @month_start.end_of_month
     @days        = (@month_start..@month_end).to_a
 
-    habits = @user.habits.ordered
+    habits = @user.habits.on_dashboard.ordered
 
     @daily_habits   = habits.select { |h| h.frequency_type == "daily" }
     @weekly_habits  = habits.select { |h| %w[weekly_days x_per_week].include?(h.frequency_type) }

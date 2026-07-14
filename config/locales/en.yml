@@ -75,6 +75,8 @@ en:
       unit: Unit
       save: Save
       cancel: Cancel
+      hide_from_dashboard: Hide from home
+      hide_from_dashboard_hint: Won't appear in the ring or the home tables. Still visible in your daily agenda.
       recurrence_days: Days of the week
       weekly_target: Times per week
       monthly_day: Day of month

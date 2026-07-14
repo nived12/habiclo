@@ -75,6 +75,8 @@ es:
       unit: Unidad
       save: Guardar
       cancel: Cancelar
+      hide_from_dashboard: Ocultar del inicio
+      hide_from_dashboard_hint: No aparecerá en el anillo ni en las tablas de inicio. Sigue visible en tu agenda diaria.
       recurrence_days: Días de la semana
       weekly_target: Veces por semana
       monthly_day: Día del mes
