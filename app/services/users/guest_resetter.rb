@@ -1,6 +1,6 @@
 module Users
   class GuestResetter < ApplicationService
-    TTL = 7.days
+    TTL = 1.day
 
     def initialize(user, template_key: "welcome")
       @user = user

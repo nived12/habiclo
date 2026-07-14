@@ -29,8 +29,13 @@ module GuestPipeline
 
   def load_or_create_guest
     if (existing = load_guest_from_cookie)
-      reset_if_expired(existing)
-      return existing
+      if expired?(existing)
+        existing.destroy
+        cookies.delete(GUEST_COOKIE)
+      else
+        slide_ttl(existing)
+        return existing
+      end
     end
     return transient_guest if skip_guest_persistence?
 
@@ -69,11 +74,16 @@ module GuestPipeline
     @request_is_bot = ua.blank? || DeviceDetector.new(ua).bot?
   end
 
-  def reset_if_expired(guest)
-    return unless guest.data_resets_at.present? && guest.data_resets_at < Time.current
+  def expired?(guest)
+    guest.data_resets_at.present? && guest.data_resets_at < Time.current
+  end
 
-    Users::GuestResetter.call(guest)
-    guest.reload
+  # Slide the 24h window forward on real activity, but only write when it would
+  # meaningfully extend it — avoids a DB write on every pageview.
+  def slide_ttl(guest)
+    return if guest.data_resets_at.present? && guest.data_resets_at > Users::GuestResetter::TTL.from_now - 1.hour
+
+    guest.update_column(:data_resets_at, Users::GuestResetter::TTL.from_now)
   end
 
   def resolved_time_zone

@@ -543,11 +543,11 @@ es:
         recovery: Recuperación
         vitals: Vitales
   guest_banner:
-    example: "Vista de ejemplo · Tus datos se reinician en %{count} días."
-    example_one: "Vista de ejemplo · Tus datos se reinician en %{count} día."
-    example_hours: "Vista de ejemplo · Tus datos se reinician en %{count} horas."
-    example_today: "Vista de ejemplo · Hoy se reinician tus datos."
-    save_progress: Crear cuenta y conservar mis datos →
+    example: "Nada de esto se guarda — esta prueba se borra en %{count} días. Crea una cuenta o perderás tu progreso."
+    example_one: "Nada de esto se guarda — esta prueba se borra en %{count} día. Crea una cuenta o perderás tu progreso."
+    example_hours: "Nada de esto se guarda — esta prueba se borra en %{count} h. Crea una cuenta o perderás tu progreso."
+    example_today: "Nada de esto se guarda — esta prueba se borra pronto. Crea una cuenta o perderás tu progreso."
+    save_progress: Crear cuenta y conservar mi progreso →
     change_template: Cambiar plantilla →
     fresh_start: Limpiar todo
     confirm_fresh_start: "¿Limpiar todo y empezar desde cero? Se borrarán hábitos, medicamentos y datos de salud."

@@ -502,11 +502,11 @@ en:
         recovery: Recovery
         vitals: Vitals
   guest_banner:
-    example: "Demo view · Your data resets in %{count} days."
-    example_one: "Demo view · Your data resets in %{count} day."
-    example_hours: "Demo view · Your data resets in %{count} hours."
-    example_today: "Demo view · Your data resets today."
-    save_progress: Create account and keep my data →
+    example: "Nothing here is saved — this sandbox clears in %{count} days. Sign up or you'll lose your progress."
+    example_one: "Nothing here is saved — this sandbox clears in %{count} day. Sign up or you'll lose your progress."
+    example_hours: "Nothing here is saved — this sandbox clears in %{count}h. Sign up or you'll lose your progress."
+    example_today: "Nothing here is saved — this sandbox clears soon. Sign up or you'll lose your progress."
+    save_progress: Sign up to keep my progress →
     change_template: Change template →
     fresh_start: Fresh start
     confirm_fresh_start: "Clear everything and build from scratch? All habits, medications, and health data will be removed."
