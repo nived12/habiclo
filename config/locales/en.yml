@@ -305,6 +305,7 @@ en:
     sign_up_submit: Create account
     password_min: "%{n}+ characters"
     password_rules: "%{n}+ characters, including at least one number"
+    toggle_password: Show or hide password
     forgot_password: "Forgot password?"
     forgot_password_title: "Forgot your password?"
     forgot_password_subtitle: "Enter your email and we'll send you a link to set a new one."

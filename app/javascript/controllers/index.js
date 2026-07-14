@@ -17,6 +17,7 @@ import TzDetectController from "./tz_detect_controller"
 import FlashController from "./flash_controller"
 import MobileMenuController from "./mobile_menu_controller"
 import OnceClickController from "./once_click_controller"
+import PasswordVisibilityController from "./password_visibility_controller"
 
 application.register("agenda-block", AgendaBlockController)
 application.register("brand-hue", BrandHueController)
@@ -35,3 +36,4 @@ application.register("tz-detect", TzDetectController)
 application.register("flash", FlashController)
 application.register("mobile-menu", MobileMenuController)
 application.register("once-click", OnceClickController)
+application.register("password-visibility", PasswordVisibilityController)

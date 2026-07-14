@@ -14,7 +14,7 @@
         <%= f.label :password, class: "field-label" %>
         <%= link_to t("devise.forgot_password"), new_user_password_path, class: "text-xs text-[var(--color-ink-muted)] underline decoration-1 underline-offset-4 hover:text-[var(--color-accent)]" %>
       </div>
-      <%= f.password_field :password, autocomplete: "current-password", class: "field-input" %>
+      <%= render "shared/password_field", f: f, field: :password, autocomplete: "current-password" %>
     </div>
     <%= f.submit t("devise.sign_in_submit"), class: "almanac-button w-full justify-center" %>
   <% end %>
